@@ -1,0 +1,271 @@
+package nodes.combat;
+
+import models.GeItem;
+import org.dreambot.api.methods.Calculations;
+import org.dreambot.api.methods.container.impl.Inventory;
+import org.dreambot.api.methods.container.impl.bank.Bank;
+import org.dreambot.api.methods.container.impl.bank.BankMode;
+import org.dreambot.api.methods.container.impl.equipment.Equipment;
+import org.dreambot.api.methods.container.impl.equipment.EquipmentSlot;
+import org.dreambot.api.methods.dialogues.Dialogues;
+import org.dreambot.api.methods.grandexchange.GrandExchange;
+import org.dreambot.api.methods.grandexchange.LivePrices;
+import org.dreambot.api.methods.interactive.NPCs;
+import org.dreambot.api.methods.interactive.Players;
+import org.dreambot.api.methods.magic.Magic;
+import org.dreambot.api.methods.magic.Normal;
+import org.dreambot.api.methods.map.Area;
+import org.dreambot.api.methods.settings.PlayerSettings;
+import org.dreambot.api.methods.skills.Skill;
+import org.dreambot.api.methods.skills.Skills;
+import org.dreambot.api.methods.walking.impl.Walking;
+import org.dreambot.api.script.TaskNode;
+import org.dreambot.api.utilities.Logger;
+import org.dreambot.api.utilities.Sleep;
+import org.dreambot.api.utilities.Timer;
+import org.dreambot.api.wrappers.interactive.Character;
+import org.dreambot.api.wrappers.interactive.NPC;
+import utils.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class TrainCombatNode extends TaskNode {
+    private final Area goblinArea = new Area(3240, 3250, 3264, 3225);
+    private final Area cowArea = new Area(3242, 3296, 3264, 3256);
+    private final Area hillGiantArea = new Area(3096, 9850, 3126, 9823);
+    private final Area impArea = new Area(2953, 3330, 3059, 3293);
+
+    private Timer walkAroundTimer = new Timer(Calculations.random(90000, 150000));
+
+    @Override
+    public int execute() {
+        Utilities.currentNode = "TrainCombatNode";
+        Logger.log("Train Combat");
+
+        if (GrandExchange.isOpen()) {
+            if (GrandExchange.close())
+                Sleep.sleepUntil(() -> !GrandExchange.isOpen(), Utilities.getRandomSleepTime());
+        }
+
+        if (Dialogues.inDialogue())
+            Dialogues.continueDialogue();
+
+        if (!Inventory.isFull() && Inventory.contains(ItemUtilities.currentFood) && Inventory.count(ItemUtilities.currentFood) > 1
+                && !BankUtilities.areItemsNoted(Arrays.asList(ItemUtilities.currentFood))) {
+
+            if (TaskUtilities.currentTask.equals("Train Combat Magic")) {
+                if (!Inventory.containsAll(getCurrentRunes())) {
+                    if (Bank.isOpen()) {
+                        if (Bank.depositAllExcept(i -> i.getName().equals(ItemUtilities.currentFood) || i.getName().contains("rune")))
+                            Sleep.sleepUntil(() -> Inventory.onlyContains(ItemUtilities.currentFood), Utilities.getRandomSleepTime());
+
+                        for (String rune : getCurrentRunes()) {
+                            if (Bank.contains(rune)) {
+                                int amount = 400;
+                                if (getCurrentSpell().equals(Normal.FIRE_STRIKE) && rune.equals("Air rune")) amount = 800;
+                                if (getCurrentSpell().equals(Normal.FIRE_BOLT) && rune.equals("Air rune")) amount = 1200;
+                                if (getCurrentSpell().equals(Normal.FIRE_BLAST) && rune.equals("Air rune")) amount = 1600;
+                                if (Bank.count(rune) > amount) {
+                                    if (Bank.withdraw(rune, amount))
+                                        Sleep.sleepUntil(() -> Inventory.contains(rune), Utilities.getRandomSleepTime());
+                                } else {
+                                    ItemUtilities.buyables.add(new GeItem(rune, amount * 3, LivePrices.getHigh(rune)));
+                                }
+                            }
+                        }
+                    } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+                        BankUtilities.openBank();
+                    }
+
+                    return Utilities.getRandomExecuteTime();
+                }
+
+                if (Magic.getAutocastSpell() == null || Magic.getAutocastSpell().equals(getCurrentSpell())) {
+                    if (Magic.setAutocastSpell(getCurrentSpell()))
+                        Sleep.sleepUntil(() -> Magic.getAutocastSpell().equals(getCurrentSpell()), Utilities.getRandomSleepTime());
+                }
+
+                if (!Equipment.isSlotEmpty(EquipmentSlot.SHIELD)) {
+                    if (Equipment.unequip(EquipmentSlot.SHIELD))
+                        Sleep.sleepUntil(() -> Equipment.isSlotEmpty(EquipmentSlot.SHIELD), Utilities.getRandomSleepTime());
+                }
+            }
+
+            if (getCurrentCombatArea().contains(Players.getLocal())) {
+                Utilities.shouldLoot = true;
+                if (PlayerSettings.getConfig(43) == SlayerUtilities.GetAttackStyleConfig() || TaskUtilities.currentTask.equals("Train Combat Magic")) {
+                    if (!Players.getLocal().isInCombat()) {
+                        Character c = Players.getLocal().getCharacterInteractingWithMe();
+                        NPC npc = c != null && c.getName().equals(getCurrentCombatNpc()) && getCurrentCombatArea().contains(c) ? (NPC) Players.getLocal().getCharacterInteractingWithMe() : NPCs.closest(g -> g.getName().equals(getCurrentCombatNpc()) && !g.isInCombat() && getCurrentCombatArea().contains(g));
+                        if (npc != null) {
+                            if (npc.canReach()) {
+                                if (npc.interact())
+                                    Sleep.sleepUntil(() -> npc.isInCombat() || Players.getLocal().isInCombat() || Dialogues.canContinue(), Utilities.getRandomSleepTime());
+                            } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+                                Walking.walk(npc.getTile());
+                            }
+                        } else if (TaskUtilities.currentTask.equals("Kill Imps")) {
+                            if (walkAroundTimer.isPaused()) walkAroundTimer.start();
+
+                            if (walkAroundTimer.remaining() <= 0) {
+                                Walking.walk(getCurrentCombatArea().getRandomTile());
+                                walkAroundTimer = new Timer(Calculations.random(90000, 150000));
+                                walkAroundTimer.start();
+                            }
+                        }
+                    } else {
+                        Character c = Players.getLocal().getCharacterInteractingWithMe();
+
+                        if (c != null)
+                            ItemUtilities.lootTile = Players.getLocal().getCharacterInteractingWithMe().getTile();
+                    }
+                } else {
+                    SlayerUtilities.SetCombatStyle();
+                }
+            } else {
+                Utilities.shouldLoot = false;
+                Utilities.walkToArea(getCurrentCombatArea());
+            }
+        } else {
+            if (Bank.isOpen()) {
+                if (Inventory.isFull() || !Inventory.onlyContains(ItemUtilities.currentFood)) {
+                    if (Bank.depositAllExcept(ItemUtilities.currentFood))
+                        Sleep.sleepUntil(() -> !Inventory.isFull(), Utilities.getRandomSleepTime());
+                }
+
+                if (BankUtilities.areItemsNoted(Arrays.asList(ItemUtilities.currentFood))) {
+                    if (Bank.depositAll(ItemUtilities.currentFood))
+                        Sleep.sleepUntil(() -> !Inventory.contains(ItemUtilities.currentFood), Utilities.getRandomSleepTime());
+                }
+
+                if (!Inventory.contains(ItemUtilities.currentFood) || Inventory.count(ItemUtilities.currentFood) < 10) {
+                    if (Bank.contains(ItemUtilities.currentFood) && Bank.count(ItemUtilities.currentFood) > 10) {
+                        BankUtilities.setBankMode(BankMode.ITEM);
+                        if (Bank.withdraw(ItemUtilities.currentFood, 10 - Inventory.count(ItemUtilities.currentFood)))
+                            Sleep.sleepUntil(() -> Inventory.contains(ItemUtilities.currentFood) && Inventory.count(ItemUtilities.currentFood) == 10, Utilities.getRandomSleepTime());
+                    } else {
+                        ItemUtilities.buyables.add(new GeItem(ItemUtilities.currentFood, 100, LivePrices.getHigh(ItemUtilities.currentFood)));
+
+                        return Utilities.getRandomExecuteTime();
+                    }
+                }
+            } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+                BankUtilities.openBank();
+            }
+        }
+
+        return Utilities.getRandomExecuteTime();
+    }
+
+    @Override
+    public boolean accept() {
+        return Equipment.containsAll(EquipmentUtilities.requiredEquipment)
+                && (TaskUtilities.currentTask.contains("Train Combat") || TaskUtilities.currentTask.equals("Kill Imps"));
+    }
+
+    private Area getCurrentCombatArea() {
+        if (TaskUtilities.currentTask.contains("Melee")) {
+            int att = Skills.getRealLevel(Skill.ATTACK);
+            int str = Skills.getRealLevel(Skill.STRENGTH);
+            int def = Skills.getRealLevel(Skill.DEFENCE);
+
+            if (att > 39 && str > 39 && def > 39)
+                return hillGiantArea;
+            if (att > 19 && str > 19 && def > 19)
+                return cowArea;
+            else
+                return goblinArea;
+        } else if (TaskUtilities.currentTask.contains("Range")) {
+            int rang = Skills.getRealLevel(Skill.RANGED);
+            int def = Skills.getRealLevel(Skill.DEFENCE);
+
+            if (rang > 39 && def > 39)
+                return hillGiantArea;
+            if (rang > 19 && def > 19)
+                return cowArea;
+            else
+                return goblinArea;
+        } else if (TaskUtilities.currentTask.contains("Magic")) {
+            int mage = Skills.getRealLevel(Skill.MAGIC);
+            int def = Skills.getRealLevel(Skill.DEFENCE);
+
+            if (mage > 39 && def > 39)
+                return hillGiantArea;
+            if (mage > 19 && def > 19)
+                return cowArea;
+            else
+                return goblinArea;
+        } else if (TaskUtilities.currentTask.equals("Kill Imps")) {
+            return impArea;
+        }
+
+        return goblinArea;
+    }
+
+    private String getCurrentCombatNpc() {
+        if (TaskUtilities.currentTask.contains("Melee")) {
+            int att = Skills.getRealLevel(Skill.ATTACK);
+            int str = Skills.getRealLevel(Skill.STRENGTH);
+            int def = Skills.getRealLevel(Skill.DEFENCE);
+
+            if (att > 39 && str > 39 && def > 39)
+                return "Hill Giant";
+            if (att > 19 && str > 19 && def > 19)
+                return "Cow";
+            else
+                return "Goblin";
+        } else if (TaskUtilities.currentTask.contains("Range")) {
+            int rang = Skills.getRealLevel(Skill.RANGED);
+            int def = Skills.getRealLevel(Skill.DEFENCE);
+
+            if (rang > 39 && def > 39)
+                return "Hill Giant";
+            if (rang > 19 && def > 19)
+                return "Cow";
+            else
+                return "Goblin";
+        } else if (TaskUtilities.currentTask.contains("Magic")) {
+            int mage = Skills.getRealLevel(Skill.MAGIC);
+            int def = Skills.getRealLevel(Skill.DEFENCE);
+
+            if (mage > 39 && def > 39)
+                return "Hill Giant";
+            if (mage > 19 && def > 19)
+                return "Cow";
+            else
+                return "Goblin";
+        } else if (TaskUtilities.currentTask.equals("Kill Imps")) {
+            return "Imp";
+        }
+
+        return "Goblin";
+    }
+
+    private List<String> getCurrentRunes() {
+        int level = Skills.getRealLevel(Skill.MAGIC);
+
+        if (level > 58)
+            return new ArrayList<>(Arrays.asList("Death rune", "Air rune"));
+        if (level > 34)
+            return new ArrayList<>(Arrays.asList("Chaos rune", "Air rune"));
+        if (level > 12)
+            return new ArrayList<>(Arrays.asList("Mind rune", "Air rune"));
+
+        return new ArrayList<>(List.of("Mind rune"));
+    }
+
+    private Normal getCurrentSpell() {
+        int level = Skills.getRealLevel(Skill.MAGIC);
+
+        if (level > 58)
+            return Normal.FIRE_BLAST;
+        if (level > 34)
+            return Normal.FIRE_BOLT;
+        if (level > 12)
+            return Normal.FIRE_STRIKE;
+
+        return Normal.WIND_STRIKE;
+    }
+}
