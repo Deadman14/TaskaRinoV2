@@ -107,7 +107,8 @@ public class SlayerUtilities {
 
             if (needShantayPass) reqItems.add("Shantay pass");
             for (String item : reqItems) {
-                if (Bank.contains(item) && Bank.count(item) >= getInventoryAmount(item)) {
+                if ((Bank.contains(item) && Bank.count(item) >= getInventoryAmount(item)) &&
+                Inventory.count(item) < getInventoryAmount(item)) {
                     if (Bank.withdraw(item, getInventoryAmount(item) - Inventory.count(item)))
                         Sleep.sleepUntil(() -> Inventory.count(item) >= getInventoryAmount(item), Utilities.getRandomSleepTime());
                 } else {
