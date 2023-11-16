@@ -31,7 +31,8 @@ public class SlayerUtilities {
     // rapid is 1
     public static int GetAttackStyleConfig() {
         switch (TaskUtilities.currentTask) {
-            case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Train Combat Melee", "Slay ice giants", "Slay crocodiles" -> {
+            case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Train Combat Melee", "Slay ice giants", "Slay crocodiles",
+                    "Slay hobgoblins" -> {
                 return GetMeleeConfig();
             }
             case "Train Combat Range" -> {
@@ -48,7 +49,8 @@ public class SlayerUtilities {
     }
     public static CombatStyle GetAttackStyle() {
         switch (TaskUtilities.currentTask) {
-            case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Slay ice giants", "Train Combat Melee", "Slay crocodiles" -> {
+            case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Slay ice giants", "Train Combat Melee", "Slay crocodiles",
+                "Slay hobgoblins" -> {
                 return GetMeleeStyle();
             }
             case "Train Combat Range" -> {
@@ -167,7 +169,11 @@ public class SlayerUtilities {
 
     private static int getInventoryAmount(String itemName) {
         int amount = 1;
-        if (itemName.equals(ItemUtilities.currentFood)) amount = 15;
+        if (itemName.equals(ItemUtilities.currentFood)) {
+            amount = 15;
+            if (Skills.getRealLevel(Skill.STRENGTH) >= 55)
+                amount = 10;
+        }
         if (itemName.contains("teleport")) amount = 2;
         if (itemName.contains("Waterskin")) amount = 8;
         if (itemName.equals("Coins")) amount = 2000;

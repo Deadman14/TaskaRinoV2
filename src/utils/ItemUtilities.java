@@ -24,7 +24,8 @@ public class ItemUtilities {
             "Fiendish ashes", "Tuna", "Raw tuna", "Grimy harralander", "Grimy ranarr weed", "Grimy irit leaf", "Grimy avantoe",
             "Grimy kwuarm", "Grimy cadantine", "Grimy lantadyme", "Grimy dwarf weed", "Steel longsword", "Snape grass seed", "Ranarr seed",
             "Toadflax seed", "Avantoe seed", "Kwuarm seed", "Snapdragon seed", "Cadantine seed", "Dwarf weed seed", "Torstol seed",
-            "Rune spear", "Dragon spear", "Black sq shield", "Mithril sword", "Steel kiteshield", "Steel bar", "Coal", "Uncut diamond"));
+            "Rune spear", "Dragon spear", "Black sq shield", "Mithril sword", "Steel kiteshield", "Steel bar", "Coal", "Uncut diamond",
+            "Bronze spear"));
 
     public static ArrayList<String> phaseOneSellables = new ArrayList<>(Arrays.asList("Logs", "Ball of wool", "Wool", "Goblin mail", "Chef's hat",
             "Brass necklace", "Black bead", "Red bead", "White bead", "Yellow bead", "Blue wizard hat", "Mind talisman", "Fiendish ashes"));

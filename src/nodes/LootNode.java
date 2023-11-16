@@ -23,7 +23,7 @@ import java.util.List;
 
 public class LootNode extends TaskNode {
     List<String> nodesTasks = new ArrayList<>(Arrays.asList("Train Combat Melee", "Train Combat Range", "Slay kalphite", "Slay ogres",
-            "Slay ice warriors", "Slay moss giants", "Slay ice giants", "Slay crocodiles"));
+            "Slay ice warriors", "Slay moss giants", "Slay ice giants", "Slay crocodiles", "Slay hobgoblins"));
 
     public List<String> lootables = new ArrayList<>(Arrays.asList("Coins", "Iron arrow", "Mithril arrow", "Cowhide", "Law rune", "Nature rune",
             "Death rune", "Chaos rune", "Cosmic rune", "Blood rune", "Limpwurt root", "Giant key", "Uncut sapphire", "Uncut emerald", "Uncut ruby", "Uncut diamond",
@@ -32,7 +32,7 @@ public class LootNode extends TaskNode {
             "Grimy cadantine", "Grimy lantadyme", "Grimy dwarf weed", "Steel longsword", "Snape grass seed", "Ranarr seed", "Toadflax seed",
             "Avantoe seed", "Kwuarm seed", "Snapdragon seed", "Cadantine seed", "Dwarf weed seed", "Torstol seed", "Ensouled ogre head",
             "Rune spear", "Dragon spear", "Loop half of key", "Tooth half of key", "Black sq shield", "Mithril sword", "Steel kiteshield",
-            "Steel bar", "Coal", "Uncut diamond"));
+            "Steel bar", "Coal", "Uncut diamond", "Bronze spear"));
 
 
     @Override

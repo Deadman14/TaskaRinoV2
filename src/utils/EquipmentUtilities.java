@@ -36,6 +36,9 @@ public class EquipmentUtilities {
             case "Slay ogre":
             case "Slay ice warriors":
             case "Slay moss giants":
+            case "Slay hobgoblins":
+            case "Slay ice giants":
+            case "Slay crocodiles":
                 if (!Utilities.isGeFullyOpen()) {
                     return new ArrayList<>(Arrays.asList("Bronze sword", "Wooden shield"));
                 }
