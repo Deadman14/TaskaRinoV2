@@ -71,6 +71,8 @@ public class GeNode extends TaskNode {
 
         if (geArea.contains(Players.getLocal()) && checkedBank) {
             if (ItemUtilities.sellables.isEmpty()) {
+                Logger.log(ItemUtilities.buyables.get(0));
+
                 ItemUtilities.sellablesAboveThreshold = false;
 
                 if (Inventory.getEmptySlots() >= ItemUtilities.buyables.size() && canBuyItems) {

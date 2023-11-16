@@ -169,7 +169,7 @@ public class SlayerUtilities {
         int amount = 1;
         if (itemName.equals(ItemUtilities.currentFood)) amount = 15;
         if (itemName.contains("teleport")) amount = 2;
-        if (itemName.contains("Waterskin")) amount = 5;
+        if (itemName.contains("Waterskin")) amount = 8;
         if (itemName.equals("Coins")) amount = 2000;
 
         return amount;
@@ -179,7 +179,7 @@ public class SlayerUtilities {
         int amount = 1;
         if (itemName.equals(ItemUtilities.currentFood)) amount = 250;
         if (itemName.contains("teleport")) amount = 50;
-        if (itemName.contains("Waterskin")) amount = 5;
+        if (itemName.contains("Waterskin")) amount = 8;
 
         return amount;
     }

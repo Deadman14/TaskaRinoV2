@@ -31,7 +31,7 @@ public class SlayCrocodilesNode extends TaskNode {
     @Override
     public int execute() {
         Logger.log("Slay Crocodiles");
-        if (!Inventory.isFull() && Inventory.containsAll(reqItems) && !BankUtilities.areItemsNoted(reqItems)) {
+        if (Inventory.containsAll(reqItems) && !BankUtilities.areItemsNoted(reqItems)) {
             if (passedShantay) {
                 if (crocodileArea.contains(Players.getLocal())) {
                     SlayerUtilities.slayMonster(crocodileArea, "Crocodile");
@@ -73,10 +73,11 @@ public class SlayCrocodilesNode extends TaskNode {
                 if (Inventory.contains("Waterskin(3)") || Inventory.contains("Waterskin(2)")
                         || Inventory.contains("Waterskin(1)") || Inventory.contains("Waterskin(0)")) {
                     GameObject fountain = GameObjects.closest(i -> i != null && i.getName().equals("Fountain"));
-                    Item waterskin = Inventory.get(i -> i != null && i.getName().contains("Waterskin"));
+                    Item waterskin = Inventory.get(i -> i != null && !i.getName().equals("Waterskin(4)")
+                            && i.getName().contains("Waterskin"));
 
                     if (waterskin.useOn(fountain))
-                        Sleep.sleepUntil(() -> Inventory.count("Waterskin(4)") >= 5, Utilities.getRandomSleepTime());
+                        Sleep.sleepUntil(() -> Inventory.count("Waterskin(4)") >= 8, Utilities.getRandomSleepTime());
                 } else {
                     SlayerUtilities.bankForTask(reqItems, true);
                 }
