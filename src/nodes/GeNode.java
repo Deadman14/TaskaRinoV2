@@ -73,7 +73,7 @@ public class GeNode extends TaskNode {
             if (ItemUtilities.sellables.isEmpty()) {
                 ItemUtilities.sellablesAboveThreshold = false;
 
-                if (Inventory.isEmpty() && canBuyItems) {
+                if (Inventory.getEmptySlots() >= ItemUtilities.buyables.size() && canBuyItems) {
                     if (GrandExchange.isOpen()) {
                         for (GeItem i : ItemUtilities.buyables) {
                             if (GrandExchange.getOpenSlots() > 0 && i != null) {

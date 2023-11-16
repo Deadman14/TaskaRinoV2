@@ -109,7 +109,7 @@ public class SlayerUtilities {
                     if (Bank.withdraw(item, getInventoryAmount(item) - Inventory.count(item)))
                         Sleep.sleepUntil(() -> Inventory.count(item) >= getInventoryAmount(item), Utilities.getRandomSleepTime());
                 } else {
-                    if (!item.equals("Enchanted gem"))
+                    if (!item.equals("Enchanted gem") && !item.equals("Shantay pass"))
                         ItemUtilities.buyables.add(new GeItem(item, getGeAmount(item), LivePrices.getHigh(item)));
                 }
             }

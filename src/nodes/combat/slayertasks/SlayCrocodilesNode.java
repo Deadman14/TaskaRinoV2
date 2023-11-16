@@ -2,12 +2,15 @@ package nodes.combat.slayertasks;
 
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.container.impl.bank.Bank;
+import org.dreambot.api.methods.interactive.GameObjects;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.map.Area;
 import org.dreambot.api.methods.walking.impl.Walking;
 import org.dreambot.api.script.TaskNode;
 import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Sleep;
+import org.dreambot.api.wrappers.interactive.GameObject;
+import org.dreambot.api.wrappers.items.Item;
 import utils.*;
 
 import java.util.ArrayList;
@@ -18,6 +21,7 @@ public class SlayCrocodilesNode extends TaskNode {
     private final Area fountainArea = new Area(3356, 2974, 3362, 2967);
     private final Area crocodileArea = new Area(3251, 2877, 3306, 2929);
     private final Area preShantyPassArea = new Area(3300, 3128, 3307, 3118);
+    private final Area lumbridgeArea = new Area(3217, 3224, 3226, 3213);
     private final List<String> reqItems = new ArrayList<>(Arrays.asList("Enchanted gem", "Varrock teleport", "Lumbridge teleport",
             "Waterskin(4)", "Coins", ItemUtilities.currentFood));
     private boolean passedShantay = false;
@@ -59,14 +63,23 @@ public class SlayCrocodilesNode extends TaskNode {
                 }
             }
         } else {
-            if (Inventory.contains("Waterskin(3)") || Inventory.contains("Waterskin(2)")
-                    || Inventory.contains("Waterskin(1)") || Inventory.contains("Waterskin(0)")) {
-                //fill me in fountain daddddyyyyy
-                Logger.log("Fill waterskins");
+            if (passedShantay) {
+                Item tab = Inventory.get(i -> i != null && i.getName().equals("Lumbridge teleport"));
+                if (tab.interact()) {
+                    Sleep.sleepUntil(() -> lumbridgeArea.contains(Players.getLocal()), Utilities.getRandomSleepTime());
+                    passedShantay = false;
+                }
             } else {
-                Logger.log("Bank");
-                passedShantay = false;
-                SlayerUtilities.bankForTask(reqItems, true);
+                if (Inventory.contains("Waterskin(3)") || Inventory.contains("Waterskin(2)")
+                        || Inventory.contains("Waterskin(1)") || Inventory.contains("Waterskin(0)")) {
+                    GameObject fountain = GameObjects.closest(i -> i != null && i.getName().equals("Fountain"));
+                    Item waterskin = Inventory.get(i -> i != null && i.getName().contains("Waterskin"));
+
+                    if (waterskin.useOn(fountain))
+                        Sleep.sleepUntil(() -> Inventory.count("Waterskin(4)") >= 5, Utilities.getRandomSleepTime());
+                } else {
+                    SlayerUtilities.bankForTask(reqItems, true);
+                }
             }
         }
 
