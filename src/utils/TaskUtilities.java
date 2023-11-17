@@ -116,6 +116,8 @@ public class TaskUtilities {
             case "Make Soft Clay":
             case "Kill Imps":
                 return Utilities.isP2P;
+            case "Cooking":
+                return Utilities.isP2P || Skills.getRealLevel(Skill.COOKING) > 49;
             default:
                 return false;
         }
