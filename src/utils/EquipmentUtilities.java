@@ -39,6 +39,7 @@ public class EquipmentUtilities {
             case "Slay hobgoblins":
             case "Slay ice giants":
             case "Slay crocodiles":
+            case "Slay cockatrice":
                 if (!Utilities.isGeFullyOpen()) {
                     return new ArrayList<>(Arrays.asList("Bronze sword", "Wooden shield"));
                 }
@@ -115,6 +116,9 @@ public class EquipmentUtilities {
 
     public static String getCurrentKiteshield() {
         int level = Skills.getRealLevel(Skill.DEFENCE);
+
+        if (TaskUtilities.currentTask.equals("Slay cockatrice"))
+            return "Mirror shield";
 
         if (level > 39)
             return "Rune kiteshield";

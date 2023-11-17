@@ -14,7 +14,7 @@ import org.dreambot.api.utilities.Sleep;
 
 public class Utilities {
     public static String currentNode = "";
-    public static boolean shouldLoot = true;
+    public static boolean shouldLoot = false;
     public static boolean isP2P = false;
 
     public static boolean isGeFullyOpen() {

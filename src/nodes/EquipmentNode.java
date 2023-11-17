@@ -1,6 +1,7 @@
 package nodes;
 
 import org.dreambot.api.methods.container.impl.Inventory;
+import org.dreambot.api.methods.container.impl.Shop;
 import org.dreambot.api.methods.container.impl.bank.Bank;
 import org.dreambot.api.methods.container.impl.equipment.Equipment;
 import org.dreambot.api.methods.grandexchange.GrandExchange;
@@ -19,7 +20,7 @@ public class EquipmentNode extends TaskNode {
         Utilities.currentNode = "EquipmentNode";
         Logger.log("Equip");
 
-        if (!Bank.isOpen() && !GrandExchange.isOpen()) {
+        if (!Bank.isOpen() && !GrandExchange.isOpen() && !Shop.isOpen()) {
             Item item = Inventory.get(i -> i != null && EquipmentUtilities.requiredEquipment.contains(i.getName()));
             if (item != null) {
                 if (item.interact())
@@ -29,6 +30,11 @@ public class EquipmentNode extends TaskNode {
             if (Bank.isOpen()) {
                 if (Bank.close())
                     Sleep.sleepUntil(() -> !Bank.isOpen(), Utilities.getRandomSleepTime());
+            }
+
+            if (Shop.isOpen()) {
+                if (Shop.close())
+                    Sleep.sleepUntil(() -> !Shop.isOpen(), Utilities.getRandomSleepTime());
             }
 
             Utilities.closeGe();

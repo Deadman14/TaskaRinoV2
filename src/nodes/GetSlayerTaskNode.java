@@ -43,7 +43,7 @@ public class GetSlayerTaskNode extends TaskNode {
 
         if (Inventory.contains("Enchanted gem")) {
             if (checkedGemForTask) {
-                if (getCurrentSlayerMasterArea().contains(Players.getLocal())) {
+                if (SlayerUtilities.getCurrentSlayerMasterArea().contains(Players.getLocal())) {
                     if (Dialogues.inDialogue()) {
                         if (Dialogues.areOptionsAvailable()) {
                             checkedGemForTask = false;
@@ -51,12 +51,12 @@ public class GetSlayerTaskNode extends TaskNode {
                         } else
                             Dialogues.continueDialogue();
                     } else {
-                        NPC master = NPCs.closest(i -> i != null && i.getName().equals(getCurrentSlayerMaster()));
+                        NPC master = NPCs.closest(i -> i != null && i.getName().equals(SlayerUtilities.getCurrentSlayerMaster()));
                         if (master.interact("Assignment"))
                             Sleep.sleepUntil(Shop::isOpen, Utilities.getRandomSleepTime());
                     }
                 } else {
-                    Utilities.walkToArea(getCurrentSlayerMasterArea());
+                    Utilities.walkToArea(SlayerUtilities.getCurrentSlayerMasterArea());
                 }
             } else {
                 Item gem = Inventory.get(i -> i != null && i.getName().equals("Enchanted gem"));
@@ -66,17 +66,17 @@ public class GetSlayerTaskNode extends TaskNode {
                 }
             }
         } else if (checkedForGem) {
-            if (getCurrentSlayerMasterArea().contains(Players.getLocal())) {
+            if (SlayerUtilities.getCurrentSlayerMasterArea().contains(Players.getLocal())) {
                 if (Shop.isOpen()) {
                     if (Shop.purchase("Enchanted gem", 1))
                         Sleep.sleepUntil(() -> Inventory.contains("Enchanted gem"), Utilities.getRandomSleepTime());
                 } else {
-                    NPC master = NPCs.closest(i -> i != null && i.getName().equals(getCurrentSlayerMaster()));
+                    NPC master = NPCs.closest(i -> i != null && i.getName().equals(SlayerUtilities.getCurrentSlayerMaster()));
                     if (master.interact("Trade"))
                         Sleep.sleepUntil(Shop::isOpen, Utilities.getRandomSleepTime());
                 }
             } else {
-                Utilities.walkToArea(getCurrentSlayerMasterArea());
+                Utilities.walkToArea(SlayerUtilities.getCurrentSlayerMasterArea());
             }
         } else {
             if (Bank.isOpen()) {
@@ -100,29 +100,5 @@ public class GetSlayerTaskNode extends TaskNode {
     @Override
     public boolean accept() {
         return TaskUtilities.currentTask.equals("Slayer");
-    }
-
-    private Area getCurrentSlayerMasterArea() {
-        int level = Players.getLocal().getLevel();
-
-        if (level > 74)
-            return new Area(1305, 3788, 1312, 3781);
-
-        if (level > 70 && PaidQuest.LOST_CITY.isFinished())
-            return new Area(2440, 4434, 2454, 4422);
-
-        return new Area(3138, 9916, 3150, 9902);
-    }
-
-    private String getCurrentSlayerMaster() {
-        int level = Players.getLocal().getLevel();
-
-        if (level > 74)
-            return "Konar";
-
-        if (level > 70 && PaidQuest.LOST_CITY.isFinished())
-            return "Chaeldar";
-
-        return "Vannaka";
     }
 }

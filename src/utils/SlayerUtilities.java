@@ -11,6 +11,7 @@ import org.dreambot.api.methods.dialogues.Dialogues;
 import org.dreambot.api.methods.grandexchange.LivePrices;
 import org.dreambot.api.methods.interactive.NPCs;
 import org.dreambot.api.methods.interactive.Players;
+import org.dreambot.api.methods.quest.book.PaidQuest;
 import org.dreambot.api.methods.settings.PlayerSettings;
 import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.methods.skills.Skills;
@@ -32,7 +33,7 @@ public class SlayerUtilities {
     public static int GetAttackStyleConfig() {
         switch (TaskUtilities.currentTask) {
             case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Train Combat Melee", "Slay ice giants", "Slay crocodiles",
-                    "Slay hobgoblins" -> {
+                    "Slay hobgoblins", "Slay cockatrice" -> {
                 return GetMeleeConfig();
             }
             case "Train Combat Range" -> {
@@ -50,7 +51,7 @@ public class SlayerUtilities {
     public static CombatStyle GetAttackStyle() {
         switch (TaskUtilities.currentTask) {
             case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Slay ice giants", "Train Combat Melee", "Slay crocodiles",
-                "Slay hobgoblins" -> {
+                "Slay hobgoblins", "Slay cockatrice" -> {
                 return GetMeleeStyle();
             }
             case "Train Combat Range" -> {
@@ -97,6 +98,7 @@ public class SlayerUtilities {
     }
 
     public static void bankForTask(List<String> reqItems, boolean needShantayPass) {
+        Utilities.shouldLoot = false;
         if (Bank.isOpen()) {
             if (!Inventory.isEmpty() && (Inventory.isFull() || !Inventory.onlyContains(i -> reqItems.contains(i.getName())) || BankUtilities.areItemsNoted(reqItems))) {
                 if (Bank.depositAllExcept(i -> reqItems.contains(i.getName()) && !i.isNoted()))
@@ -130,6 +132,61 @@ public class SlayerUtilities {
             if (shanty.interact("Trade"))
                 Sleep.sleepUntil(Shop::isOpen, Utilities.getRandomSleepTime());
         }
+    }
+
+    public static void buyMirrorShield() {
+        if (Inventory.count("Coins") >= 5000) {
+            if (getCurrentSlayerMasterArea().contains(Players.getLocal())) {
+                if (Shop.isOpen()) {
+                    if (Shop.purchase("Mirror shield", 1))
+                        Sleep.sleepUntil(() -> Inventory.contains("Mirror shield"), Utilities.getRandomSleepTime());
+                } else {
+                    NPC master = NPCs.closest(i -> i != null && i.getName().equals(getCurrentSlayerMaster()));
+                    if (master.interact("Trade"))
+                        Sleep.sleepUntil(Shop::isOpen, Utilities.getRandomSleepTime());
+                }
+            } else {
+                Utilities.walkToArea(getCurrentSlayerMasterArea());
+            }
+        } else {
+            if (Bank.isOpen()) {
+                if (Inventory.emptySlotCount() <= 3) {
+                    if (Bank.depositAllExcept("Coins"))
+                        Sleep.sleepUntil(() -> Inventory.emptySlotCount() > 3, Utilities.getRandomSleepTime());
+                }
+
+                if (Inventory.count("Coins") < 5000) {
+                    if (Bank.withdraw("Coins", 5000))
+                        Sleep.sleepUntil(() -> Inventory.count("Coins") >= 5000, Utilities.getRandomSleepTime());
+                }
+            } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+                BankUtilities.openBank();
+            }
+        }
+    }
+
+    public static Area getCurrentSlayerMasterArea() {
+        int level = Players.getLocal().getLevel();
+
+        if (level > 74)
+            return new Area(1305, 3788, 1312, 3781);
+
+        if (level > 70 && PaidQuest.LOST_CITY.isFinished())
+            return new Area(2440, 4434, 2454, 4422);
+
+        return new Area(3138, 9916, 3150, 9902);
+    }
+
+    public static String getCurrentSlayerMaster() {
+        int level = Players.getLocal().getLevel();
+
+        if (level > 74)
+            return "Konar";
+
+        if (level > 70 && PaidQuest.LOST_CITY.isFinished())
+            return "Chaeldar";
+
+        return "Vannaka";
     }
 
     private static int GetMeleeConfig() {
@@ -177,7 +234,7 @@ public class SlayerUtilities {
         }
         if (itemName.contains("teleport")) amount = 2;
         if (itemName.contains("Waterskin")) amount = 8;
-        if (itemName.equals("Coins")) amount = 2000;
+        if (itemName.equals("Coins")) amount = 10000;
 
         return amount;
     }

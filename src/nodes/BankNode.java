@@ -23,15 +23,19 @@ public class BankNode extends TaskNode {
         Utilities.currentNode = "BankNode";
         Logger.log("Bank");
 
+        if (EquipmentUtilities.requiredEquipment.contains("Mirror shield")
+                && !Inventory.contains("Mirror shield") && !Equipment.contains("Mirror shield")) {
+            SlayerUtilities.buyMirrorShield();
+            return Utilities.getRandomExecuteTime();
+        }
+
         if (Bank.isOpen()) {
             BankUtilities.setBankMode(BankMode.ITEM);
 
             for (String i : EquipmentUtilities.requiredEquipment) {
                 int amount = 1;
 
-                if (Inventory.isFull()
-                        || !Inventory.onlyContains(j -> EquipmentUtilities.requiredEquipment.contains(j.getName())
-                        || j.getName().equals(ItemUtilities.currentFood))) {
+                if (Inventory.isFull() || Inventory.emptySlotCount() <= EquipmentUtilities.requiredEquipment.size()) {
                     if (Bank.depositAllExcept(j -> EquipmentUtilities.requiredEquipment.contains(j.getName())
                             && !j.getName().equals(ItemUtilities.currentFood)))
                         Sleep.sleepUntil(() -> !Inventory.isFull(), Utilities.getRandomSleepTime());
@@ -40,8 +44,10 @@ public class BankNode extends TaskNode {
                 if (!Inventory.contains(i) && !Equipment.contains(i)) {
                     if (Bank.contains(i)) {
                         if (i.contains("arrow")) amount = 400;
-                        if (Bank.withdraw(i, amount))
-                            Sleep.sleepUntil(() -> Inventory.contains(i), Utilities.getRandomSleepTime());
+                        if (!i.equals("Mirror shield")) {
+                            if (Bank.withdraw(i, amount))
+                                Sleep.sleepUntil(() -> Inventory.contains(i), Utilities.getRandomSleepTime());
+                        }
                     } else if (Utilities.isGeFullyOpen()) {
                         if (i.contains("arrow")) amount = 2000;
                         ItemUtilities.buyables.add(new GeItem(i, amount, LivePrices.getHigh(i)));
