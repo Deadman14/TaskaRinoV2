@@ -25,7 +25,7 @@ public class ItemUtilities {
             "Grimy kwuarm", "Grimy cadantine", "Grimy lantadyme", "Grimy dwarf weed", "Steel longsword", "Snape grass seed", "Ranarr seed",
             "Toadflax seed", "Avantoe seed", "Kwuarm seed", "Snapdragon seed", "Cadantine seed", "Dwarf weed seed", "Torstol seed",
             "Rune spear", "Dragon spear", "Black sq shield", "Mithril sword", "Steel kiteshield", "Steel bar", "Coal", "Uncut diamond",
-            "Bronze spear", "Iron boots", "Mystic boots (light)"));
+            "Bronze spear", "Iron boots", "Mystic boots (light)", "Red spiders' eggs"));
 
     public static ArrayList<String> phaseOneSellables = new ArrayList<>(Arrays.asList("Logs", "Ball of wool", "Wool", "Goblin mail", "Chef's hat",
             "Brass necklace", "Black bead", "Red bead", "White bead", "Yellow bead", "Blue wizard hat", "Mind talisman", "Fiendish ashes"));

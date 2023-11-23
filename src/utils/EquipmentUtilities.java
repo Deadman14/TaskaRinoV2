@@ -1,5 +1,6 @@
 package utils;
 
+import constants.ItemNameConstants;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.container.impl.equipment.Equipment;
 import org.dreambot.api.methods.skills.Skill;
@@ -40,6 +41,8 @@ public class EquipmentUtilities {
             case "Slay ice giants":
             case "Slay crocodiles":
             case "Slay cockatrice":
+            case "Slay wall beasts":
+            case "Slay cave bugs":
                 if (!Utilities.isGeFullyOpen()) {
                     return new ArrayList<>(Arrays.asList("Bronze sword", "Wooden shield"));
                 }
@@ -77,6 +80,9 @@ public class EquipmentUtilities {
 
     public static String getCurrentFullHelm() {
         int level = Skills.getRealLevel(Skill.DEFENCE);
+
+        if (TaskUtilities.currentTask.equals("Slay wall beasts") || TaskUtilities.currentTask.equals("Slay cave bugs"))
+            return "Spiny helmet";
 
         if (level > 39)
             return "Rune full helm";

@@ -7,7 +7,6 @@ import org.dreambot.api.methods.container.impl.bank.Bank;
 import org.dreambot.api.methods.container.impl.bank.BankMode;
 import org.dreambot.api.methods.container.impl.equipment.Equipment;
 import org.dreambot.api.methods.grandexchange.LivePrices;
-import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.walking.impl.Walking;
 import org.dreambot.api.script.TaskNode;
 import org.dreambot.api.utilities.Logger;
@@ -25,7 +24,13 @@ public class BankNode extends TaskNode {
 
         if (EquipmentUtilities.requiredEquipment.contains("Mirror shield")
                 && !Inventory.contains("Mirror shield") && !Equipment.contains("Mirror shield")) {
-            SlayerUtilities.buyMirrorShield();
+            SlayerUtilities.buyItemFromSlayerMaster("Mirror shield", 5000);
+            return Utilities.getRandomExecuteTime();
+        }
+
+        if (EquipmentUtilities.requiredEquipment.contains("Spiny helmet")
+                && !Inventory.contains("Spiny helmet") && !Equipment.contains("Spiny helmet")) {
+            SlayerUtilities.buyItemFromSlayerMaster("Spiny helmet", 1000);
             return Utilities.getRandomExecuteTime();
         }
 

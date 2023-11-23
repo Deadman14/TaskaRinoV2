@@ -1,5 +1,8 @@
 package utils;
 
+import constants.EquipmentNameConstants;
+import constants.ItemNameConstants;
+import constants.NpcNameConstants;
 import models.GeItem;
 import org.dreambot.api.methods.combat.Combat;
 import org.dreambot.api.methods.combat.CombatStyle;
@@ -18,6 +21,7 @@ import org.dreambot.api.methods.skills.Skills;
 import org.dreambot.api.methods.tabs.Tab;
 import org.dreambot.api.methods.tabs.Tabs;
 import org.dreambot.api.methods.walking.impl.Walking;
+import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Sleep;
 import org.dreambot.api.wrappers.interactive.Character;
 import org.dreambot.api.wrappers.interactive.NPC;
@@ -33,7 +37,7 @@ public class SlayerUtilities {
     public static int GetAttackStyleConfig() {
         switch (TaskUtilities.currentTask) {
             case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Train Combat Melee", "Slay ice giants", "Slay crocodiles",
-                    "Slay hobgoblins", "Slay cockatrice" -> {
+                    "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs" -> {
                 return GetMeleeConfig();
             }
             case "Train Combat Range" -> {
@@ -51,7 +55,7 @@ public class SlayerUtilities {
     public static CombatStyle GetAttackStyle() {
         switch (TaskUtilities.currentTask) {
             case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Slay ice giants", "Train Combat Melee", "Slay crocodiles",
-                "Slay hobgoblins", "Slay cockatrice" -> {
+                "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs" -> {
                 return GetMeleeStyle();
             }
             case "Train Combat Range" -> {
@@ -88,6 +92,7 @@ public class SlayerUtilities {
                         if (npc.interact("Attack"))
                             Sleep.sleepUntil(() -> npc.isInCombat() || Players.getLocal().isInCombat() || Dialogues.canContinue(), Utilities.getRandomSleepTime());
                     } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+                        Logger.log("SlayMonster - Walk to mob");
                         Walking.walk(npc.getTile());
                     }
                 }
@@ -107,14 +112,14 @@ public class SlayerUtilities {
 
             BankUtilities.setBankMode(BankMode.ITEM);
 
-            if (needShantayPass) reqItems.add("Shantay pass");
+            if (needShantayPass) reqItems.add(ItemNameConstants.SHANTAY_PASS);
             for (String item : reqItems) {
                 if ((Bank.contains(item) && Bank.count(item) >= getInventoryAmount(item)) &&
                 Inventory.count(item) < getInventoryAmount(item)) {
                     if (Bank.withdraw(item, getInventoryAmount(item) - Inventory.count(item)))
                         Sleep.sleepUntil(() -> Inventory.count(item) >= getInventoryAmount(item), Utilities.getRandomSleepTime());
                 } else {
-                    if (!item.equals("Enchanted gem") && !item.equals("Shantay pass"))
+                    if (!item.equals(ItemNameConstants.ENCHANTED_GEM) && !item.equals(ItemNameConstants.SHANTAY_PASS))
                         ItemUtilities.buyables.add(new GeItem(item, getGeAmount(item), LivePrices.getHigh(item)));
                 }
             }
@@ -125,21 +130,21 @@ public class SlayerUtilities {
 
     public static void buyShantayPass() {
         if (Shop.isOpen()) {
-            if (Shop.purchase("Shantay pass", 50))
-                Sleep.sleepUntil(() -> Inventory.contains("Shanty pass"), Utilities.getRandomSleepTime());
+            if (Shop.purchase(ItemNameConstants.SHANTAY_PASS, 50))
+                Sleep.sleepUntil(() -> Inventory.contains(ItemNameConstants.SHANTAY_PASS), Utilities.getRandomSleepTime());
         } else {
-            NPC shanty = NPCs.closest(i -> i != null && i.getName().equals("Shantay"));
+            NPC shanty = NPCs.closest(i -> i != null && i.getName().equals(NpcNameConstants.SHANTAY));
             if (shanty.interact("Trade"))
                 Sleep.sleepUntil(Shop::isOpen, Utilities.getRandomSleepTime());
         }
     }
 
-    public static void buyMirrorShield() {
-        if (Inventory.count("Coins") >= 5000) {
+    public static void buyItemFromSlayerMaster(String item, int coins) {
+        if (Inventory.count(ItemNameConstants.COINS) >= coins && Inventory.contains("Varrock teleport")) {
             if (getCurrentSlayerMasterArea().contains(Players.getLocal())) {
                 if (Shop.isOpen()) {
-                    if (Shop.purchase("Mirror shield", 1))
-                        Sleep.sleepUntil(() -> Inventory.contains("Mirror shield"), Utilities.getRandomSleepTime());
+                    if (Shop.purchase(item, 1))
+                        Sleep.sleepUntil(() -> Inventory.contains(item), Utilities.getRandomSleepTime());
                 } else {
                     NPC master = NPCs.closest(i -> i != null && i.getName().equals(getCurrentSlayerMaster()));
                     if (master.interact("Trade"))
@@ -151,13 +156,18 @@ public class SlayerUtilities {
         } else {
             if (Bank.isOpen()) {
                 if (Inventory.emptySlotCount() <= 3) {
-                    if (Bank.depositAllExcept("Coins"))
+                    if (Bank.depositAllExcept(ItemNameConstants.COINS))
                         Sleep.sleepUntil(() -> Inventory.emptySlotCount() > 3, Utilities.getRandomSleepTime());
                 }
 
-                if (Inventory.count("Coins") < 5000) {
-                    if (Bank.withdraw("Coins", 5000))
-                        Sleep.sleepUntil(() -> Inventory.count("Coins") >= 5000, Utilities.getRandomSleepTime());
+                if (Inventory.count(ItemNameConstants.COINS) < coins) {
+                    if (Bank.withdraw(ItemNameConstants.COINS, coins))
+                        Sleep.sleepUntil(() -> Inventory.count(ItemNameConstants.COINS) >= coins, Utilities.getRandomSleepTime());
+                }
+
+                if (!Inventory.contains("Varrock teleport")) {
+                    if (Bank.withdraw("Varrock teleport", 2))
+                        Sleep.sleepUntil(() -> Inventory.contains("Varrock teleport"), Utilities.getRandomSleepTime());
                 }
             } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
                 BankUtilities.openBank();
@@ -181,12 +191,12 @@ public class SlayerUtilities {
         int level = Players.getLocal().getLevel();
 
         if (level > 74)
-            return "Konar";
+            return NpcNameConstants.KONAR;
 
         if (level > 70 && PaidQuest.LOST_CITY.isFinished())
-            return "Chaeldar";
+            return NpcNameConstants.CHAELDAR;
 
-        return "Vannaka";
+        return NpcNameConstants.VANNAKA;
     }
 
     private static int GetMeleeConfig() {
@@ -234,7 +244,7 @@ public class SlayerUtilities {
         }
         if (itemName.contains("teleport")) amount = 2;
         if (itemName.contains("Waterskin")) amount = 8;
-        if (itemName.equals("Coins")) amount = 10000;
+        if (itemName.equals(ItemNameConstants.COINS)) amount = 10000;
 
         return amount;
     }
