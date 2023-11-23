@@ -239,7 +239,7 @@ public class SlayerUtilities {
         int amount = 1;
         if (itemName.equals(ItemUtilities.currentFood)) {
             amount = 15;
-            if (Skills.getRealLevel(Skill.STRENGTH) >= 55)
+            if (Players.getLocal().getLevel() >= 60)
                 amount = 10;
         }
         if (itemName.contains("teleport")) amount = 2;
