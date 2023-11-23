@@ -37,7 +37,7 @@ public class SlayerUtilities {
     public static int GetAttackStyleConfig() {
         switch (TaskUtilities.currentTask) {
             case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Train Combat Melee", "Slay ice giants", "Slay crocodiles",
-                    "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs" -> {
+                    "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs", "Slay moss giants" -> {
                 return GetMeleeConfig();
             }
             case "Train Combat Range" -> {
@@ -55,7 +55,7 @@ public class SlayerUtilities {
     public static CombatStyle GetAttackStyle() {
         switch (TaskUtilities.currentTask) {
             case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Slay ice giants", "Train Combat Melee", "Slay crocodiles",
-                "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs" -> {
+                "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs", "Slay moss giants" -> {
                 return GetMeleeStyle();
             }
             case "Train Combat Range" -> {
