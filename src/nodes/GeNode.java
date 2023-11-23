@@ -69,6 +69,10 @@ public class GeNode extends TaskNode {
             }
         }
 
+        for (GeItem i : ItemUtilities.buyables) {
+            Logger.log(i.getName());
+        }
+
         if (geArea.contains(Players.getLocal()) && checkedBank) {
             if (ItemUtilities.sellables.isEmpty()) {
                 Logger.log(ItemUtilities.buyables.get(0));
