@@ -24,7 +24,20 @@ public class BankNode extends TaskNode {
 
         if (EquipmentUtilities.requiredEquipment.contains("Mirror shield")
                 && !Inventory.contains("Mirror shield") && !Equipment.contains("Mirror shield")) {
-            SlayerUtilities.buyItemFromSlayerMaster("Mirror shield", 5000);
+            if (SlayerUtilities.hasCheckedBankForSlayerEquipment) {
+                SlayerUtilities.buyItemFromSlayerMaster("Mirror shield", 5000);
+            } else {
+                if (Bank.isOpen()) {
+                    if (Bank.contains("Mirror shield")) {
+                        if (Bank.withdraw("Mirror shield"))
+                            Sleep.sleepUntil(() -> Inventory.contains("Mirror shield"), Utilities.getRandomSleepTime());
+                        SlayerUtilities.hasCheckedBankForSlayerEquipment = true;
+                    }
+                } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+                    BankUtilities.openBank();
+                }
+            }
+
             return Utilities.getRandomExecuteTime();
         }
 
