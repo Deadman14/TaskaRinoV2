@@ -39,7 +39,7 @@
 
 
                 Up NEXT
-    add in new equipment for higher levels
+    add in new equipment for higher levels (melee done)
     set konar - 60 att/def 50 slayer
     keep doing new task if avilable
     fishing

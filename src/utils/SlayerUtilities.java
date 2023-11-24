@@ -177,24 +177,28 @@ public class SlayerUtilities {
     }
 
     public static Area getCurrentSlayerMasterArea() {
-        int level = Players.getLocal().getLevel();
+        int slayerLevel = Skills.getRealLevel(Skill.SLAYER);
+        int defLevel = Skills.getRealLevel(Skill.DEFENCE);
+        int attLevel = Skills.getRealLevel(Skill.ATTACK);
 
-        if (level > 74)
+        if (slayerLevel > 39 && defLevel > 59 && attLevel > 59)
             return new Area(1305, 3788, 1312, 3781);
 
-        if (level > 70 && PaidQuest.LOST_CITY.isFinished())
+        if (PaidQuest.LOST_CITY.isFinished())
             return new Area(2440, 4434, 2454, 4422);
 
         return new Area(3138, 9916, 3150, 9902);
     }
 
     public static String getCurrentSlayerMaster() {
-        int level = Players.getLocal().getLevel();
+        int slayerLevel = Skills.getRealLevel(Skill.SLAYER);
+        int defLevel = Skills.getRealLevel(Skill.DEFENCE);
+        int attLevel = Skills.getRealLevel(Skill.ATTACK);
 
-        if (level > 74)
+        if (slayerLevel > 39 && defLevel > 59 && attLevel > 59)
             return NpcNameConstants.KONAR;
 
-        if (level > 70 && PaidQuest.LOST_CITY.isFinished())
+        if (PaidQuest.LOST_CITY.isFinished())
             return NpcNameConstants.CHAELDAR;
 
         return NpcNameConstants.VANNAKA;
