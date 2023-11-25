@@ -20,11 +20,11 @@ public class SlayIceGiantsNode extends TaskNode {
 
     @Override
     public int execute() {
-        Logger.log("Slay Ice Giants");
+        Logger.log("- Slay Ice Giants -");
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (giantArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonster(giantArea, "Ice giant");
+                SlayerUtilities.slayMonsterMelee(giantArea, "Ice giant");
             } else {
                 Utilities.walkToArea(giantArea);
             }

@@ -21,11 +21,11 @@ public class SlayCockatriceNode extends TaskNode {
 
     @Override
     public int execute() {
-        Logger.log("Slay Cockatrice");
+        Logger.log("- Slay Cockatrice -");
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (cockatriceArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonster(cockatriceArea, "Cockatrice");
+                SlayerUtilities.slayMonsterMelee(cockatriceArea, "Cockatrice");
             } else {
                 Utilities.walkToArea(cockatriceArea);
             }

@@ -34,8 +34,7 @@ public class SheepShearNode extends TaskNode {
 
     @Override
     public int execute() {
-        Utilities.currentNode = "SheepShearNode";
-        Logger.log("Shear Sheep");
+        Logger.log("- Shear Sheep -");
 
         if (Inventory.contains("Shears")) {
             hasCheckedBankForShears = false;
@@ -105,11 +104,8 @@ public class SheepShearNode extends TaskNode {
                 if (shearArea.contains(Players.getLocal())) {
                     GroundItem shears = GroundItems.closest("Shears");
                     if (shears != null) {
-                        Logger.log(shears == null);
                         if (Map.canReach(shears.getTile(), true)) {
-                            Logger.log("Can reach");
                             if (shears.interact())
-                                Logger.log("Interact");
                                 Sleep.sleepUntil(() -> Inventory.contains("Shears"), Utilities.getRandomSleepTime());
                         } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
                             Walking.walk(shears.getTile());

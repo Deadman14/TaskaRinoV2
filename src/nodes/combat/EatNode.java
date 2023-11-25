@@ -15,8 +15,7 @@ public class EatNode extends TaskNode {
 
     @Override
     public int execute() {
-        Utilities.currentNode = "Eat Node";
-        Logger.log("Eat Node");
+        Logger.log("- Eat -");
 
         if (Tabs.isOpen(Tab.INVENTORY)) {
             int amount = Inventory.count(ItemUtilities.currentFood);

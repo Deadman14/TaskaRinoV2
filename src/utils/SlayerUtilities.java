@@ -1,6 +1,5 @@
 package utils;
 
-import constants.EquipmentNameConstants;
 import constants.ItemNameConstants;
 import constants.NpcNameConstants;
 import models.GeItem;
@@ -39,7 +38,7 @@ public class SlayerUtilities {
         switch (TaskUtilities.currentTask) {
             case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Train Combat Melee", "Slay ice giants", "Slay crocodiles",
                     "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs", "Slay moss giants",
-                    "Slay basilisks"-> {
+                    "Slay basilisks", "Slay killerwatts"-> {
                 return GetMeleeConfig();
             }
             case "Train Combat Range" -> {
@@ -58,7 +57,7 @@ public class SlayerUtilities {
         switch (TaskUtilities.currentTask) {
             case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Slay ice giants", "Train Combat Melee", "Slay crocodiles",
                 "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs", "Slay moss giants",
-                "Slay basilisks"-> {
+                "Slay basilisks", "Slay killerwatts"-> {
                 return GetMeleeStyle();
             }
             case "Train Combat Range" -> {
@@ -84,7 +83,9 @@ public class SlayerUtilities {
         }
     }
 
-    public static void slayMonster(Area monsterArea, String monsterName) {
+    public static void slayMonsterMelee(Area monsterArea, String monsterName) {
+        Logger.log("-- Slayer Monster Melee FOr Task --");
+
         Utilities.shouldLoot = true;
         if (PlayerSettings.getConfig(43) == SlayerUtilities.GetAttackStyleConfig()) {
             if (!Players.getLocal().isInCombat()) {
@@ -106,6 +107,8 @@ public class SlayerUtilities {
     }
 
     public static void bankForTask(List<String> reqItems, boolean needShantayPass) {
+        Logger.log("-- Bank For Slayer Task --");
+
         Utilities.shouldLoot = false;
         if (Bank.isOpen()) {
             if (!Inventory.isEmpty() && (Inventory.isFull() || !Inventory.onlyContains(i -> reqItems.contains(i.getName())) || BankUtilities.areItemsNoted(reqItems))) {
@@ -144,6 +147,8 @@ public class SlayerUtilities {
     }
 
     public static void buyItemFromSlayerMaster(String item, int coins) {
+        Logger.log("-- Buy Item From Slayer Master --");
+
         if (Inventory.count(ItemNameConstants.COINS) >= coins && Inventory.contains("Varrock teleport")) {
             if (getCurrentSlayerMasterArea().contains(Players.getLocal())) {
                 if (Shop.isOpen()) {
@@ -248,7 +253,7 @@ public class SlayerUtilities {
         int amount = 1;
         if (itemName.equals(ItemUtilities.currentFood)) {
             amount = 15;
-            if (Players.getLocal().getLevel() >= 60)
+            if (Players.getLocal().getLevel() >= 60 && !TaskUtilities.currentTask.contains("killerwatts"))
                 amount = 10;
         }
         if (itemName.contains("teleport")) amount = 2;
@@ -260,7 +265,7 @@ public class SlayerUtilities {
 
     private static int getGeAmount(String itemName) {
         int amount = 1;
-        if (itemName.equals(ItemUtilities.currentFood)) amount = 250;
+        if (itemName.equals(ItemUtilities.currentFood)) amount = 350;
         if (itemName.contains("teleport")) amount = 50;
         if (itemName.contains("Waterskin")) amount = 8;
 

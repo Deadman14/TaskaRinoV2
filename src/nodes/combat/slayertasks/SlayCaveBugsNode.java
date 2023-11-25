@@ -35,7 +35,7 @@ public class SlayCaveBugsNode extends TaskNode {
 
     @Override
     public int execute() {
-        Logger.log("Slay Cave Bugs");
+        Logger.log("- Slay Cave Bugs -");
 
         if (Skills.getRealLevel(Skill.FIREMAKING) < 4) {
             TaskUtilities.currentTask = "Firemaking";
@@ -52,7 +52,7 @@ public class SlayCaveBugsNode extends TaskNode {
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems)) {
             if (caveBugArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonster(caveBugArea, "Cave bug");
+                SlayerUtilities.slayMonsterMelee(caveBugArea, "Cave bug");
             } else {
                 if (Inventory.contains("Rope") || hasPlacedRopeBefore) {
                     if (swampEntranceArea.contains(Players.getLocal())) {
@@ -74,7 +74,6 @@ public class SlayCaveBugsNode extends TaskNode {
                                         Utilities.getRandomSleepTime());
                         }
                     } else {
-                        Logger.log("Walk to swamp entrance");
                         Utilities.walkToArea(swampEntranceArea);
                     }
                 } else {
@@ -86,13 +85,11 @@ public class SlayCaveBugsNode extends TaskNode {
                             ItemUtilities.buyables.add(new GeItem("Rope", 1, LivePrices.getHigh(("Rope"))));
                         }
                     } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
-                        Logger.log("Open bank");
                         BankUtilities.openBank();
                     }
                 }
             }
         } else {
-            Logger.log("Bank for cave bugs");
             SlayerUtilities.bankForTask(reqItems, false);
         }
 

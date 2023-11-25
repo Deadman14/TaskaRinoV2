@@ -23,11 +23,11 @@ public class SlayBasilisksNode extends TaskNode {
 
     @Override
     public int execute() {
-        Logger.log("Slay Basilisks");
+        Logger.log("- Slay Basilisks -");
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (basiliskArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonster(basiliskArea, "Basilisk");
+                SlayerUtilities.slayMonsterMelee(basiliskArea, "Basilisk");
             } else {
                 Utilities.walkToArea(basiliskArea);
             }

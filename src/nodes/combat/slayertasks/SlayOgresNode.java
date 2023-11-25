@@ -6,16 +6,12 @@ import org.dreambot.api.methods.container.impl.bank.Bank;
 import org.dreambot.api.methods.container.impl.bank.BankMode;
 import org.dreambot.api.methods.dialogues.Dialogues;
 import org.dreambot.api.methods.grandexchange.LivePrices;
-import org.dreambot.api.methods.interactive.NPCs;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.map.Area;
-import org.dreambot.api.methods.settings.PlayerSettings;
 import org.dreambot.api.methods.walking.impl.Walking;
 import org.dreambot.api.script.TaskNode;
 import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Sleep;
-import org.dreambot.api.wrappers.interactive.Character;
-import org.dreambot.api.wrappers.interactive.NPC;
 import utils.*;
 
 import java.util.ArrayList;
@@ -30,14 +26,14 @@ public class SlayOgresNode extends TaskNode {
     @Override
     public int execute() {
         Utilities.currentNode = "SlayOgresNode";
-        Logger.log("Slay Ogres");
+        Logger.log("- Slay Ogres -");
 
         if (Dialogues.inDialogue())
             Dialogues.continueDialogue();
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.count(ItemUtilities.currentFood) > 2) {
             if (ogreArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonster(ogreArea, "Ogre");
+                SlayerUtilities.slayMonsterMelee(ogreArea, "Ogre");
             } else {
                 Utilities.walkToArea(ogreArea);
             }

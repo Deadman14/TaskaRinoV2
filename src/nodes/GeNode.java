@@ -32,11 +32,10 @@ public class GeNode extends TaskNode {
 
     @Override
     public int execute() {
-        Utilities.currentNode = "GeNode";
-        Logger.log("Ge");
+        Logger.log("- Grand Exchange -");
 
-        Logger.log("BUYABLES: " + ItemUtilities.buyables.size());
-        Logger.log("SELLABLES: " + ItemUtilities.sellables.size());
+        Logger.log("- BUYABLES: " + ItemUtilities.buyables.size() + " -");
+        Logger.log("- SELLABLES: " + ItemUtilities.sellables.size() + " -");
 
         if (!checkedBank) {
             if (Bank.isOpen()) {
@@ -75,8 +74,6 @@ public class GeNode extends TaskNode {
 
         if (geArea.contains(Players.getLocal()) && checkedBank) {
             if (ItemUtilities.sellables.isEmpty()) {
-                Logger.log(ItemUtilities.buyables.get(0));
-
                 ItemUtilities.sellablesAboveThreshold = false;
 
                 if (Inventory.getEmptySlots() >= ItemUtilities.buyables.size() && canBuyItems) {

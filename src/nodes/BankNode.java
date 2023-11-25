@@ -14,13 +14,37 @@ import org.dreambot.api.utilities.Sleep;
 import utils.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class BankNode extends TaskNode {
+    private final List<String> slayerItems = new ArrayList<>(Arrays.asList("Mirror shield", "Spiny helmet", "Insulated boots"));
 
     @Override
     public int execute() {
-        Utilities.currentNode = "BankNode";
-        Logger.log("Bank");
+        Logger.log("- Bank -");
+
+        List<String> slayerItemsToBuy = new ArrayList<>(EquipmentUtilities.requiredEquipment.stream()
+                .filter(i -> slayerItems.contains(i) && !Inventory.contains(i) && !Equipment.contains(i)).toList());
+        if (!slayerItemsToBuy.isEmpty()) {
+            String item = slayerItemsToBuy.get(0);
+            if (SlayerUtilities.hasCheckedBankForSlayerEquipment) {
+                SlayerUtilities.buyItemFromSlayerMaster(item, Calculations.random(7000, 10000));
+            } else {
+                if (Bank.isOpen()) {
+                    if (Bank.contains(item)) {
+                        if (Bank.withdraw(item))
+                            Sleep.sleepUntil(() -> Inventory.contains(item), Utilities.getRandomSleepTime());
+                    }
+
+                    SlayerUtilities.hasCheckedBankForSlayerEquipment = true;
+                } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+                    BankUtilities.openBank();
+                }
+            }
+
+            return Utilities.getRandomExecuteTime();
+        }
 
         if (EquipmentUtilities.requiredEquipment.contains("Mirror shield")
                 && !Inventory.contains("Mirror shield") && !Equipment.contains("Mirror shield")) {

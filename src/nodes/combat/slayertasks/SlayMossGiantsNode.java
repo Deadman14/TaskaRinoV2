@@ -21,11 +21,11 @@ public class SlayMossGiantsNode extends TaskNode {
 
     @Override
     public int execute() {
-        Logger.log("Slay Moss Giants");
+        Logger.log("- Slay Moss Giants -");
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (giantArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonster(giantArea, "Moss giant");
+                SlayerUtilities.slayMonsterMelee(giantArea, "Moss giant");
             } else {
                 Utilities.walkToArea(giantArea);
             }

@@ -31,8 +31,7 @@ public class MakeSoftclayNode extends TaskNode {
 
     @Override
     public int execute() {
-        Utilities.currentNode = "MakeSoftclayNode";
-        Logger.log("Make Soft Clay");
+        Logger.log("- Make Soft Clay -");
 
         if (Dialogues.inDialogue())
             Dialogues.continueDialogue();

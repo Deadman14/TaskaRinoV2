@@ -41,8 +41,7 @@ public class TrainCombatNode extends TaskNode {
 
     @Override
     public int execute() {
-        Utilities.currentNode = "TrainCombatNode";
-        Logger.log("Train Combat");
+        Logger.log("- Train Combat -");
 
         if (GrandExchange.isOpen()) {
             if (GrandExchange.close())

@@ -1,16 +1,10 @@
 package nodes.combat.slayertasks;
 
-import models.GeItem;
 import org.dreambot.api.methods.container.impl.Inventory;
-import org.dreambot.api.methods.container.impl.bank.Bank;
-import org.dreambot.api.methods.container.impl.bank.BankMode;
-import org.dreambot.api.methods.grandexchange.LivePrices;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.map.Area;
-import org.dreambot.api.methods.walking.impl.Walking;
 import org.dreambot.api.script.TaskNode;
 import org.dreambot.api.utilities.Logger;
-import org.dreambot.api.utilities.Sleep;
 import utils.*;
 
 import java.util.ArrayList;
@@ -23,11 +17,11 @@ public class SlayIceWarriorsNode extends TaskNode {
 
     @Override
     public int execute() {
-        Logger.log("Slay ice Warriors");
+        Logger.log("- Slay ice Warriors -");
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (warriorArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonster(warriorArea, "Ice warrior");
+                SlayerUtilities.slayMonsterMelee(warriorArea, "Ice warrior");
             } else {
                 Utilities.walkToArea(warriorArea);
             }

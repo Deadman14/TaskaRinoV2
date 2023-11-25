@@ -42,6 +42,8 @@ public class Utilities {
     }
 
     public static void walkToArea(Area area) {
+        Logger.log("-- Walking To Area --");
+
         if (Walking.shouldWalk(getShouldWalkDistance())) {
             if (Walking.getRunEnergy() > Calculations.random(20, 40) && !Walking.isRunEnabled())
                 Walking.toggleRun();

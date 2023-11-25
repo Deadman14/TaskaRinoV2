@@ -44,7 +44,7 @@ public class Start extends TaskScript implements ChatListener {
                 new ErnestTheChickenNode(), new XMarksTheSpotNode(), new KnightsSwordNode(), new NaturalHistoryQuizNode(),
                 new GetSlayerTaskNode(), new SlayKalphitesNode(), new SlayOgresNode(), new SlayIceWarriorsNode(), new SlayMossGiantsNode(),
                 new SlayIceGiantsNode(), new SlayCrocodilesNode(), new SlayHobgoblinsNode(), new SlayCockatriceNode(),
-                new SlayWallBeastsNode(), new SlayCaveBugsNode(), new SlayBasilisksNode());
+                new SlayWallBeastsNode(), new SlayCaveBugsNode(), new SlayBasilisksNode(), new SlayKillerwattsNode());
     }
 
     @Override
@@ -64,7 +64,6 @@ public class Start extends TaskScript implements ChatListener {
     public void onGameMessage(Message message) {
         if (message != null) {
             String m = message.getMessage();
-            Logger.log(m);
 
             if (m.contains("You're assigned to kill")) {
                 String henry = m.split("</col>")[1];

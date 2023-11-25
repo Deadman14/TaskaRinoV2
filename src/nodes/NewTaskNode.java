@@ -16,7 +16,7 @@ public class NewTaskNode extends TaskNode {
     @Override
     public int execute() {
         Utilities.currentNode = "NewTaskNode";
-        Logger.log("New Task");
+        Logger.log("- New Task -");
 
         Utilities.isP2P = isReadyForP2P();
         if (Utilities.isP2P)

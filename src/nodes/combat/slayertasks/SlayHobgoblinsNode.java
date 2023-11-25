@@ -21,11 +21,11 @@ public class SlayHobgoblinsNode extends TaskNode {
 
     @Override
     public int execute() {
-        Logger.log("Slay hHobgoblins");
+        Logger.log("- Slay Hobgoblins -");
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (hobgoblinArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonster(hobgoblinArea, "Hobgoblin");
+                SlayerUtilities.slayMonsterMelee(hobgoblinArea, "Hobgoblin");
             } else {
                 Utilities.walkToArea(hobgoblinArea);
             }

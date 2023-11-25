@@ -30,11 +30,11 @@ public class SlayCrocodilesNode extends TaskNode {
 
     @Override
     public int execute() {
-        Logger.log("Slay Crocodiles");
+        Logger.log("- Slay Crocodiles -");
         if (Inventory.containsAll(reqItems) && !BankUtilities.areItemsNoted(reqItems)) {
             if (passedShantay) {
                 if (crocodileArea.contains(Players.getLocal())) {
-                    SlayerUtilities.slayMonster(crocodileArea, "Crocodile");
+                    SlayerUtilities.slayMonsterMelee(crocodileArea, "Crocodile");
                 } else {
                     Utilities.walkToArea(crocodileArea);
                 }

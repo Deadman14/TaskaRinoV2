@@ -38,7 +38,7 @@ public class SlayWallBeastsNode extends TaskNode {
 
     @Override
     public int execute() {
-        Logger.log("Slay Wall Beasts");
+        Logger.log("- Slay Wall Beasts -");
 
         if (Skills.getRealLevel(Skill.FIREMAKING) < 4) {
             TaskUtilities.currentTask = "Firemaking";

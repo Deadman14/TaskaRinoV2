@@ -17,8 +17,7 @@ public class EquipmentNode extends TaskNode {
 
     @Override
     public int execute() {
-        Utilities.currentNode = "EquipmentNode";
-        Logger.log("Equip");
+        Logger.log("- Equip -");
 
         if (!Bank.isOpen() && !GrandExchange.isOpen() && !Shop.isOpen()) {
             Item item = Inventory.get(i -> i != null && EquipmentUtilities.requiredEquipment.contains(i.getName()));

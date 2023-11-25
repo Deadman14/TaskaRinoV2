@@ -2,23 +2,18 @@ package nodes.combat.slayertasks;
 
 import models.GeItem;
 import org.dreambot.api.methods.container.impl.Inventory;
-import org.dreambot.api.methods.container.impl.Shop;
 import org.dreambot.api.methods.container.impl.bank.Bank;
 import org.dreambot.api.methods.container.impl.bank.BankMode;
 import org.dreambot.api.methods.dialogues.Dialogues;
 import org.dreambot.api.methods.grandexchange.LivePrices;
 import org.dreambot.api.methods.interactive.GameObjects;
-import org.dreambot.api.methods.interactive.NPCs;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.map.Area;
-import org.dreambot.api.methods.settings.PlayerSettings;
 import org.dreambot.api.methods.walking.impl.Walking;
 import org.dreambot.api.script.TaskNode;
 import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Sleep;
-import org.dreambot.api.wrappers.interactive.Character;
 import org.dreambot.api.wrappers.interactive.GameObject;
-import org.dreambot.api.wrappers.interactive.NPC;
 import org.dreambot.api.wrappers.items.Item;
 import utils.*;
 
@@ -35,8 +30,7 @@ public class SlayKalphitesNode extends TaskNode {
 
     @Override
     public int execute() {
-        Utilities.currentNode = "SlayKalphitesNode";
-        Logger.log("Slay Kalphites");
+        Logger.log("- Slay Kalphites -");
 
         if (Dialogues.inDialogue())
             Dialogues.continueDialogue();
@@ -44,7 +38,7 @@ public class SlayKalphitesNode extends TaskNode {
         if (!Inventory.isFull() && Inventory.containsAll(reqItems)
                 && Inventory.count("Coins") >= 1000 && Inventory.count(ItemUtilities.currentFood) >= 1) {
             if (kalphiteWorkerArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonster(kalphiteWorkerArea, "Kalphite Worker");
+                SlayerUtilities.slayMonsterMelee(kalphiteWorkerArea, "Kalphite Worker");
             } else {
                 if (Inventory.containsAll(Arrays.asList("Shantay pass", "Rope")) || checkedBankForPass) {
                     if (Inventory.contains("Shantay pass") || checkedBankForPass) {
@@ -129,7 +123,6 @@ public class SlayKalphitesNode extends TaskNode {
 
     @Override
     public boolean accept() {
-        Logger.log(TaskUtilities.currentTask);
         return TaskUtilities.currentTask.equals("Slay kalphite");
     }
 }

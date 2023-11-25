@@ -24,8 +24,7 @@ public class GetSlayerTaskNode extends TaskNode {
 
     @Override
     public int execute() {
-        Utilities.currentNode = "GetSlayerTaskNode";
-        Logger.log("Get New Slayer Task");
+        Logger.log("- Get New Slayer Task -");
 
         if (!SlayerUtilities.currentSlayerTask.isEmpty()) {
             TaskUtilities.currentTask = "Slay " + SlayerUtilities.currentSlayerTask;

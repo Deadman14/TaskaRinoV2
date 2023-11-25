@@ -44,6 +44,7 @@ public class EquipmentUtilities {
             case "Slay wall beasts":
             case "Slay cave bugs":
             case "Slay basilisks":
+            case "Slay killerwatts":
                 if (!Utilities.isGeFullyOpen()) {
                     return new ArrayList<>(Arrays.asList("Bronze sword", "Wooden shield"));
                 }
@@ -164,6 +165,9 @@ public class EquipmentUtilities {
 
     public static String getCurrentMeleeBoots() {
         int level = Skills.getRealLevel(Skill.DEFENCE);
+
+        if (TaskUtilities.currentTask.equals("Slay killerwatts"))
+            return "Insulated boots";
 
         if (level > 59)
             return "Dragon boots";

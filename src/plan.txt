@@ -49,3 +49,8 @@
     prayer
     find a way to tell if your account has mems days on it
         will need for if below x days re-bond
+
+
+              LOGS
+    double dash logs for global "-- comment --"
+    single dash logs for node based logs "- comment -"
