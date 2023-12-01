@@ -25,7 +25,7 @@ public class SlayCockatriceNode extends TaskNode {
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (cockatriceArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonsterMelee(cockatriceArea, "Cockatrice");
+                SlayerUtilities.slayMonsterMelee(cockatriceArea, "Cockatrice", false, "");
             } else {
                 Utilities.walkToArea(cockatriceArea);
             }

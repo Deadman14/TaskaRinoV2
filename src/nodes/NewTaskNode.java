@@ -19,7 +19,7 @@ public class NewTaskNode extends TaskNode {
         Logger.log("- New Task -");
 
         Utilities.isP2P = isReadyForP2P();
-        if (Utilities.isP2P)
+        if (Utilities.isP2P && !ItemUtilities.currentFood.equals("Swordfish"))
             ItemUtilities.currentFood = "Swordfish";
         TaskUtilities.currentTask = TaskUtilities.nextTask();
         TaskUtilities.taskTimer = new Timer(Calculations.random(1800000, 3600000));

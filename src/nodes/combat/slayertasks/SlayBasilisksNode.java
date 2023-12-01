@@ -27,7 +27,7 @@ public class SlayBasilisksNode extends TaskNode {
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (basiliskArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonsterMelee(basiliskArea, "Basilisk");
+                SlayerUtilities.slayMonsterMelee(basiliskArea, "Basilisk", false, "");
             } else {
                 Utilities.walkToArea(basiliskArea);
             }

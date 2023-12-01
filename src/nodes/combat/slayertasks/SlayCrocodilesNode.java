@@ -27,14 +27,17 @@ public class SlayCrocodilesNode extends TaskNode {
     private boolean passedShantay = false;
     private boolean checkedBankForPass = false;
 
-
     @Override
     public int execute() {
         Logger.log("- Slay Crocodiles -");
+
+        if (crocodileArea.contains(Players.getLocal()))
+            passedShantay = true;
+
         if (Inventory.containsAll(reqItems) && !BankUtilities.areItemsNoted(reqItems)) {
             if (passedShantay) {
                 if (crocodileArea.contains(Players.getLocal())) {
-                    SlayerUtilities.slayMonsterMelee(crocodileArea, "Crocodile");
+                    SlayerUtilities.slayMonsterMelee(crocodileArea, "Crocodile", false, "");
                 } else {
                     Utilities.walkToArea(crocodileArea);
                 }
@@ -79,7 +82,7 @@ public class SlayCrocodilesNode extends TaskNode {
                     if (waterskin.useOn(fountain))
                         Sleep.sleepUntil(() -> Inventory.count("Waterskin(4)") >= 8, Utilities.getRandomSleepTime());
                 } else {
-                    SlayerUtilities.bankForTask(reqItems, true);
+                    SlayerUtilities.bankForTask(new ArrayList<>(reqItems), true);
                 }
             }
         }

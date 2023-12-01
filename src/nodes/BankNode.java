@@ -18,14 +18,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public class BankNode extends TaskNode {
-    private final List<String> slayerItems = new ArrayList<>(Arrays.asList("Mirror shield", "Spiny helmet", "Insulated boots"));
+    private final List<String> slayerEquipment = new ArrayList<>(Arrays.asList("Mirror shield", "Spiny helmet", "Insulated boots"));
 
     @Override
     public int execute() {
         Logger.log("- Bank -");
 
         List<String> slayerItemsToBuy = new ArrayList<>(EquipmentUtilities.requiredEquipment.stream()
-                .filter(i -> slayerItems.contains(i) && !Inventory.contains(i) && !Equipment.contains(i)).toList());
+                .filter(i -> slayerEquipment.contains(i) && !Inventory.contains(i) && !Equipment.contains(i)).toList());
         if (!slayerItemsToBuy.isEmpty()) {
             String item = slayerItemsToBuy.get(0);
             if (SlayerUtilities.hasCheckedBankForSlayerEquipment) {

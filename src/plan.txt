@@ -10,6 +10,7 @@
 
 
                     BUGS
+    account for getting waterskins from bank
     training combat, if you change gear then it doesn't deposit old gear - worth doing? Investigate/Brainstorm
     TODO: move ge check of buyables to before it walks to the GE! (gunna have to predict for this one) - confirmed? Want some extra confirmation
     ge yes menu
@@ -36,6 +37,9 @@
 
                 IDEAS
     Make gold items - mine gold, run to furnace, make bars, make item, bank, repeat
+    come up with a way to add every item i want to sell to a list and not have to avoid putting in items like my equipment or food I'm using.
+        I just wanna put all items in and call a method of like how many of that item should you leave in the bank if any
+    replace cooking with smithing?
 
 
                 Up NEXT

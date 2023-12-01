@@ -24,7 +24,7 @@ public class SlayIceGiantsNode extends TaskNode {
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (giantArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonsterMelee(giantArea, "Ice giant");
+                SlayerUtilities.slayMonsterMelee(giantArea, "Ice giant", false, "");
             } else {
                 Utilities.walkToArea(giantArea);
             }

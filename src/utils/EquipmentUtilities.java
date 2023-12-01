@@ -45,6 +45,7 @@ public class EquipmentUtilities {
             case "Slay cave bugs":
             case "Slay basilisks":
             case "Slay killerwatts":
+            case "Slay rockslugs":
                 if (!Utilities.isGeFullyOpen()) {
                     return new ArrayList<>(Arrays.asList("Bronze sword", "Wooden shield"));
                 }
@@ -74,6 +75,16 @@ public class EquipmentUtilities {
                         getCurrentMagicPants(),
                         getCurrentMagicNecklace(),
                         getCurrentMagicWeapon()
+                ));
+            case "Slay pyrefiends":
+                return new ArrayList<>(Arrays.asList(
+                        getCurrentFullHelm(),
+                        getCurrentRangedBody(),
+                        getCurrentRangedPants(),
+                        getCurrentRangedOffhand(),
+                        getCurrentSword(),
+                        getCurrentMeleeBoots(),
+                        getCurrentRangedGloves()
                 ));
             default:
                 return new ArrayList<>();
@@ -189,6 +200,15 @@ public class EquipmentUtilities {
         int rangeLevel = Skills.getRealLevel(Skill.RANGED);
         int defenceLevel = Skills.getRealLevel(Skill.DEFENCE);
 
+        if (rangeLevel >= 70 && defenceLevel >= 70 && Utilities.isP2P)
+            return "Black d'hide body";
+
+        if (rangeLevel >= 60 && defenceLevel >= 60 && Utilities.isP2P)
+            return "Red d'hide body";
+
+        if (rangeLevel >= 60 && defenceLevel >= 40 && Utilities.isP2P)
+            return "Blue d'hide body";
+
         if ((rangeLevel >= 20) && (defenceLevel >= 20))
             return "Studded body";
 
@@ -199,7 +219,16 @@ public class EquipmentUtilities {
         int rangeLevel = Skills.getRealLevel(Skill.RANGED);
         int defenceLevel = Skills.getRealLevel(Skill.DEFENCE);
 
-        if (rangeLevel >= 20  && defenceLevel >= 20 )
+        if (rangeLevel >= 70 && defenceLevel >= 70 && Utilities.isP2P)
+            return "Black d'hide chaps";
+
+        if (rangeLevel >= 60 && defenceLevel >= 60 && Utilities.isP2P)
+            return "Red d'hide chaps";
+
+        if (rangeLevel >= 40 && defenceLevel >= 40 && Utilities.isP2P)
+            return "Green d'hide chaps";
+
+        if (rangeLevel >= 20  && defenceLevel >= 20)
             return "Studded chaps";
 
         return "Leather chaps";
@@ -209,7 +238,13 @@ public class EquipmentUtilities {
         int rangeLevel = Skills.getRealLevel(Skill.RANGED);
         int defenceLevel = Skills.getRealLevel(Skill.DEFENCE);
 
-        if (rangeLevel >= 40 && defenceLevel >= 40)
+        if (rangeLevel >= 70 && defenceLevel >= 70 && Utilities.isP2P)
+            return "Black d'hide vambraces";
+
+        if (rangeLevel >= 60 && defenceLevel >= 60 && Utilities.isP2P)
+            return "Red d'hide vambraces";
+
+        if (rangeLevel >= 40 && defenceLevel >= 40 && Utilities.isP2P)
             return "Green d'hide vambraces";
 
         return "Leather vambraces";
@@ -235,6 +270,22 @@ public class EquipmentUtilities {
             return "Mithril arrow";
         else
             return "Iron arrow";
+    }
+
+    public static String getCurrentRangedOffhand() {
+        int rangeLevel = Skills.getRealLevel(Skill.RANGED);
+        int defenceLevel = Skills.getRealLevel(Skill.DEFENCE);
+
+        if (rangeLevel >= 70 && defenceLevel >= 70 && Utilities.isP2P)
+            return "Black d'hide shield";
+
+        if (rangeLevel >= 60 && defenceLevel >= 60 && Utilities.isP2P)
+            return "Red d'hide shield";
+
+        if (rangeLevel >= 40 && defenceLevel >= 40 && Utilities.isP2P)
+            return "Green d'hide shield";
+        else
+            return getCurrentKiteshield();
     }
 
     public static String getCurrentMagicHelm() {

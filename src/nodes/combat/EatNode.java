@@ -2,6 +2,7 @@ package nodes.combat;
 
 import org.dreambot.api.methods.combat.Combat;
 import org.dreambot.api.methods.container.impl.Inventory;
+import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.tabs.Tab;
 import org.dreambot.api.methods.tabs.Tabs;
 import org.dreambot.api.script.TaskNode;
@@ -24,6 +25,14 @@ public class EatNode extends TaskNode {
             if (food != null) {
                 if (food.interact())
                     Sleep.sleepUntil(() -> Inventory.count(ItemUtilities.currentFood) == (amount - 1), Utilities.getRandomSleepTime());
+            }
+
+            if (Combat.isPoisoned()) {
+                Item ap = Inventory.get(i -> i.getName().contains("Antipoison"));
+                if (ap != null) {
+                    if (ap.interact())
+                        Sleep.sleepUntil(() -> !Combat.isPoisoned(), Utilities.getRandomSleepTime());
+                }
             }
         } else {
             if (Tabs.open(Tab.INVENTORY))

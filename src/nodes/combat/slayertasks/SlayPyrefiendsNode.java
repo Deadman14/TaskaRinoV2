@@ -5,25 +5,28 @@ import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.map.Area;
 import org.dreambot.api.script.TaskNode;
 import org.dreambot.api.utilities.Logger;
-import utils.*;
+import utils.ItemUtilities;
+import utils.SlayerUtilities;
+import utils.TaskUtilities;
+import utils.Utilities;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SlayIceWarriorsNode extends TaskNode {
-    private final Area warriorArea = new Area(3037, 9599, 3055, 9564);
-    private List<String> reqItems = new ArrayList<>(Arrays.asList("Enchanted gem", "Falador teleport", ItemUtilities.currentFood));
-
+public class SlayPyrefiendsNode extends TaskNode {
+    private final Area pyrefiendsArea = new Area(2752, 10015, 2769, 9990);
+    private final List<String> reqItems = new ArrayList<>(Arrays.asList("Enchanted gem", "Camelot teleport", "Varrock teleport",
+            ItemUtilities.currentFood));
     @Override
     public int execute() {
-        Logger.log("- Slay ice Warriors -");
+        Logger.log("Slay Pyrefiends");
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
-            if (warriorArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonsterMelee(warriorArea, "Ice warrior", false, "");
+            if (pyrefiendsArea.contains(Players.getLocal())) {
+                SlayerUtilities.slayMonsterMelee(pyrefiendsArea, "Pyrefiend", false, "");
             } else {
-                Utilities.walkToArea(warriorArea);
+                Utilities.walkToArea(pyrefiendsArea);
             }
         } else {
             SlayerUtilities.bankForTask(reqItems, false);
@@ -34,6 +37,6 @@ public class SlayIceWarriorsNode extends TaskNode {
 
     @Override
     public boolean accept() {
-        return TaskUtilities.currentTask.equals("Slay ice warriors");
+        return TaskUtilities.currentTask.equals("Slay pyrefiends");
     }
 }

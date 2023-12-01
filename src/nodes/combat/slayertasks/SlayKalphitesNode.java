@@ -38,7 +38,7 @@ public class SlayKalphitesNode extends TaskNode {
         if (!Inventory.isFull() && Inventory.containsAll(reqItems)
                 && Inventory.count("Coins") >= 1000 && Inventory.count(ItemUtilities.currentFood) >= 1) {
             if (kalphiteWorkerArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonsterMelee(kalphiteWorkerArea, "Kalphite Worker");
+                SlayerUtilities.slayMonsterMelee(kalphiteWorkerArea, "Kalphite Worker", false, "");
             } else {
                 if (Inventory.containsAll(Arrays.asList("Shantay pass", "Rope")) || checkedBankForPass) {
                     if (Inventory.contains("Shantay pass") || checkedBankForPass) {

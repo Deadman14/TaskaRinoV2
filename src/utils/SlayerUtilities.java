@@ -3,6 +3,7 @@ package utils;
 import constants.ItemNameConstants;
 import constants.NpcNameConstants;
 import models.GeItem;
+import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.combat.Combat;
 import org.dreambot.api.methods.combat.CombatStyle;
 import org.dreambot.api.methods.container.impl.Inventory;
@@ -22,23 +23,29 @@ import org.dreambot.api.methods.tabs.Tabs;
 import org.dreambot.api.methods.walking.impl.Walking;
 import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Sleep;
+import org.dreambot.api.utilities.Timer;
 import org.dreambot.api.wrappers.interactive.Character;
 import org.dreambot.api.wrappers.interactive.NPC;
 import org.dreambot.api.methods.map.Area;
+import org.dreambot.api.wrappers.items.Item;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SlayerUtilities {
     public static String currentSlayerTask = "";
     public static boolean getNewSlayerTaskAfterTask = false;
     public static boolean hasCheckedBankForSlayerEquipment = false;
+    public static final List<String> slayerItems = new ArrayList<>(Arrays.asList("Bag of salt", ItemNameConstants.ENCHANTED_GEM));
+    public static NPC deathItemMonster = null;
 
     // rapid is 1
     public static int GetAttackStyleConfig() {
         switch (TaskUtilities.currentTask) {
             case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Train Combat Melee", "Slay ice giants", "Slay crocodiles",
                     "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs", "Slay moss giants",
-                    "Slay basilisks", "Slay killerwatts"-> {
+                    "Slay basilisks", "Slay killerwatts", "Slay pyrefiends", "Slay rockslugs" -> {
                 return GetMeleeConfig();
             }
             case "Train Combat Range" -> {
@@ -57,7 +64,7 @@ public class SlayerUtilities {
         switch (TaskUtilities.currentTask) {
             case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Slay ice giants", "Train Combat Melee", "Slay crocodiles",
                 "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs", "Slay moss giants",
-                "Slay basilisks", "Slay killerwatts"-> {
+                "Slay basilisks", "Slay killerwatts", "Slay pyrefiends", "Slay rockslugs" -> {
                 return GetMeleeStyle();
             }
             case "Train Combat Range" -> {
@@ -83,21 +90,42 @@ public class SlayerUtilities {
         }
     }
 
-    public static void slayMonsterMelee(Area monsterArea, String monsterName) {
-        Logger.log("-- Slayer Monster Melee FOr Task --");
+    public static void slayMonsterMelee(Area monsterArea, String monsterName, boolean useDeathItem, String deathItem) {
+        //TODO: remove this
+        if (TaskUtilities.taskTimer.remaining() < 100000) {
+            TaskUtilities.taskTimer = new Timer(999999999);
+            TaskUtilities.taskTimer.start();
+        }
 
         Utilities.shouldLoot = true;
         if (PlayerSettings.getConfig(43) == SlayerUtilities.GetAttackStyleConfig()) {
-            if (!Players.getLocal().isInCombat()) {
-                Character c = Players.getLocal().getCharacterInteractingWithMe();
-                NPC npc = c != null && c.getName().equals(monsterName) && monsterArea.contains(c) ? (NPC) Players.getLocal().getCharacterInteractingWithMe() : NPCs.closest(g -> g.getName().equals(monsterName) && !g.isInCombat() && monsterArea.contains(g));
-                if (npc != null) {
-                    if (npc.canReach()) {
-                        if (npc.interact("Attack"))
-                            Sleep.sleepUntil(() -> npc.isInCombat() || Players.getLocal().isInCombat() || Dialogues.canContinue(), Utilities.getRandomSleepTime());
-                    } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
-                        Logger.log("SlayMonster - Walk to mob");
-                        Walking.walk(npc.getTile());
+            if (useDeathItem && deathItemMonster != null) {
+                Logger.log("-- Slay Monster Melee For Task With Death Item --");
+                if (deathItemMonster.getHealthPercent() < 15) {
+                    Item i = Inventory.get(deathItem);
+                    if (i != null) {
+                        if (i.useOn(deathItemMonster)) {
+                            Sleep.sleepUntil(() -> !deathItemMonster.exists(), Utilities.getRandomSleepTime());
+                            deathItemMonster = null;
+                        }
+                    }
+                }
+            } else {
+                Logger.log("-- Slay Monster Melee For Task --");
+                if (!Players.getLocal().isInCombat()) {
+                    Character c = Players.getLocal().getCharacterInteractingWithMe();
+                    NPC npc = c != null && c.getName().equals(monsterName) && monsterArea.contains(c) ? (NPC) Players.getLocal().getCharacterInteractingWithMe() : NPCs.closest(g -> g.getName().equals(monsterName) && !g.isInCombat() && monsterArea.contains(g));
+                    if (npc != null) {
+                        if (npc.canReach()) {
+                            if (npc.interact("Attack")) {
+                                Sleep.sleepUntil(() -> npc.isInCombat() || Players.getLocal().isInCombat() || Dialogues.canContinue(), Utilities.getRandomSleepTime());
+
+                                if (useDeathItem)
+                                    deathItemMonster = npc;
+                            }
+                        } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+                            Walking.walk(npc.getTile());
+                        }
                     }
                 }
             }
@@ -108,30 +136,49 @@ public class SlayerUtilities {
 
     public static void bankForTask(List<String> reqItems, boolean needShantayPass) {
         Logger.log("-- Bank For Slayer Task --");
-
         Utilities.shouldLoot = false;
-        if (Bank.isOpen()) {
-            if (!Inventory.isEmpty() && (Inventory.isFull() || !Inventory.onlyContains(i -> reqItems.contains(i.getName())) || BankUtilities.areItemsNoted(reqItems))) {
-                if (Bank.depositAllExcept(i -> reqItems.contains(i.getName()) && !i.isNoted()))
-                    Sleep.sleepUntil(() -> Inventory.onlyContains(i -> reqItems.contains(i.getName())), Utilities.getRandomSleepTime());
-            }
 
-            BankUtilities.setBankMode(BankMode.ITEM);
+        List<String> slayerItemsToBuy = reqItems.stream().filter(i -> slayerItems.contains(i) && !Inventory.contains(i)).toList();
+        if (!slayerItemsToBuy.isEmpty()) {
+            String item = slayerItemsToBuy.get(0);
+            if (SlayerUtilities.hasCheckedBankForSlayerEquipment) {
+                SlayerUtilities.buyItemFromSlayerMaster(item, Calculations.random(7000, 10000));
+            } else {
+                if (Bank.isOpen()) {
+                    if (Bank.contains(item)) {
+                        if (Bank.withdraw(item))
+                            Sleep.sleepUntil(() -> Inventory.contains(item), Utilities.getRandomSleepTime());
+                    }
 
-            if (needShantayPass) reqItems.add(ItemNameConstants.SHANTAY_PASS);
-            for (String item : reqItems) {
-                if ((Bank.contains(item) && Bank.count(item) >= getInventoryAmount(item)) &&
-                Inventory.count(item) < getInventoryAmount(item)) {
-                    if (Bank.withdraw(item, getInventoryAmount(item) - Inventory.count(item)))
-                        Sleep.sleepUntil(() -> Inventory.count(item) >= getInventoryAmount(item), Utilities.getRandomSleepTime());
-                } else {
-                    if (!item.equals(ItemNameConstants.ENCHANTED_GEM) && !item.equals(ItemNameConstants.SHANTAY_PASS)
-                            && Bank.count(item) < getInventoryAmount(item))
-                        ItemUtilities.buyables.add(new GeItem(item, getGeAmount(item), LivePrices.getHigh(item)));
+                    SlayerUtilities.hasCheckedBankForSlayerEquipment = true;
+                } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+                    BankUtilities.openBank();
                 }
             }
-        } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
-            BankUtilities.openBank();
+        } else {
+            if (Bank.isOpen()) {
+                if (!Inventory.isEmpty() && (Inventory.isFull() || !Inventory.onlyContains(i -> reqItems.contains(i.getName())) || BankUtilities.areItemsNoted(reqItems))) {
+                    if (Bank.depositAllExcept(i -> reqItems.contains(i.getName()) && !i.isNoted()))
+                        Sleep.sleepUntil(() -> Inventory.onlyContains(i -> reqItems.contains(i.getName())), Utilities.getRandomSleepTime());
+                }
+
+                BankUtilities.setBankMode(BankMode.ITEM);
+
+                if (needShantayPass) reqItems.add(ItemNameConstants.SHANTAY_PASS);
+                for (String item : reqItems) {
+                    if ((Bank.contains(item) && Bank.count(item) >= getInventoryAmount(item)) &&
+                            Inventory.count(item) < getInventoryAmount(item)) {
+                        if (Bank.withdraw(item, getInventoryAmount(item) - Inventory.count(item)))
+                            Sleep.sleepUntil(() -> Inventory.count(item) >= getInventoryAmount(item), Utilities.getRandomSleepTime());
+                    } else {
+                        if (!slayerItems.contains(item) && !item.equals(ItemNameConstants.SHANTAY_PASS) && !item.equals("Waterskin(4)")
+                                && Bank.count(item) < getInventoryAmount(item))
+                            ItemUtilities.buyables.add(new GeItem(item, getGeAmount(item), LivePrices.getHigh(item)));
+                    }
+                }
+            } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+                BankUtilities.openBank();
+            }
         }
     }
 
@@ -149,11 +196,11 @@ public class SlayerUtilities {
     public static void buyItemFromSlayerMaster(String item, int coins) {
         Logger.log("-- Buy Item From Slayer Master --");
 
-        if (Inventory.count(ItemNameConstants.COINS) >= coins && Inventory.contains("Varrock teleport")) {
+        if (Inventory.count(ItemNameConstants.COINS) >= coins) {
             if (getCurrentSlayerMasterArea().contains(Players.getLocal())) {
                 if (Shop.isOpen()) {
-                    if (Shop.purchase(item, 1))
-                        Sleep.sleepUntil(() -> Inventory.contains(item), Utilities.getRandomSleepTime());
+                    if (Shop.purchase(item, getGeAmount(item)))
+                        Sleep.sleepUntil(() -> Inventory.count(item) >= getGeAmount(item), Utilities.getRandomSleepTime());
                     hasCheckedBankForSlayerEquipment = false;
                 } else {
                     NPC master = NPCs.closest(i -> i != null && i.getName().equals(getCurrentSlayerMaster()));
@@ -173,11 +220,6 @@ public class SlayerUtilities {
                 if (Inventory.count(ItemNameConstants.COINS) < coins) {
                     if (Bank.withdraw(ItemNameConstants.COINS, coins))
                         Sleep.sleepUntil(() -> Inventory.count(ItemNameConstants.COINS) >= coins, Utilities.getRandomSleepTime());
-                }
-
-                if (!Inventory.contains("Varrock teleport")) {
-                    if (Bank.withdraw("Varrock teleport", 2))
-                        Sleep.sleepUntil(() -> Inventory.contains("Varrock teleport"), Utilities.getRandomSleepTime());
                 }
             } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
                 BankUtilities.openBank();
@@ -211,6 +253,21 @@ public class SlayerUtilities {
             return NpcNameConstants.CHAELDAR;
 
         return NpcNameConstants.VANNAKA;
+    }
+
+    public static int getInventoryAmount(String itemName) {
+        int amount = 1;
+        if (itemName.equals(ItemUtilities.currentFood)) {
+            amount = 15;
+            if (Players.getLocal().getLevel() >= 60 && !TaskUtilities.currentTask.contains("killerwatts"))
+                amount = 10;
+        }
+        if (itemName.contains("teleport")) amount = 2;
+        if (itemName.contains("Waterskin")) amount = 8;
+        if (itemName.equals("Bag of salt")) amount = 40;
+        if (itemName.equals(ItemNameConstants.COINS)) amount = 10000;
+
+        return amount;
     }
 
     private static int GetMeleeConfig() {
@@ -249,25 +306,12 @@ public class SlayerUtilities {
         return CombatStyle.STRENGTH;
     }
 
-    private static int getInventoryAmount(String itemName) {
-        int amount = 1;
-        if (itemName.equals(ItemUtilities.currentFood)) {
-            amount = 15;
-            if (Players.getLocal().getLevel() >= 60 && !TaskUtilities.currentTask.contains("killerwatts"))
-                amount = 10;
-        }
-        if (itemName.contains("teleport")) amount = 2;
-        if (itemName.contains("Waterskin")) amount = 8;
-        if (itemName.equals(ItemNameConstants.COINS)) amount = 10000;
-
-        return amount;
-    }
-
     private static int getGeAmount(String itemName) {
         int amount = 1;
         if (itemName.equals(ItemUtilities.currentFood)) amount = 350;
         if (itemName.contains("teleport")) amount = 50;
         if (itemName.contains("Waterskin")) amount = 8;
+        if (itemName.equals("Bag of salt")) amount = 200;
 
         return amount;
     }

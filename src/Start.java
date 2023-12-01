@@ -4,7 +4,6 @@ import nodes.combat.TrainCombatNode;
 import nodes.combat.slayertasks.*;
 import nodes.moneymaking.MakeSoftclayNode;
 import nodes.moneymaking.SheepShearNode;
-import nodes.quests.freetoplay.XMarksTheSpotNode;
 import nodes.quests.freetoplay.*;
 import nodes.quests.paytoplay.NaturalHistoryQuizNode;
 import nodes.skilling.ChopNode;
@@ -15,7 +14,6 @@ import org.dreambot.api.script.Category;
 import org.dreambot.api.script.ScriptManifest;
 import org.dreambot.api.script.impl.TaskScript;
 import org.dreambot.api.script.listener.ChatListener;
-import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Timer;
 import org.dreambot.api.wrappers.widgets.message.Message;
 import utils.ItemUtilities;
@@ -44,7 +42,8 @@ public class Start extends TaskScript implements ChatListener {
                 new ErnestTheChickenNode(), new XMarksTheSpotNode(), new KnightsSwordNode(), new NaturalHistoryQuizNode(),
                 new GetSlayerTaskNode(), new SlayKalphitesNode(), new SlayOgresNode(), new SlayIceWarriorsNode(), new SlayMossGiantsNode(),
                 new SlayIceGiantsNode(), new SlayCrocodilesNode(), new SlayHobgoblinsNode(), new SlayCockatriceNode(),
-                new SlayWallBeastsNode(), new SlayCaveBugsNode(), new SlayBasilisksNode(), new SlayKillerwattsNode());
+                new SlayWallBeastsNode(), new SlayCaveBugsNode(), new SlayBasilisksNode(), new SlayKillerwattsNode(),
+                new SlayPyrefiendsNode(), new SlayRockslugsNode());
     }
 
     @Override

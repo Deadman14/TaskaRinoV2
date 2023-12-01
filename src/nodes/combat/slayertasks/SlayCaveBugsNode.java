@@ -52,7 +52,7 @@ public class SlayCaveBugsNode extends TaskNode {
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems)) {
             if (caveBugArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonsterMelee(caveBugArea, "Cave bug");
+                SlayerUtilities.slayMonsterMelee(caveBugArea, "Cave bug", false, "");
             } else {
                 if (Inventory.contains("Rope") || hasPlacedRopeBefore) {
                     if (swampEntranceArea.contains(Players.getLocal())) {
