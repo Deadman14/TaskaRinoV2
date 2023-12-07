@@ -240,6 +240,7 @@ public class SlayerUtilities {
         int defLevel = Skills.getRealLevel(Skill.DEFENCE);
         int attLevel = Skills.getRealLevel(Skill.ATTACK);
 
+        //TODO: Add check for 55 mage + 40 range
         if (slayerLevel > 39 && defLevel > 59 && attLevel > 59)
             return new Area(1305, 3788, 1312, 3781);
 
