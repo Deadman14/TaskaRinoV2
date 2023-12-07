@@ -65,7 +65,7 @@ public class BankUtilities {
             } else if (Bank.contains(itemName + "(3)")) {
                 if (Bank.withdraw(itemName + "(3)", amount))
                     Sleep.sleepUntil(() -> emptySpace > Inventory.emptySlotCount(), Utilities.getRandomSleepTime());
-            } if (Bank.contains(itemName + "(4)")) {
+            } else if (Bank.contains(itemName + "(4)")) {
                 if (Bank.withdraw(itemName + "(4)", amount))
                     Sleep.sleepUntil(() -> emptySpace > Inventory.emptySlotCount(), Utilities.getRandomSleepTime());
             }

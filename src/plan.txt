@@ -25,6 +25,8 @@
     if cook assistant done use lumby range, else use close -  can postpone this until closer to P2P
     turn task name into const values
     Improve sleeps in ernie the chick lever puzzle
+    In eat node add banking for food and anything else - this is to cover the case of being poisoned or something after a combat
+        task and now doing a task with no food in inv but needs it
 
 
                 MOVE TO P2P REQS

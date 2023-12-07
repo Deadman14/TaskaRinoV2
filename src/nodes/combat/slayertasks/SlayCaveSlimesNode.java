@@ -52,7 +52,7 @@ public class SlayCaveSlimesNode extends TaskNode {
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(i -> i.getName().contains("Antipoison"))) {
             if (caveSlimeArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonsterMelee(caveSlimeArea, "Cave bug", false, "");
+                SlayerUtilities.slayMonsterMelee(caveSlimeArea, "Cave slime", false, "");
             } else {
                 if (Inventory.contains("Rope") || hasPlacedRopeBefore) {
                     if (swampEntranceArea.contains(Players.getLocal())) {
