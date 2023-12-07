@@ -52,7 +52,7 @@ public class SlayKillerwattsNode extends TaskNode {
                 Utilities.walkToArea(portalArea);
             }
         } else {
-            SlayerUtilities.bankForTask(reqItems, false);
+            SlayerUtilities.bankForTask(reqItems, false, "");
         }
 
         return Utilities.getRandomExecuteTime();

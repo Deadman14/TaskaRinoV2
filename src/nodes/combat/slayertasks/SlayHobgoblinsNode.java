@@ -30,7 +30,7 @@ public class SlayHobgoblinsNode extends TaskNode {
                 Utilities.walkToArea(hobgoblinArea);
             }
         } else {
-            SlayerUtilities.bankForTask(reqItems, false);
+            SlayerUtilities.bankForTask(reqItems, false, "");
         }
 
         return Utilities.getShouldWalkDistance();

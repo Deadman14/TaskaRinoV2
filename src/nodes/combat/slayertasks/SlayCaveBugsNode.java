@@ -90,7 +90,7 @@ public class SlayCaveBugsNode extends TaskNode {
                 }
             }
         } else {
-            SlayerUtilities.bankForTask(reqItems, false);
+            SlayerUtilities.bankForTask(reqItems, false, "");
         }
 
         return Utilities.getRandomExecuteTime();

@@ -30,7 +30,7 @@ public class SlayMossGiantsNode extends TaskNode {
                 Utilities.walkToArea(giantArea);
             }
         } else {
-            SlayerUtilities.bankForTask(reqItems, false);
+            SlayerUtilities.bankForTask(reqItems, false, "");
         }
 
         return Utilities.getRandomExecuteTime();

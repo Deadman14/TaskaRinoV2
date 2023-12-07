@@ -29,7 +29,7 @@ public class SlayPyrefiendsNode extends TaskNode {
                 Utilities.walkToArea(pyrefiendsArea);
             }
         } else {
-            SlayerUtilities.bankForTask(reqItems, false);
+            SlayerUtilities.bankForTask(reqItems, false, "");
         }
 
         return Utilities.getRandomExecuteTime();

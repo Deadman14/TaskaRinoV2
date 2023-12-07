@@ -30,7 +30,7 @@ public class SlayCockatriceNode extends TaskNode {
                 Utilities.walkToArea(cockatriceArea);
             }
         } else {
-            SlayerUtilities.bankForTask(reqItems, false);
+            SlayerUtilities.bankForTask(reqItems, false, "");
         }
 
         return Utilities.getRandomExecuteTime();

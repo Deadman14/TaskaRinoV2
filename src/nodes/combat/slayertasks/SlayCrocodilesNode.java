@@ -82,7 +82,7 @@ public class SlayCrocodilesNode extends TaskNode {
                     if (waterskin.useOn(fountain))
                         Sleep.sleepUntil(() -> Inventory.count("Waterskin(4)") >= 8, Utilities.getRandomSleepTime());
                 } else {
-                    SlayerUtilities.bankForTask(new ArrayList<>(reqItems), true);
+                    SlayerUtilities.bankForTask(new ArrayList<>(reqItems), true, "");
                 }
             }
         }

@@ -26,7 +26,7 @@ public class SlayIceWarriorsNode extends TaskNode {
                 Utilities.walkToArea(warriorArea);
             }
         } else {
-            SlayerUtilities.bankForTask(reqItems, false);
+            SlayerUtilities.bankForTask(reqItems, false, "");
         }
 
         return Utilities.getRandomExecuteTime();

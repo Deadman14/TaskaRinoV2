@@ -46,6 +46,7 @@ public class EquipmentUtilities {
             case "Slay basilisks":
             case "Slay killerwatts":
             case "Slay rockslugs":
+            case "Slay cave slimes":
                 if (!Utilities.isGeFullyOpen()) {
                     return new ArrayList<>(Arrays.asList("Bronze sword", "Wooden shield"));
                 }
@@ -94,7 +95,8 @@ public class EquipmentUtilities {
     public static String getCurrentFullHelm() {
         int level = Skills.getRealLevel(Skill.DEFENCE);
 
-        if (TaskUtilities.currentTask.equals("Slay wall beasts") || TaskUtilities.currentTask.equals("Slay cave bugs"))
+        if (TaskUtilities.currentTask.equals("Slay wall beasts") || TaskUtilities.currentTask.equals("Slay cave bugs")
+            || TaskUtilities.currentTask.equals("Slay cave slimes"))
             return "Spiny helmet";
 
         if (level > 59 && Utilities.isP2P)

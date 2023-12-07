@@ -17,6 +17,7 @@
     don't sell all blue wizard hats
     Not looting during kill imps - probably shouldLoot boolean
     during slaying - if player is being attacked by something that is not what it is supposed to be killing, it still kills it
+    ADD CHECKING FOR NOTED ITEMS EVERYWHERE DUMBASS
 
 
                     IMPROVEMENTS

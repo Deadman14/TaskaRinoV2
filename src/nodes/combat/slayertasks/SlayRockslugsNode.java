@@ -33,7 +33,7 @@ public class SlayRockslugsNode extends TaskNode {
                 Utilities.walkToArea(rockslugArea);
             }
         } else {
-            SlayerUtilities.bankForTask(reqItems, false);
+            SlayerUtilities.bankForTask(reqItems, false, "");
         }
 
         return Utilities.getRandomExecuteTime();

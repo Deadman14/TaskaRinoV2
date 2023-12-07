@@ -45,7 +45,7 @@ public class SlayerUtilities {
         switch (TaskUtilities.currentTask) {
             case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Train Combat Melee", "Slay ice giants", "Slay crocodiles",
                     "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs", "Slay moss giants",
-                    "Slay basilisks", "Slay killerwatts", "Slay pyrefiends", "Slay rockslugs" -> {
+                    "Slay basilisks", "Slay killerwatts", "Slay pyrefiends", "Slay rockslugs", "Slay cave slimes" -> {
                 return GetMeleeConfig();
             }
             case "Train Combat Range" -> {
@@ -60,11 +60,12 @@ public class SlayerUtilities {
             }
         }
     }
+
     public static CombatStyle GetAttackStyle() {
         switch (TaskUtilities.currentTask) {
             case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Slay ice giants", "Train Combat Melee", "Slay crocodiles",
                 "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs", "Slay moss giants",
-                "Slay basilisks", "Slay killerwatts", "Slay pyrefiends", "Slay rockslugs" -> {
+                "Slay basilisks", "Slay killerwatts", "Slay pyrefiends", "Slay rockslugs", "Slay cave slimes" -> {
                 return GetMeleeStyle();
             }
             case "Train Combat Range" -> {
@@ -134,12 +135,16 @@ public class SlayerUtilities {
         }
     }
 
-    public static void bankForTask(List<String> reqItems, boolean needShantayPass) {
+    public static void bankForTask(List<String> reqItems, boolean needShantayPass, String multiUseItem) {
         Logger.log("-- Bank For Slayer Task --");
         Utilities.shouldLoot = false;
 
         List<String> slayerItemsToBuy = reqItems.stream().filter(i -> slayerItems.contains(i) && !Inventory.contains(i)).toList();
         if (!slayerItemsToBuy.isEmpty()) {
+            for (String m : slayerItemsToBuy) {
+                Logger.log("Slayer ITem To Buy: " + m);
+            }
+
             String item = slayerItemsToBuy.get(0);
             if (SlayerUtilities.hasCheckedBankForSlayerEquipment) {
                 SlayerUtilities.buyItemFromSlayerMaster(item, Calculations.random(7000, 10000));
@@ -176,6 +181,9 @@ public class SlayerUtilities {
                             ItemUtilities.buyables.add(new GeItem(item, getGeAmount(item), LivePrices.getHigh(item)));
                     }
                 }
+
+                if (!multiUseItem.isEmpty())
+                    BankUtilities.withdrawMultiUseItems(multiUseItem, getInventoryAmount(multiUseItem));
             } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
                 BankUtilities.openBank();
             }
@@ -263,7 +271,8 @@ public class SlayerUtilities {
                 amount = 10;
         }
         if (itemName.contains("teleport")) amount = 2;
-        if (itemName.contains("Waterskin")) amount = 8;
+        if (itemName.contains("Waterskin")) amount = 7;
+        if (itemName.contains("Antipoison")) amount = 6;
         if (itemName.equals("Bag of salt")) amount = 40;
         if (itemName.equals(ItemNameConstants.COINS)) amount = 10000;
 
@@ -306,11 +315,12 @@ public class SlayerUtilities {
         return CombatStyle.STRENGTH;
     }
 
-    private static int getGeAmount(String itemName) {
+    public static int getGeAmount(String itemName) {
         int amount = 1;
         if (itemName.equals(ItemUtilities.currentFood)) amount = 350;
         if (itemName.contains("teleport")) amount = 50;
         if (itemName.contains("Waterskin")) amount = 8;
+        if (itemName.contains("Antipoison")) amount = 30;
         if (itemName.equals("Bag of salt")) amount = 200;
 
         return amount;

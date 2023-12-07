@@ -52,4 +52,25 @@ public class BankUtilities {
                 Sleep.sleepUntil(() -> Bank.getWithdrawMode().equals(mode), Utilities.getRandomSleepTime());
         }
     }
+
+    public static void withdrawMultiUseItems(String itemName, int amount) {
+        if (Bank.contains(i -> i.getName().contains(itemName))) {
+            int emptySpace = Inventory.getEmptySlots();
+            if (Bank.contains(itemName + "(1)")) {
+                if (Bank.withdraw(itemName + "(1)", amount))
+                    Sleep.sleepUntil(() -> emptySpace > Inventory.emptySlotCount(), Utilities.getRandomSleepTime());
+            } else if (Bank.contains(itemName + "(2)")) {
+                if (Bank.withdraw(itemName + "(2)", amount))
+                    Sleep.sleepUntil(() -> emptySpace > Inventory.emptySlotCount(), Utilities.getRandomSleepTime());
+            } else if (Bank.contains(itemName + "(3)")) {
+                if (Bank.withdraw(itemName + "(3)", amount))
+                    Sleep.sleepUntil(() -> emptySpace > Inventory.emptySlotCount(), Utilities.getRandomSleepTime());
+            } if (Bank.contains(itemName + "(4)")) {
+                if (Bank.withdraw(itemName + "(4)", amount))
+                    Sleep.sleepUntil(() -> emptySpace > Inventory.emptySlotCount(), Utilities.getRandomSleepTime());
+            }
+        } else {
+            ItemUtilities.buyables.add(new GeItem(itemName + "(4)", SlayerUtilities.getGeAmount(itemName), LivePrices.getHigh(itemName + "(4)")));
+        }
+    }
 }
