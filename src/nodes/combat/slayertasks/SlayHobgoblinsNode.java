@@ -33,7 +33,7 @@ public class SlayHobgoblinsNode extends TaskNode {
             SlayerUtilities.bankForTask(reqItems, false, "");
         }
 
-        return Utilities.getShouldWalkDistance();
+        return Utilities.getRandomExecuteTime();
     }
 
     @Override
