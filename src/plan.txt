@@ -29,6 +29,7 @@
         task and now doing a task with no food in inv but needs it
     Create method to check if you need a varrock tele to get to GE/slayer master: use this in GE and get slayer task nodes instead
         of bringing varrock teles with you on every task
+    Make bot get brass key for edge dungeon
 
 
                 MOVE TO P2P REQS

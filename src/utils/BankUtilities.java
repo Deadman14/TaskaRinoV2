@@ -54,20 +54,36 @@ public class BankUtilities {
     }
 
     public static void withdrawMultiUseItems(String itemName, int amount) {
-        if (Bank.contains(i -> i.getName().contains(itemName))) {
+        if (Bank.contains(i -> i.getName().contains(itemName)) && Bank.count(i -> i.getName().contains(itemName)) >= amount) {
             int emptySpace = Inventory.getEmptySlots();
-            if (Bank.contains(itemName + "(1)")) {
-                if (Bank.withdraw(itemName + "(1)", amount))
+            int currentAmount = Inventory.count(i -> i.getName().contains(itemName));
+
+            if (Bank.contains(itemName + "(1)") && currentAmount < amount) {
+                if (Bank.withdraw(itemName + "(1)", amount - currentAmount)) {
                     Sleep.sleepUntil(() -> emptySpace > Inventory.emptySlotCount(), Utilities.getRandomSleepTime());
-            } else if (Bank.contains(itemName + "(2)")) {
-                if (Bank.withdraw(itemName + "(2)", amount))
+                    currentAmount = Inventory.count(i -> i.getName().contains(itemName));
+                }
+            }
+
+            if (Bank.contains(itemName + "(2)") && currentAmount < amount) {
+                if (Bank.withdraw(itemName + "(2)", amount - currentAmount)) {
                     Sleep.sleepUntil(() -> emptySpace > Inventory.emptySlotCount(), Utilities.getRandomSleepTime());
-            } else if (Bank.contains(itemName + "(3)")) {
-                if (Bank.withdraw(itemName + "(3)", amount))
+                    currentAmount = Inventory.count(i -> i.getName().contains(itemName));
+                }
+            }
+
+            if (Bank.contains(itemName + "(3)") && currentAmount < amount) {
+                if (Bank.withdraw(itemName + "(3)", amount - currentAmount)) {
                     Sleep.sleepUntil(() -> emptySpace > Inventory.emptySlotCount(), Utilities.getRandomSleepTime());
-            } else if (Bank.contains(itemName + "(4)")) {
-                if (Bank.withdraw(itemName + "(4)", amount))
+                    currentAmount = Inventory.count(i -> i.getName().contains(itemName));
+                }
+            }
+
+            if (Bank.contains(itemName + "(4)") && currentAmount < amount) {
+                if (Bank.withdraw(itemName + "(4)", amount - currentAmount)) {
                     Sleep.sleepUntil(() -> emptySpace > Inventory.emptySlotCount(), Utilities.getRandomSleepTime());
+                    currentAmount = Inventory.count(i -> i.getName().contains(itemName));
+                }
             }
         } else {
             ItemUtilities.buyables.add(new GeItem(itemName + "(4)", SlayerUtilities.getGeAmount(itemName), LivePrices.getHigh(itemName + "(4)")));

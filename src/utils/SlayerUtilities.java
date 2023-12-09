@@ -46,7 +46,7 @@ public class SlayerUtilities {
             case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Train Combat Melee", "Slay ice giants", "Slay crocodiles",
                     "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs", "Slay moss giants",
                     "Slay basilisks", "Slay killerwatts", "Slay pyrefiends", "Slay rockslugs", "Slay cave slimes",
-                    "Slay ankou" -> {
+                    "Slay ankou", "Slay cave crawlers" -> {
                 return GetMeleeConfig();
             }
             case "Train Combat Range" -> {
@@ -65,8 +65,9 @@ public class SlayerUtilities {
     public static CombatStyle GetAttackStyle() {
         switch (TaskUtilities.currentTask) {
             case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Slay ice giants", "Train Combat Melee", "Slay crocodiles",
-                "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs", "Slay moss giants",
-                "Slay basilisks", "Slay killerwatts", "Slay pyrefiends", "Slay rockslugs", "Slay cave slimes", "Slay ankou" -> {
+                    "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs", "Slay moss giants",
+                    "Slay basilisks", "Slay killerwatts", "Slay pyrefiends", "Slay rockslugs", "Slay cave slimes", "Slay ankou",
+                    "Slay cave crawlers"-> {
                 return GetMeleeStyle();
             }
             case "Train Combat Range" -> {
@@ -100,6 +101,8 @@ public class SlayerUtilities {
         }
 
         Utilities.shouldLoot = true;
+
+        ItemUtilities.dropDropables();
         if (PlayerSettings.getConfig(43) == SlayerUtilities.GetAttackStyleConfig()) {
             if (useDeathItem && deathItemMonster != null) {
                 Logger.log("-- Slay Monster Melee For Task With Death Item --");

@@ -48,6 +48,7 @@ public class EquipmentUtilities {
             case "Slay rockslugs":
             case "Slay cave slimes":
             case "Slay ankou":
+            case "Slay cave crawlers":
                 if (!Utilities.isGeFullyOpen()) {
                     return new ArrayList<>(Arrays.asList("Bronze sword", "Wooden shield"));
                 }

@@ -19,12 +19,14 @@ public class EatNode extends TaskNode {
         Logger.log("- Eat -");
 
         if (Tabs.isOpen(Tab.INVENTORY)) {
-            int amount = Inventory.count(ItemUtilities.currentFood);
-            Item food = Inventory.get(ItemUtilities.currentFood);
+            if (Combat.getHealthPercent() < 60) {
+                int amount = Inventory.count(ItemUtilities.currentFood);
+                Item food = Inventory.get(ItemUtilities.currentFood);
 
-            if (food != null) {
-                if (food.interact())
-                    Sleep.sleepUntil(() -> Inventory.count(ItemUtilities.currentFood) == (amount - 1), Utilities.getRandomSleepTime());
+                if (food != null) {
+                    if (food.interact())
+                        Sleep.sleepUntil(() -> Inventory.count(ItemUtilities.currentFood) == (amount - 1), Utilities.getRandomSleepTime());
+                }
             }
 
             if (Combat.isPoisoned()) {
@@ -44,7 +46,7 @@ public class EatNode extends TaskNode {
 
     @Override
     public boolean accept() {
-        return Combat.getHealthPercent() < 60 && Inventory.contains(ItemUtilities.currentFood);
+        return Combat.getHealthPercent() < 60 && Inventory.contains(ItemUtilities.currentFood) || Combat.isPoisoned();
     }
 
     @Override

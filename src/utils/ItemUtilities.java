@@ -1,10 +1,13 @@
 package utils;
 
 import models.GeItem;
+import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.map.Tile;
+import org.dreambot.api.utilities.Sleep;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class ItemUtilities {
     public static boolean sellablesAboveThreshold = false;
@@ -31,4 +34,13 @@ public class ItemUtilities {
 
     public static ArrayList<String> phaseOneSellables = new ArrayList<>(Arrays.asList("Logs", "Ball of wool", "Wool", "Goblin mail", "Chef's hat",
             "Brass necklace", "Black bead", "Red bead", "White bead", "Yellow bead", "Blue wizard hat", "Mind talisman", "Fiendish ashes"));
+
+    private static final List<String> dropables = new ArrayList<>(List.of("Vial"));
+
+    public static void dropDropables() {
+        if (Inventory.contains(i -> dropables.contains(i.getName()))) {
+            if (Inventory.dropAll(i -> dropables.contains(i.getName())))
+                Sleep.sleepUntil(() -> !Inventory.contains(i -> dropables.contains(i.getName())), Utilities.getRandomSleepTime());
+        }
+    }
 }
