@@ -2,7 +2,6 @@ package nodes;
 
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.container.impl.Inventory;
-import org.dreambot.api.methods.container.impl.bank.Bank;
 import org.dreambot.api.methods.container.impl.equipment.Equipment;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.item.GroundItems;
@@ -16,7 +15,6 @@ import utils.EquipmentUtilities;
 import utils.ItemUtilities;
 import utils.TaskUtilities;
 import utils.Utilities;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +23,7 @@ public class LootNode extends TaskNode {
     List<String> nodesTasks = new ArrayList<>(Arrays.asList("Train Combat Melee", "Train Combat Range", "Slay kalphite", "Slay ogres",
             "Slay ice warriors", "Slay moss giants", "Slay ice giants", "Slay crocodiles", "Slay hobgoblins", "Slay cockatrice",
             "Slay wall beasts", "Slay cave bugs", "Slay basilisks", "Slay killerwatts", "Slay pyrefiends", "Slay rockslugs",
-            "Slay cave slimes", "Slay ankou", "Slay cave crawlers"));
+            "Slay cave slimes", "Slay ankou", "Slay cave crawlers", "Slay hill giants", "Slay fire giants"));
 
     public List<String> lootables = new ArrayList<>(Arrays.asList("Coins", "Iron arrow", "Mithril arrow", "Cowhide", "Law rune", "Nature rune",
             "Death rune", "Chaos rune", "Cosmic rune", "Blood rune", "Limpwurt root", "Giant key", "Uncut sapphire", "Uncut emerald", "Uncut ruby", "Uncut diamond",
