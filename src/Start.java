@@ -44,7 +44,7 @@ public class Start extends TaskScript implements ChatListener {
                 new SlayIceGiantsNode(), new SlayCrocodilesNode(), new SlayHobgoblinsNode(), new SlayCockatriceNode(),
                 new SlayWallBeastsNode(), new SlayCaveBugsNode(), new SlayBasilisksNode(), new SlayKillerwattsNode(),
                 new SlayPyrefiendsNode(), new SlayRockslugsNode(), new SlayCaveSlimesNode(), new SlayAnkousNode(), new SlayCaveCrawlersNode(),
-                new SlayHillGiantsNode(), new SlayFireGiantsNode());
+                new SlayHillGiantsNode(), new SlayFireGiantsNode(), new SlayLesserDemonsNode());
     }
 
     @Override

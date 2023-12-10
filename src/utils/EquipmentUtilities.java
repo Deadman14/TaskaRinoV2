@@ -51,6 +51,7 @@ public class EquipmentUtilities {
             case "Slay cave crawlers":
             case "Slay hill giants":
             case "Slay fire giants":
+            case "Slay lesser demons":
                 if (!Utilities.isGeFullyOpen()) {
                     return new ArrayList<>(Arrays.asList("Bronze sword", "Wooden shield"));
                 }
@@ -103,8 +104,8 @@ public class EquipmentUtilities {
             || TaskUtilities.currentTask.equals("Slay cave slimes"))
             return "Spiny helmet";
 
-        if (level > 59 && Utilities.isP2P)
-            return "Dragon med helm";
+        //if (level > 59 && Utilities.isP2P)
+            //return "Dragon med helm";
         if (level > 39)
             return "Rune full helm";
         else if (level > 29)
@@ -118,8 +119,8 @@ public class EquipmentUtilities {
     public static String getCurrentPlatebody() {
         int level = Skills.getRealLevel(Skill.DEFENCE);
 
-        if (level > 59 && Utilities.isP2P)
-            return "Dragon chainbody";
+        //if (level > 59 && Utilities.isP2P)
+            //return "Dragon chainbody";
         if (level > 39)
             return "Rune chainbody";
         else if (level > 29)
@@ -133,8 +134,8 @@ public class EquipmentUtilities {
     public static String getCurrentPlatelegs() {
         int level = Skills.getRealLevel(Skill.DEFENCE);
 
-        if (level > 59 && Utilities.isP2P)
-            return "Dragon platelegs";
+        //if (level > 59 && Utilities.isP2P)
+            //return "Dragon platelegs";
         if (level > 39)
             return "Rune platelegs";
         else if (level > 29)
@@ -168,8 +169,8 @@ public class EquipmentUtilities {
     public static String getCurrentSword() {
         int level = Skills.getRealLevel(Skill.ATTACK);
 
-        if (level > 59)
-            return "Dragon sword";
+        //if (level > 59)
+            //return "Dragon sword";
         if (level > 39)
             return "Rune scimitar";
         else if (level > 29)
@@ -186,8 +187,8 @@ public class EquipmentUtilities {
         if (TaskUtilities.currentTask.equals("Slay killerwatts"))
             return "Insulated boots";
 
-        if (level > 59)
-            return "Dragon boots";
+        //if (level > 59)
+            //return "Dragon boots";
         else
             return "Leather boots";
     }

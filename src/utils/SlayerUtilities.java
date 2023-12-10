@@ -46,7 +46,7 @@ public class SlayerUtilities {
             case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Train Combat Melee", "Slay ice giants", "Slay crocodiles",
                     "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs", "Slay moss giants",
                     "Slay basilisks", "Slay killerwatts", "Slay pyrefiends", "Slay rockslugs", "Slay cave slimes",
-                    "Slay ankou", "Slay cave crawlers", "Slay hill giants", "Slay fire giants" -> {
+                    "Slay ankou", "Slay cave crawlers", "Slay hill giants", "Slay fire giants", "Slay lesser demons" -> {
                 return GetMeleeConfig();
             }
             case "Train Combat Range" -> {
@@ -67,7 +67,7 @@ public class SlayerUtilities {
             case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Slay ice giants", "Train Combat Melee", "Slay crocodiles",
                     "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs", "Slay moss giants",
                     "Slay basilisks", "Slay killerwatts", "Slay pyrefiends", "Slay rockslugs", "Slay cave slimes", "Slay ankou",
-                    "Slay cave crawlers", "Slay hill giants", "Slay fire giants" -> {
+                    "Slay cave crawlers", "Slay hill giants", "Slay fire giants", "Slay lesser demons" -> {
                 return GetMeleeStyle();
             }
             case "Train Combat Range" -> {
@@ -240,29 +240,21 @@ public class SlayerUtilities {
     }
 
     public static Area getCurrentSlayerMasterArea() {
-        int slayerLevel = Skills.getRealLevel(Skill.SLAYER);
-        int defLevel = Skills.getRealLevel(Skill.DEFENCE);
-        int attLevel = Skills.getRealLevel(Skill.ATTACK);
-
-        //TODO: Add check for 55 mage + 40 range
-        if (slayerLevel > 39 && defLevel > 59 && attLevel > 59)
+        if (Combat.getCombatLevel() >= 75)
             return new Area(1305, 3788, 1312, 3781);
 
-        if (PaidQuest.LOST_CITY.isFinished())
+        if (PaidQuest.LOST_CITY.isFinished() && Combat.getCombatLevel() < 75)
             return new Area(2440, 4434, 2454, 4422);
 
         return new Area(3138, 9916, 3150, 9902);
     }
 
     public static String getCurrentSlayerMaster() {
-        int slayerLevel = Skills.getRealLevel(Skill.SLAYER);
-        int defLevel = Skills.getRealLevel(Skill.DEFENCE);
-        int attLevel = Skills.getRealLevel(Skill.ATTACK);
-
-        if (slayerLevel > 39 && defLevel > 59 && attLevel > 59)
+        //TODO: Check for melee stats at 60, magic at 55, range at 40
+        if (Combat.getCombatLevel() >= 75)
             return NpcNameConstants.KONAR;
 
-        if (PaidQuest.LOST_CITY.isFinished())
+        if (PaidQuest.LOST_CITY.isFinished() && Combat.getCombatLevel() < 75)
             return NpcNameConstants.CHAELDAR;
 
         return NpcNameConstants.VANNAKA;

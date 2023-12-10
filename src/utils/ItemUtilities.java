@@ -30,7 +30,7 @@ public class ItemUtilities {
             "Rune spear", "Dragon spear", "Black sq shield", "Mithril sword", "Steel kiteshield", "Steel bar", "Coal", "Uncut diamond",
             "Bronze spear", "Iron boots", "Mystic boots (light)", "Red spiders' eggs", "Rune dagger", "Mystic hat (light)",
             "Adamantite ore", "Fire battlestaff", "Air battlestaff", "Mystic fire staff", "Cannonball", "Fire orb", "Iron bar",
-            "Bronze bar", "Mystic gloves (light)", "Iron bar", "Black robe", "Mithril ore"));
+            "Bronze bar", "Mystic gloves (light)", "Iron bar", "Black robe", "Mithril ore", "Mithril sq shield"));
 
     public static ArrayList<String> phaseOneSellables = new ArrayList<>(Arrays.asList("Logs", "Ball of wool", "Wool", "Goblin mail", "Chef's hat",
             "Brass necklace", "Black bead", "Red bead", "White bead", "Yellow bead", "Blue wizard hat", "Mind talisman", "Fiendish ashes"));

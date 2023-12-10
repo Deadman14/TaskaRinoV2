@@ -18,6 +18,7 @@
     Not looting during kill imps - probably shouldLoot boolean
     during slaying - if player is being attacked by something that is not what it is supposed to be killing, it still kills it
     ADD CHECKING FOR NOTED ITEMS EVERYWHERE DUMBASS
+    tries to eat while bank is open
 
 
                     IMPROVEMENTS
@@ -30,6 +31,7 @@
     Create method to check if you need a varrock tele to get to GE/slayer master: use this in GE and get slayer task nodes instead
         of bringing varrock teles with you on every task
     Make bot get brass key for edge dungeon
+    FInd a way that if bot cannot afford current equipment, use next set down
 
 
                 MOVE TO P2P REQS
