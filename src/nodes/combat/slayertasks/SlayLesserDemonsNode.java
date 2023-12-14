@@ -26,7 +26,7 @@ public class SlayLesserDemonsNode extends TaskNode {
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (lesserDemonArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonsterMelee(lesserDemonArea, "Lesser demon", false, "");
+                SlayerUtilities.slayMonsterMelee(lesserDemonArea, List.of("Lesser demon"), false, "");
             } else {
                 Utilities.walkToArea(lesserDemonArea);
             }

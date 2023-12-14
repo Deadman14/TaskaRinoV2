@@ -52,6 +52,7 @@ public class EquipmentUtilities {
             case "Slay hill giants":
             case "Slay fire giants":
             case "Slay lesser demons":
+            case "Slay lizards":
                 if (!Utilities.isGeFullyOpen()) {
                     return new ArrayList<>(Arrays.asList("Bronze sword", "Wooden shield"));
                 }

@@ -58,6 +58,13 @@ public class BankUtilities {
             int emptySpace = Inventory.getEmptySlots();
             int currentAmount = Inventory.count(i -> i.getName().contains(itemName));
 
+            if (Bank.contains(itemName + "(0)") && currentAmount < amount) {
+                if (Bank.withdraw(itemName + "(0)", amount - currentAmount)) {
+                    Sleep.sleepUntil(() -> emptySpace > Inventory.emptySlotCount(), Utilities.getRandomSleepTime());
+                    currentAmount = Inventory.count(i -> i.getName().contains(itemName));
+                }
+            }
+
             if (Bank.contains(itemName + "(1)") && currentAmount < amount) {
                 if (Bank.withdraw(itemName + "(1)", amount - currentAmount)) {
                     Sleep.sleepUntil(() -> emptySpace > Inventory.emptySlotCount(), Utilities.getRandomSleepTime());

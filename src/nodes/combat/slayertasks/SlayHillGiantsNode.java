@@ -26,7 +26,7 @@ public class SlayHillGiantsNode extends TaskNode {
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (hillGiantArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonsterMelee(hillGiantArea, "Hill Giant", false, "");
+                SlayerUtilities.slayMonsterMelee(hillGiantArea, List.of("Hill Giant"), false, "");
             } else {
                 Utilities.walkToArea(hillGiantArea);
             }

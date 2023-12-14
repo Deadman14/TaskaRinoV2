@@ -25,7 +25,7 @@ public class SlayMossGiantsNode extends TaskNode {
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (giantArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonsterMelee(giantArea, "Moss giant", false, "");
+                SlayerUtilities.slayMonsterMelee(giantArea, List.of("Moss giant"), false, "");
             } else {
                 Utilities.walkToArea(giantArea);
             }

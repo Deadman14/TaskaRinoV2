@@ -36,7 +36,7 @@ public class SlayAnkousNode extends TaskNode {
         } else {
             if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
                 if (ankouArea.contains(Players.getLocal())) {
-                    SlayerUtilities.slayMonsterMelee(ankouArea, "Ankou", false, "");
+                    SlayerUtilities.slayMonsterMelee(ankouArea, List.of("Ankou"), false, "");
                 } else {
                     Utilities.walkToArea(ankouArea);
                 }

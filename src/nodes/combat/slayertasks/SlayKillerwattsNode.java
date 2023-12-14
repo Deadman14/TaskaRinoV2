@@ -32,7 +32,7 @@ public class SlayKillerwattsNode extends TaskNode {
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (killerwattArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonsterMelee(killerwattArea, "Killerwatt", false, "");
+                SlayerUtilities.slayMonsterMelee(killerwattArea, List.of("Killerwatt"), false, "");
             } else if (portalArea.contains(Players.getLocal())) {
                 if (Dialogues.inDialogue()) {
                     if (Dialogues.areOptionsAvailable())

@@ -26,7 +26,7 @@ public class SlayFireGiantsNode extends TaskNode {
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (fireGiantArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonsterMelee(fireGiantArea, "Fire giant", false, "");
+                SlayerUtilities.slayMonsterMelee(fireGiantArea, List.of("Fire giant"), false, "");
             } else {
                 Utilities.walkToArea(fireGiantArea);
             }

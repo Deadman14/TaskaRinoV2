@@ -17,31 +17,32 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SlayCrocodilesNode extends TaskNode {
-    private final Area crocodileArea = new Area(3251, 2877, 3306, 2929);
+public class SlayLizardsNode extends TaskNode {
     private final List<String> reqItems = new ArrayList<>(Arrays.asList("Enchanted gem", "Varrock teleport", "Lumbridge teleport",
-            "Waterskin(4)", "Coins", ItemUtilities.currentFood));
+            "Coins", ItemUtilities.currentFood, "Ice cooler"));
+    private final Area lizardArea = new Area(3381, 3085, 3451, 3012);
     private boolean passedShantay = false;
     private boolean checkedBankForPass = false;
 
     @Override
     public int execute() {
-        Logger.log("- Slay Crocodiles -");
+        Logger.log("Slay Lizards");
 
-        if (crocodileArea.contains(Players.getLocal()))
+        if (lizardArea.contains(Players.getLocal()))
             passedShantay = true;
 
-        if (Inventory.containsAll(reqItems) && !BankUtilities.areItemsNoted(reqItems)) {
+        if (Inventory.containsAll(reqItems) && !BankUtilities.areItemsNoted(reqItems)
+                && Inventory.count("Waterskin(4)") >= 1 && !Inventory.isFull()) {
             if (passedShantay) {
-                if (crocodileArea.contains(Players.getLocal())) {
-                    SlayerUtilities.slayMonsterMelee(crocodileArea, List.of("Crocodile"), false, "");
+                if (lizardArea.contains(Players.getLocal())) {
+                    SlayerUtilities.slayMonsterMelee(lizardArea, Arrays.asList("Lizard", "Small Lizard", "Desert Lizard"), true, "Ice cooler");
                 } else {
-                    Utilities.walkToArea(crocodileArea);
+                    Utilities.walkToArea(lizardArea);
                 }
             } else {
                 if (SlayerUtilities.preShantyPassArea.contains(Players.getLocal())) {
                     if (Inventory.contains("Shantay pass")) {
-                        Utilities.walkToArea(crocodileArea);
+                        Utilities.walkToArea(lizardArea);
                         passedShantay = true;
                     } else {
                         if (checkedBankForPass) {
@@ -72,14 +73,24 @@ public class SlayCrocodilesNode extends TaskNode {
             } else {
                 if (Inventory.contains("Waterskin(3)") || Inventory.contains("Waterskin(2)")
                         || Inventory.contains("Waterskin(1)") || Inventory.contains("Waterskin(0)")) {
+                    if (Bank.isOpen()) {
+                        if (Bank.close())
+                            Sleep.sleepUntil(() -> !Bank.isOpen(), Utilities.getRandomSleepTime());
+                    }
+
                     GameObject fountain = GameObjects.closest(i -> i != null && i.getName().equals("Fountain"));
                     Item waterskin = Inventory.get(i -> i != null && !i.getName().equals("Waterskin(4)")
                             && i.getName().contains("Waterskin"));
 
-                    if (waterskin.useOn(fountain))
-                        Sleep.sleepUntil(() -> Inventory.count("Waterskin(4)") >= 8, Utilities.getRandomSleepTime());
+                    if (fountain.canReach() && fountain.distance(Players.getLocal()) <= 7) {
+                        if (waterskin.useOn(fountain))
+                            Sleep.sleepUntil(() -> Inventory.count("Waterskin(4)") >= SlayerUtilities.getInventoryAmount("Waterskin"), Utilities.getRandomSleepTime());
+                    } else {
+                        if (Walking.shouldWalk(Utilities.getShouldWalkDistance()))
+                            Walking.walk(fountain.getTile());
+                    }
                 } else {
-                    SlayerUtilities.bankForTask(new ArrayList<>(reqItems), true, "");
+                    SlayerUtilities.bankForTask(new ArrayList<>(reqItems), true, "Waterskin");
                 }
             }
         }
@@ -89,6 +100,7 @@ public class SlayCrocodilesNode extends TaskNode {
 
     @Override
     public boolean accept() {
-        return TaskUtilities.currentTask.equals("Slay crocodiles");
+        return TaskUtilities.currentTask.equals("Slay lizards");
     }
+
 }

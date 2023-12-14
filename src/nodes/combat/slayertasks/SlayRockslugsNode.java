@@ -28,7 +28,7 @@ public class SlayRockslugsNode extends TaskNode {
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (rockslugArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonsterMelee(rockslugArea, "Rockslug", true, "Bag of salt");
+                SlayerUtilities.slayMonsterMelee(rockslugArea, List.of("Rockslug"), true, "Bag of salt");
             } else {
                 Utilities.walkToArea(rockslugArea);
             }

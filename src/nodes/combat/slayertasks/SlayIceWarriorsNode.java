@@ -21,7 +21,7 @@ public class SlayIceWarriorsNode extends TaskNode {
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (warriorArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonsterMelee(warriorArea, "Ice warrior", false, "");
+                SlayerUtilities.slayMonsterMelee(warriorArea, List.of("Ice warrior"), false, "");
             } else {
                 Utilities.walkToArea(warriorArea);
             }

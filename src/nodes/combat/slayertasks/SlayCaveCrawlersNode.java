@@ -26,7 +26,7 @@ public class SlayCaveCrawlersNode extends TaskNode {
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (caveCrawlerArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonsterMelee(caveCrawlerArea, "Cave crawler", false, "");
+                SlayerUtilities.slayMonsterMelee(caveCrawlerArea, List.of("Cave crawler"), false, "");
             } else {
                 Utilities.walkToArea(caveCrawlerArea);
             }

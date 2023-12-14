@@ -37,8 +37,10 @@ public class SlayerUtilities {
     public static String currentSlayerTask = "";
     public static boolean getNewSlayerTaskAfterTask = false;
     public static boolean hasCheckedBankForSlayerEquipment = false;
-    public static final List<String> slayerItems = new ArrayList<>(Arrays.asList("Bag of salt", ItemNameConstants.ENCHANTED_GEM));
+    public static final List<String> slayerItems = new ArrayList<>(Arrays.asList("Bag of salt", ItemNameConstants.ENCHANTED_GEM, "Ice cooler"));
     public static NPC deathItemMonster = null;
+    public static final Area preShantyPassArea = new Area(3300, 3128, 3307, 3118);
+    public static final Area lumbridgeFountainArea = new Area(3217, 3224, 3226, 3213);
 
     // rapid is 1
     public static int GetAttackStyleConfig() {
@@ -46,7 +48,8 @@ public class SlayerUtilities {
             case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Train Combat Melee", "Slay ice giants", "Slay crocodiles",
                     "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs", "Slay moss giants",
                     "Slay basilisks", "Slay killerwatts", "Slay pyrefiends", "Slay rockslugs", "Slay cave slimes",
-                    "Slay ankou", "Slay cave crawlers", "Slay hill giants", "Slay fire giants", "Slay lesser demons" -> {
+                    "Slay ankou", "Slay cave crawlers", "Slay hill giants", "Slay fire giants", "Slay lesser demons",
+                    "Slay lizards"-> {
                 return GetMeleeConfig();
             }
             case "Train Combat Range" -> {
@@ -67,7 +70,7 @@ public class SlayerUtilities {
             case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Slay ice giants", "Train Combat Melee", "Slay crocodiles",
                     "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs", "Slay moss giants",
                     "Slay basilisks", "Slay killerwatts", "Slay pyrefiends", "Slay rockslugs", "Slay cave slimes", "Slay ankou",
-                    "Slay cave crawlers", "Slay hill giants", "Slay fire giants", "Slay lesser demons" -> {
+                    "Slay cave crawlers", "Slay hill giants", "Slay fire giants", "Slay lesser demons", "Slay lizards" -> {
                 return GetMeleeStyle();
             }
             case "Train Combat Range" -> {
@@ -93,7 +96,7 @@ public class SlayerUtilities {
         }
     }
 
-    public static void slayMonsterMelee(Area monsterArea, String monsterName, boolean useDeathItem, String deathItem) {
+    public static void slayMonsterMelee(Area monsterArea, List<String> monsterNames, boolean useDeathItem, String deathItem) {
         //TODO: remove this
         if (TaskUtilities.taskTimer.remaining() < 100000) {
             TaskUtilities.taskTimer = new Timer(999999999);
@@ -106,6 +109,9 @@ public class SlayerUtilities {
         if (PlayerSettings.getConfig(43) == SlayerUtilities.GetAttackStyleConfig()) {
             if (useDeathItem && deathItemMonster != null) {
                 Logger.log("-- Slay Monster Melee For Task With Death Item --");
+                Logger.log("Monster: " + deathItemMonster.getName());
+                Logger.log("Monster Health Percent: " + deathItemMonster.getHealthPercent());
+                //TODO: HP precent not working for Lizards
                 if (deathItemMonster.getHealthPercent() < 15) {
                     Item i = Inventory.get(deathItem);
                     if (i != null) {
@@ -119,7 +125,7 @@ public class SlayerUtilities {
                 Logger.log("-- Slay Monster Melee For Task --");
                 if (!Players.getLocal().isInCombat()) {
                     Character c = Players.getLocal().getCharacterInteractingWithMe();
-                    NPC npc = c != null && c.getName().equals(monsterName) && monsterArea.contains(c) ? (NPC) Players.getLocal().getCharacterInteractingWithMe() : NPCs.closest(g -> g.getName().equals(monsterName) && !g.isInCombat() && monsterArea.contains(g));
+                    NPC npc = c != null && monsterNames.contains(c.getName()) && monsterArea.contains(c) ? (NPC) Players.getLocal().getCharacterInteractingWithMe() : NPCs.closest(g -> monsterNames.contains(g.getName()) && !g.isInCombat() && monsterArea.contains(g));
                     if (npc != null) {
                         if (npc.canReach()) {
                             if (npc.interact("Attack")) {
@@ -270,7 +276,7 @@ public class SlayerUtilities {
         if (itemName.contains("teleport")) amount = 2;
         if (itemName.contains("Waterskin")) amount = 7;
         if (itemName.contains("Antipoison")) amount = 6;
-        if (itemName.equals("Bag of salt")) amount = 40;
+        if (itemName.equals("Bag of salt") || itemName.equals("Ice cooler")) amount = 40;
         if (itemName.equals(ItemNameConstants.COINS)) amount = 10000;
 
         return amount;
@@ -318,7 +324,7 @@ public class SlayerUtilities {
         if (itemName.contains("teleport")) amount = 50;
         if (itemName.contains("Waterskin")) amount = 8;
         if (itemName.contains("Antipoison")) amount = 30;
-        if (itemName.equals("Bag of salt")) amount = 200;
+        if (itemName.equals("Bag of salt") || itemName.equals("Ice cooler")) amount = 200;
 
         return amount;
     }

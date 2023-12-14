@@ -33,7 +33,7 @@ public class SlayOgresNode extends TaskNode {
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.count(ItemUtilities.currentFood) > 2) {
             if (ogreArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonsterMelee(ogreArea, "Ogre", false, "");
+                SlayerUtilities.slayMonsterMelee(ogreArea, List.of("Ogre"), false, "");
             } else {
                 Utilities.walkToArea(ogreArea);
             }

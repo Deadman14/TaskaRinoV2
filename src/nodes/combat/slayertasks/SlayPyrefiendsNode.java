@@ -24,7 +24,7 @@ public class SlayPyrefiendsNode extends TaskNode {
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (pyrefiendsArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonsterMelee(pyrefiendsArea, "Pyrefiend", false, "");
+                SlayerUtilities.slayMonsterMelee(pyrefiendsArea, List.of("Pyrefiend"), false, "");
             } else {
                 Utilities.walkToArea(pyrefiendsArea);
             }
