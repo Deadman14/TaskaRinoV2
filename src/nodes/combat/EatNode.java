@@ -2,7 +2,6 @@ package nodes.combat;
 
 import org.dreambot.api.methods.combat.Combat;
 import org.dreambot.api.methods.container.impl.Inventory;
-import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.tabs.Tab;
 import org.dreambot.api.methods.tabs.Tabs;
 import org.dreambot.api.script.TaskNode;
@@ -17,6 +16,8 @@ public class EatNode extends TaskNode {
     @Override
     public int execute() {
         Logger.log("- Eat -");
+
+        Utilities.closeGeAndBank();
 
         if (Tabs.isOpen(Tab.INVENTORY)) {
             if (Combat.getHealthPercent() < 60) {

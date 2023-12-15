@@ -10,7 +10,6 @@ import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Sleep;
 import org.dreambot.api.wrappers.items.Item;
 import utils.EquipmentUtilities;
-import utils.TaskUtilities;
 import utils.Utilities;
 
 public class EquipmentNode extends TaskNode {
@@ -36,7 +35,7 @@ public class EquipmentNode extends TaskNode {
                     Sleep.sleepUntil(() -> !Shop.isOpen(), Utilities.getRandomSleepTime());
             }
 
-            Utilities.closeGe();
+            Utilities.closeGeAndBank();
         }
 
         return Utilities.getRandomExecuteTime();

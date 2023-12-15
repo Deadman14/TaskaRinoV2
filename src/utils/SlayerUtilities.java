@@ -107,22 +107,10 @@ public class SlayerUtilities {
 
         ItemUtilities.dropDropables();
         if (PlayerSettings.getConfig(43) == SlayerUtilities.GetAttackStyleConfig()) {
-            if (useDeathItem && deathItemMonster != null) {
-                Logger.log("-- Slay Monster Melee For Task With Death Item --");
-                Logger.log("Monster: " + deathItemMonster.getName());
-                Logger.log("Monster Health Percent: " + deathItemMonster.getHealthPercent());
-                //TODO: HP precent not working for Lizards
-                if (deathItemMonster.getHealthPercent() < 15) {
-                    Item i = Inventory.get(deathItem);
-                    if (i != null) {
-                        if (i.useOn(deathItemMonster)) {
-                            Sleep.sleepUntil(() -> !deathItemMonster.exists(), Utilities.getRandomSleepTime());
-                            deathItemMonster = null;
-                        }
-                    }
-                }
-            } else {
-                Logger.log("-- Slay Monster Melee For Task --");
+
+            Logger.log("-- Slay Monster Melee For Task --");
+            if (deathItemMonster == null) {
+                Logger.log("-- Death Monster Is Null --");
                 if (!Players.getLocal().isInCombat()) {
                     Character c = Players.getLocal().getCharacterInteractingWithMe();
                     NPC npc = c != null && monsterNames.contains(c.getName()) && monsterArea.contains(c) ? (NPC) Players.getLocal().getCharacterInteractingWithMe() : NPCs.closest(g -> monsterNames.contains(g.getName()) && !g.isInCombat() && monsterArea.contains(g));
@@ -130,14 +118,34 @@ public class SlayerUtilities {
                         if (npc.canReach()) {
                             if (npc.interact("Attack")) {
                                 Sleep.sleepUntil(() -> npc.isInCombat() || Players.getLocal().isInCombat() || Dialogues.canContinue(), Utilities.getRandomSleepTime());
-
-                                if (useDeathItem)
-                                    deathItemMonster = npc;
+                                if (useDeathItem) deathItemMonster = npc;
                             }
                         } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
                             Walking.walk(npc.getTile());
                         }
                     }
+                }
+            } else {
+                Logger.log("-- Death Monster Not Null --");
+                NPC npc = (NPC)Players.getLocal().getCharacterInteractingWithMe();
+                if (npc != null && !npc.getName().isEmpty() && !npc.getName().equals(deathItemMonster.getName())) {
+                    Logger.log("- Set Death Item To Current Interacting -");
+                    deathItemMonster = npc;
+                }
+
+                if (Players.getLocal().isInCombat()) {
+                    if (deathItemMonster.getHealthPercent() < 15) {
+                        Logger.log("-- Use Death Item On Monster --");
+                        Item i = Inventory.get(deathItem);
+                        if (i != null) {
+                            if (i.useOn(deathItemMonster)) {
+                                Sleep.sleepUntil(() -> !deathItemMonster.exists(), Utilities.getRandomSleepTime());
+                                deathItemMonster = null;
+                            }
+                        }
+                    }
+                } else {
+                    deathItemMonster = null;
                 }
             }
         } else {
@@ -152,7 +160,7 @@ public class SlayerUtilities {
         List<String> slayerItemsToBuy = reqItems.stream().filter(i -> slayerItems.contains(i) && !Inventory.contains(i)).toList();
         if (!slayerItemsToBuy.isEmpty()) {
             for (String m : slayerItemsToBuy) {
-                Logger.log("Slayer ITem To Buy: " + m);
+                Logger.log("-- Slayer ITem To Buy: " + m + " --");
             }
 
             String item = slayerItemsToBuy.get(0);
@@ -161,7 +169,7 @@ public class SlayerUtilities {
             } else {
                 if (Bank.isOpen()) {
                     if (Bank.contains(item)) {
-                        if (Bank.withdraw(item))
+                        if (Bank.withdraw(item, getInventoryAmount(item)))
                             Sleep.sleepUntil(() -> Inventory.contains(item), Utilities.getRandomSleepTime());
                     }
 

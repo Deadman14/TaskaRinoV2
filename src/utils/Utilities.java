@@ -4,7 +4,6 @@ import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.container.impl.bank.Bank;
 import org.dreambot.api.methods.grandexchange.GrandExchange;
 import org.dreambot.api.methods.grandexchange.LivePrices;
-import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.map.Area;
 import org.dreambot.api.methods.quest.Quests;
 import org.dreambot.api.methods.skills.Skills;
@@ -53,10 +52,15 @@ public class Utilities {
         }
     }
 
-    public static void closeGe() {
+    public static void closeGeAndBank() {
         if (GrandExchange.isOpen()) {
             if (GrandExchange.close())
                 Sleep.sleepUntil(() -> !GrandExchange.isOpen(), Utilities.getRandomSleepTime());
+        }
+
+        if (Bank.isOpen()) {
+            if (Bank.close())
+                Sleep.sleepUntil(() -> !Bank.isOpen(), Utilities.getRandomSleepTime());
         }
     }
 }
