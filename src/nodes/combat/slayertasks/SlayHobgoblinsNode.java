@@ -25,7 +25,7 @@ public class SlayHobgoblinsNode extends TaskNode {
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (hobgoblinArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonsterMelee(hobgoblinArea, List.of("Hill Giant"), false, "");
+                SlayerUtilities.slayMonsterMelee(hobgoblinArea, List.of("Hobgoblin"), false, "");
             } else {
                 Utilities.walkToArea(hobgoblinArea);
             }

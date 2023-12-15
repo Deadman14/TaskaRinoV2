@@ -104,6 +104,7 @@ public class SlayerUtilities {
         }
 
         Utilities.shouldLoot = true;
+        if (!useDeathItem) deathItemMonster = null;
 
         ItemUtilities.dropDropables();
         if (PlayerSettings.getConfig(43) == SlayerUtilities.GetAttackStyleConfig()) {
