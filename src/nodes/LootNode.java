@@ -24,7 +24,7 @@ public class LootNode extends TaskNode {
             "Slay ice warriors", "Slay moss giants", "Slay ice giants", "Slay crocodiles", "Slay hobgoblins", "Slay cockatrice",
             "Slay wall beasts", "Slay cave bugs", "Slay basilisks", "Slay killerwatts", "Slay pyrefiends", "Slay rockslugs",
             "Slay cave slimes", "Slay ankou", "Slay cave crawlers", "Slay hill giants", "Slay fire giants", "Slay lesser demons",
-            "Slay lizards"));
+            "Slay lizards", "Slay jellies"));
 
     public List<String> lootables = new ArrayList<>(Arrays.asList("Coins", "Iron arrow", "Mithril arrow", "Cowhide", "Law rune", "Nature rune",
             "Death rune", "Chaos rune", "Cosmic rune", "Blood rune", "Limpwurt root", "Giant key", "Uncut sapphire", "Uncut emerald", "Uncut ruby", "Uncut diamond",

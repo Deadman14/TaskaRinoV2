@@ -88,13 +88,12 @@ public class CookingNode extends TaskNode {
 
     private String getCurrentCookable() {
         int level = Skills.getRealLevel(Skill.COOKING);
-        if (level > 44)
-            return "Raw swordfish";
-        if (level > 29)
+
+        if (level > 39)
             return "Raw tuna";
         if (level > 14)
             return "Raw trout";
 
-        return "Raw shrimps";
+        return "Raw sardine";
     }
 }

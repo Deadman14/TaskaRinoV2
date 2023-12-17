@@ -31,10 +31,10 @@ public class Start extends TaskScript implements ChatListener {
     public void onStart() {
         timer.start();
 
-        ItemUtilities.currentFood = "Swordfish";
+        /*ItemUtilities.currentFood = "Swordfish";
         TaskUtilities.currentTask = "Slayer";
         TaskUtilities.taskTimer = new Timer(10000000);
-        TaskUtilities.taskTimer.start();
+        TaskUtilities.taskTimer.start();*/
 
         addNodes(new BankNode(), new ChopNode(), new MineNode(), new TrainCombatNode(), new EquipmentNode(), new NewTaskNode(), new CooksAssistantNode(),
                 new RandJNode(), new GoblinDiplomacyNode(), new LootNode(), new SheepShearNode(), new EatNode(), new FishNode(), new GeNode(),
@@ -44,7 +44,8 @@ public class Start extends TaskScript implements ChatListener {
                 new SlayIceGiantsNode(), new SlayCrocodilesNode(), new SlayHobgoblinsNode(), new SlayCockatriceNode(),
                 new SlayWallBeastsNode(), new SlayCaveBugsNode(), new SlayBasilisksNode(), new SlayKillerwattsNode(),
                 new SlayPyrefiendsNode(), new SlayRockslugsNode(), new SlayCaveSlimesNode(), new SlayAnkousNode(), new SlayCaveCrawlersNode(),
-                new SlayHillGiantsNode(), new SlayFireGiantsNode(), new SlayLesserDemonsNode(), new SlayLizardsNode());
+                new SlayHillGiantsNode(), new SlayFireGiantsNode(), new SlayLesserDemonsNode(), new SlayLizardsNode(),
+                new SlayJelliesNode());
     }
 
     @Override

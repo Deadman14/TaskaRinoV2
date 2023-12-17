@@ -15,7 +15,7 @@ public class Utilities {
     public static String currentNode = "";
     public static boolean shouldLoot = false;
     //TODO: Change back to false
-    public static boolean isP2P = true;
+    public static boolean isP2P = false;
 
     public static boolean isGeFullyOpen() {
         int totalXp = 0;

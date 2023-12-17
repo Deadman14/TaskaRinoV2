@@ -84,6 +84,7 @@ public class EquipmentUtilities {
                         getCurrentMagicWeapon()
                 ));
             case "Slay pyrefiends":
+            case "Slay jellies":
                 return new ArrayList<>(Arrays.asList(
                         getCurrentFullHelm(),
                         getCurrentRangedBody(),

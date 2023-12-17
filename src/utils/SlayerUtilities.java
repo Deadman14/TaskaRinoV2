@@ -49,7 +49,7 @@ public class SlayerUtilities {
                     "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs", "Slay moss giants",
                     "Slay basilisks", "Slay killerwatts", "Slay pyrefiends", "Slay rockslugs", "Slay cave slimes",
                     "Slay ankou", "Slay cave crawlers", "Slay hill giants", "Slay fire giants", "Slay lesser demons",
-                    "Slay lizards"-> {
+                    "Slay lizards", "Slay jellies" -> {
                 return GetMeleeConfig();
             }
             case "Train Combat Range" -> {
@@ -70,7 +70,8 @@ public class SlayerUtilities {
             case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Slay ice giants", "Train Combat Melee", "Slay crocodiles",
                     "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs", "Slay moss giants",
                     "Slay basilisks", "Slay killerwatts", "Slay pyrefiends", "Slay rockslugs", "Slay cave slimes", "Slay ankou",
-                    "Slay cave crawlers", "Slay hill giants", "Slay fire giants", "Slay lesser demons", "Slay lizards" -> {
+                    "Slay cave crawlers", "Slay hill giants", "Slay fire giants", "Slay lesser demons", "Slay lizards",
+                    "Slay jellies"-> {
                 return GetMeleeStyle();
             }
             case "Train Combat Range" -> {
