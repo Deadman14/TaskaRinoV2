@@ -29,7 +29,7 @@ import java.util.Arrays;
 public class ChopNode extends TaskNode {
     private String currentAxe = "Bronze axe";
     private final Area normalTreeArea = new Area(3150, 3449, 3171, 3465);
-    private final Area oakTreeArea = new Area(3098, 3239, 3110, 3259);
+    private final Area oakTreeArea = new Area(3109, 3409, 3132, 3438);
     private final Area willowTreeArea = new Area(3080, 3239, 3093, 3226);
     private final Area yewTreeArea = new Area(3045, 3324, 2994, 3310);
 

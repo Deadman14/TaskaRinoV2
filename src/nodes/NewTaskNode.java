@@ -12,11 +12,22 @@ import utils.TaskUtilities;
 import utils.Utilities;
 
 public class NewTaskNode extends TaskNode {
+    private boolean checkedForGeFullyOpen = true;
+    private int tasksUntilCheckGe = Calculations.random(5, 10);
+    private int tasksComplete = -1;
 
     @Override
     public int execute() {
         Utilities.currentNode = "NewTaskNode";
         Logger.log("- New Task -");
+
+        if (Utilities.timePlayed != null && Utilities.timePlayed < 20 && !checkedForGeFullyOpen && tasksComplete >= tasksUntilCheckGe) {
+            Utilities.timePlayed = null;
+            checkedForGeFullyOpen = true;
+            tasksUntilCheckGe = Calculations.random(5, 10);
+            tasksComplete = -1;
+            return Utilities.getRandomExecuteTime();
+        }
 
         Utilities.isP2P = isReadyForP2P();
         if (Utilities.isP2P && !ItemUtilities.currentFood.equals("Swordfish"))
@@ -25,6 +36,8 @@ public class NewTaskNode extends TaskNode {
         TaskUtilities.taskTimer = new Timer(Calculations.random(1800000, 3600000));
         TaskUtilities.taskTimer.start();
         EquipmentUtilities.setRequiredEquipment();
+        checkedForGeFullyOpen = false;
+        tasksComplete ++;
 
         return Utilities.getRandomExecuteTime();
     }

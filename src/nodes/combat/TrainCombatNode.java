@@ -36,6 +36,7 @@ public class TrainCombatNode extends TaskNode {
     private final Area cowArea = new Area(3242, 3296, 3264, 3256);
     private final Area hillGiantArea = new Area(3096, 9850, 3126, 9823);
     private final Area impArea = new Area(2953, 3330, 3059, 3293);
+    private final Area mainImpArea = new Area(3002, 3325, 3010, 3310);
 
     private Timer walkAroundTimer = new Timer(Calculations.random(90000, 150000));
 
@@ -109,7 +110,7 @@ public class TrainCombatNode extends TaskNode {
                             if (walkAroundTimer.isPaused()) walkAroundTimer.start();
 
                             if (walkAroundTimer.remaining() <= 0) {
-                                Walking.walk(getCurrentCombatArea().getRandomTile());
+                                Utilities.walkToArea(mainImpArea);
                                 walkAroundTimer = new Timer(Calculations.random(90000, 150000));
                                 walkAroundTimer.start();
                             }

@@ -2,28 +2,31 @@ package utils;
 
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.container.impl.bank.Bank;
+import org.dreambot.api.methods.dialogues.Dialogues;
 import org.dreambot.api.methods.grandexchange.GrandExchange;
 import org.dreambot.api.methods.grandexchange.LivePrices;
 import org.dreambot.api.methods.map.Area;
 import org.dreambot.api.methods.quest.Quests;
 import org.dreambot.api.methods.skills.Skills;
+import org.dreambot.api.methods.tabs.Tab;
+import org.dreambot.api.methods.tabs.Tabs;
 import org.dreambot.api.methods.walking.impl.Walking;
+import org.dreambot.api.methods.widget.Widget;
+import org.dreambot.api.methods.widget.Widgets;
 import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Sleep;
+import org.dreambot.api.wrappers.widgets.WidgetChild;
 
 public class Utilities {
     public static String currentNode = "";
     public static boolean shouldLoot = false;
-    //TODO: Change back to false
     public static boolean isP2P = false;
+    public static boolean isGeFullyOpen = false;
+    public static Integer timePlayed = null;
 
     public static boolean isGeFullyOpen() {
-        int totalXp = 0;
-        for (int xp : Skills.getExperience()) {
-            totalXp += xp;
-        }
-
-        return Skills.getTotalLevel() > 99 && Quests.getQuestPoints() > 9 && totalXp > 130000;
+        Logger.log("-- Time Played: " + timePlayed + "Hours --");
+        return Skills.getTotalLevel() > 99 && Quests.getQuestPoints() > 9 && timePlayed >= 20;
     }
 
     public static int getRandomSleepTime() {

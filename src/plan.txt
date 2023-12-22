@@ -1,6 +1,7 @@
 /*
     PRIOS
-        6 - anything to keep me alive (eat, prayer, run away)
+        7 - anything to keep me alive (eat, prayer, run away)
+        6 - isGeFullyOpebCheck
         5 - Task
         4 - GE
         3 - Banking
@@ -19,6 +20,7 @@
     during slaying - if player is being attacked by something that is not what it is supposed to be killing, it still kills it
     ADD CHECKING FOR NOTED ITEMS EVERYWHERE DUMBASS
     tries to eat while bank is open
+    cooks assistant - goes to buy items again after inv goes empty from talking to chef
 
 
                     IMPROVEMENTS

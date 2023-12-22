@@ -34,15 +34,13 @@ public class GeNode extends TaskNode {
     public int execute() {
         Logger.log("- Grand Exchange -");
 
-        Logger.log("- BUYABLES: " + ItemUtilities.buyables.size() + " -");
-        Logger.log("- SELLABLES: " + ItemUtilities.sellables.size() + " -");
-
         if (!checkedBank) {
             if (Bank.isOpen()) {
+                Logger.log("GE FULLY OPEN: " + Utilities.isGeFullyOpen());
                 if (Utilities.isGeFullyOpen()) {
                     ItemUtilities.sellables = new ArrayList<>(Bank.all(i -> i != null && ItemUtilities.allSellables.contains(i.getName())).stream().map(Item::getName).toList());
                 } else {
-                    ItemUtilities.phaseOneSellables = new ArrayList<>(Bank.all(i -> i != null && ItemUtilities.phaseOneSellables.contains(i.getName())).stream().map(Item::getName).toList());
+                    ItemUtilities.sellables = new ArrayList<>(Bank.all(i -> i != null && ItemUtilities.phaseOneSellables.contains(i.getName())).stream().map(Item::getName).toList());
                 }
 
                 int totalCoins = Bank.count("Coins");
@@ -55,21 +53,29 @@ public class GeNode extends TaskNode {
                     totalBuyPrice += (LivePrices.getHigh(i.getName()) * i.getAmount()) + 1;
                 }
 
-                if (totalCoins <= totalBuyPrice * 2.5) {
+                if (!Utilities.isP2P && Bank.count("Coins") < 50000)
+                    checkedBank = true;
+                else if (totalCoins <= totalBuyPrice * 2.5) {
                     TaskUtilities.currentTask = "";
                     ItemUtilities.buyables = new ArrayList<>();
+                    canBuyItems = false;
                     checkedBank = false;
-                    return Utilities.getRandomExecuteTime();
+                } else {
+                    checkedBank = true;
                 }
 
-                checkedBank = true;
             }   else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
                 BankUtilities.openBank();
             }
+
+            Logger.log("Return");
+            return Utilities.getRandomExecuteTime();
         }
 
+        Logger.log("- BUYABLES: " + ItemUtilities.buyables.size() + " -");
+        Logger.log("- SELLABLES: " + ItemUtilities.sellables.size() + " -");
         for (GeItem i : ItemUtilities.buyables) {
-            Logger.log(i.getName());
+            Logger.log("BUYABLE: " + i.getName());
         }
 
         if (geArea.contains(Players.getLocal()) && checkedBank) {
