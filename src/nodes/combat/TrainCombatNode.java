@@ -1,5 +1,7 @@
 package nodes.combat;
 
+import constants.ItemNameConstants;
+import constants.NpcNameConstants;
 import models.GeItem;
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.container.impl.Inventory;
@@ -58,15 +60,15 @@ public class TrainCombatNode extends TaskNode {
             if (TaskUtilities.currentTask.equals("Train Combat Magic")) {
                 if (!Inventory.containsAll(getCurrentRunes())) {
                     if (Bank.isOpen()) {
-                        if (Bank.depositAllExcept(i -> i.getName().equals(ItemUtilities.currentFood) || i.getName().contains("rune")))
+                        if (Bank.depositAllExcept(i -> i.getName().equals(ItemUtilities.currentFood) || i.getName().contains(ItemNameConstants.RUNE)))
                             Sleep.sleepUntil(() -> Inventory.onlyContains(ItemUtilities.currentFood), Utilities.getRandomSleepTime());
 
                         for (String rune : getCurrentRunes()) {
                             if (Bank.contains(rune)) {
                                 int amount = 400;
-                                if (getCurrentSpell().equals(Normal.FIRE_STRIKE) && rune.equals("Air rune")) amount = 800;
-                                if (getCurrentSpell().equals(Normal.FIRE_BOLT) && rune.equals("Air rune")) amount = 1200;
-                                if (getCurrentSpell().equals(Normal.FIRE_BLAST) && rune.equals("Air rune")) amount = 1600;
+                                if (getCurrentSpell().equals(Normal.FIRE_STRIKE) && rune.equals(ItemNameConstants.AIR_RUNE)) amount = 800;
+                                if (getCurrentSpell().equals(Normal.FIRE_BOLT) && rune.equals(ItemNameConstants.AIR_RUNE)) amount = 1200;
+                                if (getCurrentSpell().equals(Normal.FIRE_BLAST) && rune.equals(ItemNameConstants.AIR_RUNE)) amount = 1600;
                                 if (Bank.count(rune) > amount) {
                                     if (Bank.withdraw(rune, amount))
                                         Sleep.sleepUntil(() -> Inventory.contains(rune), Utilities.getRandomSleepTime());
@@ -211,9 +213,9 @@ public class TrainCombatNode extends TaskNode {
             int def = Skills.getRealLevel(Skill.DEFENCE);
 
             if (att > 39 && str > 39 && def > 39)
-                return "Hill Giant";
+                return NpcNameConstants.HILL_GIANTS;
             if (att > 19 && str > 19 && def > 19)
-                return "Cow";
+                return NpcNameConstants.COW;
             else
                 return "Goblin";
         } else if (TaskUtilities.currentTask.contains("Range")) {
@@ -221,9 +223,9 @@ public class TrainCombatNode extends TaskNode {
             int def = Skills.getRealLevel(Skill.DEFENCE);
 
             if (rang > 39 && def > 39)
-                return "Hill Giant";
+                return NpcNameConstants.HILL_GIANTS;
             if (rang > 19 && def > 19)
-                return "Cow";
+                return NpcNameConstants.COW;
             else
                 return "Goblin";
         } else if (TaskUtilities.currentTask.contains("Magic")) {
@@ -231,29 +233,29 @@ public class TrainCombatNode extends TaskNode {
             int def = Skills.getRealLevel(Skill.DEFENCE);
 
             if (mage > 39 && def > 39)
-                return "Hill Giant";
+                return NpcNameConstants.HILL_GIANTS;
             if (mage > 19 && def > 19)
-                return "Cow";
+                return NpcNameConstants.COW;
             else
-                return "Goblin";
+                return NpcNameConstants.GOBLIN;
         } else if (TaskUtilities.currentTask.equals("Kill Imps")) {
-            return "Imp";
+            return NpcNameConstants.IMP;
         }
 
-        return "Goblin";
+        return NpcNameConstants.GOBLIN;
     }
 
     private List<String> getCurrentRunes() {
         int level = Skills.getRealLevel(Skill.MAGIC);
 
         if (level > 58)
-            return new ArrayList<>(Arrays.asList("Death rune", "Air rune"));
+            return new ArrayList<>(Arrays.asList(ItemNameConstants.DEATH_RUNE, ItemNameConstants.AIR_RUNE));
         if (level > 34)
-            return new ArrayList<>(Arrays.asList("Chaos rune", "Air rune"));
+            return new ArrayList<>(Arrays.asList(ItemNameConstants.CHAOS_RUNE, ItemNameConstants.AIR_RUNE));
         if (level > 12)
-            return new ArrayList<>(Arrays.asList("Mind rune", "Air rune"));
+            return new ArrayList<>(Arrays.asList(ItemNameConstants.MIND_RUNE, ItemNameConstants.AIR_RUNE));
 
-        return new ArrayList<>(List.of("Mind rune"));
+        return new ArrayList<>(List.of(ItemNameConstants.MIND_RUNE));
     }
 
     private Normal getCurrentSpell() {

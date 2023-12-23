@@ -1,6 +1,7 @@
 package nodes.combat.slayertasks;
 
 import constants.ItemNameConstants;
+import constants.NpcNameConstants;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.dialogues.Dialogues;
 import org.dreambot.api.methods.interactive.Players;
@@ -36,7 +37,7 @@ public class SlayAnkousNode extends TaskNode {
         } else {
             if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
                 if (ankouArea.contains(Players.getLocal())) {
-                    SlayerUtilities.slayMonsterMelee(ankouArea, List.of("Ankou"), false, "");
+                    SlayerUtilities.slayMonsterMelee(ankouArea, List.of(NpcNameConstants.ANKOU), false, "");
                 } else {
                     Utilities.walkToArea(ankouArea);
                 }

@@ -1,6 +1,7 @@
 package nodes.combat.slayertasks;
 
 import constants.ItemNameConstants;
+import constants.NpcNameConstants;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.map.Area;
@@ -18,8 +19,8 @@ import java.util.List;
 public class SlayBasilisksNode extends TaskNode {
     private final Area basiliskArea = new Area(2734, 10019, 2750, 9999);
 
-    private final List<String> reqItems = new ArrayList<>(Arrays.asList(ItemNameConstants.ENCHANTED_GEM, "Camelot teleport",
-            "Varrock teleport", ItemUtilities.currentFood));
+    private final List<String> reqItems = new ArrayList<>(Arrays.asList(ItemNameConstants.ENCHANTED_GEM, ItemNameConstants.CAMELOT_TELE,
+            ItemNameConstants.VARROCK_TELE, ItemUtilities.currentFood));
 
     @Override
     public int execute() {
@@ -27,7 +28,7 @@ public class SlayBasilisksNode extends TaskNode {
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (basiliskArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonsterMelee(basiliskArea, List.of("Basilisk"), false, "");
+                SlayerUtilities.slayMonsterMelee(basiliskArea, List.of(NpcNameConstants.BASILISK), false, "");
             } else {
                 Utilities.walkToArea(basiliskArea);
             }

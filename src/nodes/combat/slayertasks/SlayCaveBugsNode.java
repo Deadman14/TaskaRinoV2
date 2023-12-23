@@ -1,6 +1,7 @@
 package nodes.combat.slayertasks;
 
 import constants.ItemNameConstants;
+import constants.NpcNameConstants;
 import models.GeItem;
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.container.impl.Inventory;
@@ -27,8 +28,8 @@ import java.util.List;
 public class SlayCaveBugsNode extends TaskNode {
     private final Area caveBugArea = new Area(3142, 9598, 3207, 9538);
     private final Area swampEntranceArea = new Area(3165, 3176, 3173, 3169);
-    private final List<String> reqItems = new ArrayList<>(Arrays.asList(ItemNameConstants.ENCHANTED_GEM, "Lumbridge teleport",
-            ItemUtilities.currentFood, "Tinderbox", "Candle lantern"));
+    private final List<String> reqItems = new ArrayList<>(Arrays.asList(ItemNameConstants.ENCHANTED_GEM, ItemNameConstants.LUMBRIDGE_TELE,
+            ItemUtilities.currentFood, ItemNameConstants.TINDERBOX, ItemNameConstants.CANDLE_LANTERN));
 
     //TODO: set to false and check game message when clicking the hole without rope to set it
     private boolean hasPlacedRopeBefore = true;
@@ -52,11 +53,11 @@ public class SlayCaveBugsNode extends TaskNode {
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems)) {
             if (caveBugArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonsterMelee(caveBugArea, List.of("Cave bug"), false, "");
+                SlayerUtilities.slayMonsterMelee(caveBugArea, List.of(NpcNameConstants.CAVE_BUG), false, "");
             } else {
-                if (Inventory.contains("Rope") || hasPlacedRopeBefore) {
+                if (Inventory.contains(ItemNameConstants.ROPE) || hasPlacedRopeBefore) {
                     if (swampEntranceArea.contains(Players.getLocal())) {
-                        if (hasPlacedRopeBefore && Inventory.get(i -> i != null && i.getName().equals("Candle lantern")).hasAction("Extinguish")) {
+                        if (hasPlacedRopeBefore && Inventory.get(i -> i != null && i.getName().equals(ItemNameConstants.CANDLE_LANTERN)).hasAction("Extinguish")) {
                             GameObject darkHole = GameObjects.closest(i -> i != null && i.getName().equals("Dark hole"));
 
                             if (darkHole.interact())

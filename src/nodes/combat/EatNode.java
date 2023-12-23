@@ -1,5 +1,6 @@
 package nodes.combat;
 
+import constants.ItemNameConstants;
 import org.dreambot.api.methods.combat.Combat;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.tabs.Tab;
@@ -31,7 +32,7 @@ public class EatNode extends TaskNode {
             }
 
             if (Combat.isPoisoned()) {
-                Item ap = Inventory.get(i -> i.getName().contains("Antipoison"));
+                Item ap = Inventory.get(i -> i.getName().contains(ItemNameConstants.ANTIPOISON));
                 if (ap != null) {
                     if (ap.interact())
                         Sleep.sleepUntil(() -> !Combat.isPoisoned(), Utilities.getRandomSleepTime());
