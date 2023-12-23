@@ -39,7 +39,7 @@ public class SlayOgresNode extends TaskNode {
             }
         } else {
             if (Bank.isOpen()) {
-                if (Inventory.isFull() || !Inventory.onlyContains(i -> reqItems.contains(i.getName()))) {
+                if (!Inventory.isEmpty() && (Inventory.isFull() || !Inventory.onlyContains(i -> reqItems.contains(i.getName())))) {
                     if (Bank.depositAllExcept(i -> reqItems.contains(i.getName())))
                         Sleep.sleepUntil(() -> Inventory.onlyContains(i -> reqItems.contains(i.getName())), Utilities.getRandomSleepTime());
                 }

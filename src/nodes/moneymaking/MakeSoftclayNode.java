@@ -75,7 +75,8 @@ public class MakeSoftclayNode extends TaskNode {
                     }
                 } else {
                     if (Bank.isOpen()) {
-                        Bank.depositAllExcept(item -> item.getName().contains("pickaxe") || item.getName().contains("Bucket"));
+                        if (!Inventory.isEmpty())
+                            Bank.depositAllExcept(item -> item.getName().contains("pickaxe") || item.getName().contains("Bucket"));
                     } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
                         BankUtilities.openBank();
                     }
@@ -83,7 +84,7 @@ public class MakeSoftclayNode extends TaskNode {
             }
         } else {
             if (Bank.isOpen()) {
-                if (Inventory.emptySlotCount() < 3 || !Inventory.onlyContains(i -> i.getName().equals(getCurrentPickaxe()) || i.getName().contains("Bucket"))) {
+                if (Inventory.emptySlotCount() < 3 || !Inventory.isEmpty() && !Inventory.onlyContains(i -> i.getName().equals(getCurrentPickaxe()) || i.getName().contains("Bucket"))) {
                     if (Bank.depositAllItems())
                         Sleep.sleepUntil(Inventory::isEmpty, Utilities.getRandomSleepTime());
                 }

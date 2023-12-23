@@ -73,7 +73,7 @@ public class ChopNode extends TaskNode {
                     currentAxe = getCurrentAxe();
                 }
 
-                if (Inventory.isFull() || !Inventory.onlyContains(currentAxe)) {
+                if (Inventory.isFull() || !Inventory.isEmpty() && !Inventory.onlyContains(currentAxe)) {
                     if (Bank.depositAllExcept(currentAxe))
                         Sleep.sleepUntil(() -> !Inventory.isFull(), Utilities.getRandomSleepTime());
                 }

@@ -59,7 +59,7 @@ public class CookingNode extends TaskNode {
                 Utilities.walkToArea(rangeArea);
             }
         } else if (Bank.isOpen()) {
-            if (!Inventory.isEmpty() || BankUtilities.areItemsNoted(Arrays.asList(getCurrentCookable()))) {
+            if (!Inventory.isEmpty() && BankUtilities.areItemsNoted(Arrays.asList(getCurrentCookable()))) {
                 if (Bank.depositAllItems())
                     Sleep.sleepUntil(Inventory::isEmpty, Utilities.getRandomSleepTime());
             }

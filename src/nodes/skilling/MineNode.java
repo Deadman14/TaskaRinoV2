@@ -62,7 +62,7 @@ public class MineNode extends TaskNode {
                     currentPickaxe = EquipmentUtilities.getCurrentPickaxe();
                 }
 
-                if (Inventory.isFull() || !Inventory.contains(currentPickaxe)) {
+                if (Inventory.isFull() || !Inventory.isEmpty() && !Inventory.contains(currentPickaxe)) {
                     if (Bank.depositAllExcept(currentPickaxe))
                         Sleep.sleepUntil(() -> !Inventory.isFull(), Utilities.getRandomSleepTime());
                 }

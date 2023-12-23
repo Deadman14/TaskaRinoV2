@@ -31,6 +31,7 @@ import utils.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class TrainCombatNode extends TaskNode {
@@ -60,8 +61,10 @@ public class TrainCombatNode extends TaskNode {
             if (TaskUtilities.currentTask.equals("Train Combat Magic")) {
                 if (!Inventory.containsAll(getCurrentRunes())) {
                     if (Bank.isOpen()) {
-                        if (Bank.depositAllExcept(i -> i.getName().equals(ItemUtilities.currentFood) || i.getName().contains(ItemNameConstants.RUNE)))
-                            Sleep.sleepUntil(() -> Inventory.onlyContains(ItemUtilities.currentFood), Utilities.getRandomSleepTime());
+                        if (!Inventory.isEmpty()) {
+                            if (Bank.depositAllExcept(i -> i.getName().equals(ItemUtilities.currentFood) || i.getName().contains(ItemNameConstants.RUNE)))
+                                Sleep.sleepUntil(() -> Inventory.onlyContains(ItemUtilities.currentFood), Utilities.getRandomSleepTime());
+                        }
 
                         for (String rune : getCurrentRunes()) {
                             if (Bank.contains(rune)) {
@@ -132,12 +135,12 @@ public class TrainCombatNode extends TaskNode {
             }
         } else {
             if (Bank.isOpen()) {
-                if (Inventory.isFull() || !Inventory.onlyContains(ItemUtilities.currentFood)) {
+                if (!Inventory.isEmpty() && (Inventory.isFull() || !Inventory.onlyContains(ItemUtilities.currentFood))) {
                     if (Bank.depositAllExcept(ItemUtilities.currentFood))
                         Sleep.sleepUntil(() -> !Inventory.isFull(), Utilities.getRandomSleepTime());
                 }
 
-                if (BankUtilities.areItemsNoted(Arrays.asList(ItemUtilities.currentFood))) {
+                if (BankUtilities.areItemsNoted(Collections.singletonList(ItemUtilities.currentFood))) {
                     if (Bank.depositAll(ItemUtilities.currentFood))
                         Sleep.sleepUntil(() -> !Inventory.contains(ItemUtilities.currentFood), Utilities.getRandomSleepTime());
                 }

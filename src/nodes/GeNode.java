@@ -139,8 +139,10 @@ public class GeNode extends TaskNode {
                             canBuyItems = true;
                         }
 
-                        if (Bank.depositAllItems())
-                            Sleep.sleepUntil(Inventory::isEmpty, Utilities.getRandomSleepTime());
+                        if (!Inventory.isEmpty()) {
+                            if (Bank.depositAllItems())
+                                Sleep.sleepUntil(Inventory::isEmpty, Utilities.getRandomSleepTime());
+                        }
 
                         ItemUtilities.buyables.removeIf(i -> Bank.contains(i.getName()) && Bank.count(i.getName()) >= i.getAmount());
                     } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {

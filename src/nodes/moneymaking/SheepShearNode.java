@@ -68,8 +68,10 @@ public class SheepShearNode extends TaskNode {
                 } else {
                     if (FreeQuest.SHEEP_SHEARER.isFinished()) {
                         if (Bank.isOpen()) {
-                            if (Bank.depositAllExcept("Shears"))
-                                Sleep.sleepUntil(() -> !Inventory.contains("Ball of wool"), Utilities.getRandomSleepTime());
+                            if (!Inventory.isEmpty()) {
+                                if (Bank.depositAllExcept("Shears"))
+                                    Sleep.sleepUntil(() -> !Inventory.contains("Ball of wool"), Utilities.getRandomSleepTime());
+                            }
                         } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
                             if (Bank.open())
                                 Sleep.sleepUntil(Bank::isOpen, Utilities.getRandomSleepTime());
@@ -116,8 +118,10 @@ public class SheepShearNode extends TaskNode {
                 }
             } else if (Bank.isOpen()) {
                 hasCheckedBankForShears = true;
-                if (Bank.depositAllItems())
-                    Sleep.sleepUntil(Inventory::isEmpty, Utilities.getRandomSleepTime());
+                if (!Inventory.isEmpty()) {
+                    if (Bank.depositAllItems())
+                        Sleep.sleepUntil(Inventory::isEmpty, Utilities.getRandomSleepTime());
+                }
 
                 if (Bank.contains("Shears")) {
                     BankUtilities.setBankMode(BankMode.ITEM);

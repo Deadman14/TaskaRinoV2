@@ -194,8 +194,10 @@ public class RuneMysteriesNode extends TaskNode {
             }
         } else {
             if (Bank.isOpen()) {
-                if (Bank.depositAllItems())
-                    Sleep.sleepUntil(Inventory::isEmpty, Utilities.getRandomSleepTime());
+                if (!Inventory.isEmpty()) {
+                    if (Bank.depositAllItems())
+                        Sleep.sleepUntil(Inventory::isEmpty, Utilities.getRandomSleepTime());
+                }
             } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
                 BankUtilities.openBank();
             }
