@@ -27,6 +27,7 @@ import java.util.List;
 
 public class CooksAssistantNode extends TaskNode {
     private Area cookArea = new Area(3204, 3217, 3212, 3209);
+    private boolean hasGivenItems = false;
 
     @Override
     public int execute() {
@@ -35,15 +36,17 @@ public class CooksAssistantNode extends TaskNode {
 
         if (FreeQuest.COOKS_ASSISTANT.isFinished()) {
             TaskUtilities.currentTask = "";
+            hasGivenItems = false;
             return Utilities.getRandomExecuteTime();
         }
 
         if (FreeQuest.COOKS_ASSISTANT.isStarted() || PlayerSettings.getConfig(29) != 1) {
-            if (Inventory.contains("Egg", "Bucket of milk", "Pot of flour") && !Inventory.isFull()) {
+            if (Inventory.contains("Egg", "Bucket of milk", "Pot of flour") && !Inventory.isFull() || hasGivenItems) {
                 if (cookArea.contains(Players.getLocal())) {
                     NPC cook = NPCs.closest("Cook");
                     if (Dialogues.inDialogue()) {
                         if (Dialogues.areOptionsAvailable()) {
+                            hasGivenItems = true;
                             Dialogues.chooseOption(1);
                         } else {
                             Dialogues.continueDialogue();
