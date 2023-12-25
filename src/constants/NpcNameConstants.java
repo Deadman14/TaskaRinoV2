@@ -12,4 +12,5 @@ public class NpcNameConstants {
     public static final String ANKOU = "Ankou";
     public static final String BASILISK = "Basilisk";
     public static final String CAVE_BUG = "Cave bug";
+    public static final String CAVE_SLIME = "Cave slime";
 }

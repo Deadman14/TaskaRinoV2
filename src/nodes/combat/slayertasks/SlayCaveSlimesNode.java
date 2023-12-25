@@ -1,6 +1,7 @@
 package nodes.combat.slayertasks;
 
 import constants.ItemNameConstants;
+import constants.NpcNameConstants;
 import models.GeItem;
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.container.impl.Inventory;
@@ -28,8 +29,8 @@ import java.util.List;
 public class SlayCaveSlimesNode extends TaskNode {
     private final Area caveSlimeArea = new Area(3142, 9574, 3190, 9539);
     private final Area swampEntranceArea = new Area(3165, 3176, 3173, 3169);
-    private final List<String> reqItems = new ArrayList<>(Arrays.asList(ItemNameConstants.ENCHANTED_GEM, "Lumbridge teleport",
-            ItemUtilities.currentFood, "Tinderbox", "Candle lantern"));
+    private final List<String> reqItems = new ArrayList<>(Arrays.asList(ItemNameConstants.ENCHANTED_GEM, ItemNameConstants.LUMBRIDGE_TELE,
+            ItemUtilities.currentFood, ItemNameConstants.TINDERBOX, ItemNameConstants.CANDLE_LANTERN));
     //TODO: set to false and check game message when clicking the hole without rope to set it
     private boolean hasPlacedRopeBefore = true;
 
@@ -50,9 +51,9 @@ public class SlayCaveSlimesNode extends TaskNode {
             return Utilities.getRandomExecuteTime();
         }
 
-        if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(i -> i.getName().contains("Antipoison"))) {
+        if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(i -> i.getName().contains(ItemNameConstants.ANTIPOISON))) {
             if (caveSlimeArea.contains(Players.getLocal())) {
-                SlayerUtilities.slayMonsterMelee(caveSlimeArea, List.of("Cave slime"), false, "");
+                SlayerUtilities.slayMonsterMelee(caveSlimeArea, List.of(NpcNameConstants.CAVE_SLIME), false, "");
             } else {
                 if (Inventory.contains("Rope") || hasPlacedRopeBefore) {
                     if (swampEntranceArea.contains(Players.getLocal())) {

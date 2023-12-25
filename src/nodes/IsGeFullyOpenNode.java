@@ -26,10 +26,10 @@ public class IsGeFullyOpenNode extends TaskNode {
             if (Widgets.getWidget(712).getChild(2).getChild(100).isVisible()) {
                 if (!Widgets.getWidget(712).getChild(2).getChild(100).getText().contains("Click to reveal")) {
                     String timePlayedText = Widgets.getWidget(712).getChild(2).getChild(100).getText();
-                    if (timePlayedText.contains("hours"))
-                        Utilities.timePlayed = Integer.valueOf(timePlayedText.substring(timePlayedText.indexOf(">") + 1, timePlayedText.indexOf("h") - 1));
-                    else if (timePlayedText.contains("days"))
+                    if (timePlayedText.contains("day"))
                         Utilities.timePlayed = 20;
+                    else if (timePlayedText.contains("hour"))
+                        Utilities.timePlayed = Integer.valueOf(timePlayedText.substring(timePlayedText.indexOf(">") + 1, timePlayedText.indexOf("h") - 1));
                     else
                         Utilities.timePlayed = 0;
                 } else if (Widgets.getWidget(712).getChild(2).getChild(100).interact()) {
