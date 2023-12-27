@@ -34,6 +34,7 @@
         of bringing varrock teles with you on every task
     Make bot get brass key for edge dungeon
     FInd a way that if bot cannot afford current equipment, use next set down
+    new spot for iron mining!!
 
 
                 MOVE TO P2P REQS

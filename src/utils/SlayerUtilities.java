@@ -45,11 +45,11 @@ public class SlayerUtilities {
     // rapid is 1
     public static int GetAttackStyleConfig() {
         switch (TaskUtilities.currentTask) {
-            case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Train Combat Melee", "Slay ice giants", "Slay crocodiles",
-                    "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs", "Slay moss giants",
-                    "Slay basilisks", "Slay killerwatts", "Slay pyrefiends", "Slay rockslugs", "Slay cave slimes",
-                    "Slay ankou", "Slay cave crawlers", "Slay hill giants", "Slay fire giants", "Slay lesser demons",
-                    "Slay lizards", "Slay jellies" -> {
+            case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Train Combat Melee", "Kill Imps", "Slay ice giants",
+                    "Slay crocodiles", "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs",
+                    "Slay moss giants", "Slay basilisks", "Slay killerwatts", "Slay pyrefiends", "Slay rockslugs",
+                    "Slay cave slimes", "Slay ankou", "Slay cave crawlers", "Slay hill giants", "Slay fire giants",
+                    "Slay lesser demons", "Slay lizards", "Slay jellies" -> {
                 return GetMeleeConfig();
             }
             case "Train Combat Range" -> {
@@ -67,11 +67,11 @@ public class SlayerUtilities {
 
     public static CombatStyle GetAttackStyle() {
         switch (TaskUtilities.currentTask) {
-            case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Slay ice giants", "Train Combat Melee", "Slay crocodiles",
-                    "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs", "Slay moss giants",
-                    "Slay basilisks", "Slay killerwatts", "Slay pyrefiends", "Slay rockslugs", "Slay cave slimes", "Slay ankou",
-                    "Slay cave crawlers", "Slay hill giants", "Slay fire giants", "Slay lesser demons", "Slay lizards",
-                    "Slay jellies"-> {
+            case "Slay ice warriors", "Slay kalphite", "Slay ogres", "Slay ice giants", "Train Combat Melee", "Kill Imps",
+                    "Slay crocodiles", "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs",
+                    "Slay moss giants", "Slay basilisks", "Slay killerwatts", "Slay pyrefiends", "Slay rockslugs",
+                    "Slay cave slimes", "Slay ankou", "Slay cave crawlers", "Slay hill giants", "Slay fire giants",
+                    "Slay lesser demons", "Slay lizards", "Slay jellies"-> {
                 return GetMeleeStyle();
             }
             case "Train Combat Range" -> {
@@ -293,19 +293,21 @@ public class SlayerUtilities {
     }
 
     private static int GetMeleeConfig() {
+        int str = Skills.getRealLevel(Skill.STRENGTH);
+        int att = Skills.getRealLevel(Skill.ATTACK);
+        int def = Skills.getRealLevel(Skill.DEFENCE);
+
         //Strength
-        if (Skills.getRealLevel(Skill.STRENGTH) == Skills.getRealLevel(Skill.ATTACK) && Skills.getRealLevel(Skill.STRENGTH) == Skills.getRealLevel(Skill.DEFENCE)) {
+        if (str == att && str == def)
             return 1;
-        }
 
         //Defence
-        if (Skills.getRealLevel(Skill.STRENGTH) > Skills.getRealLevel(Skill.DEFENCE) && Skills.getRealLevel(Skill.ATTACK) > Skills.getRealLevel(Skill.DEFENCE))
+        if (str > def && att > def)
             return 3;
 
         //Attack
-        if (Skills.getRealLevel(Skill.STRENGTH) > Skills.getRealLevel(Skill.ATTACK) && Skills.getRealLevel(Skill.STRENGTH) > Skills.getRealLevel(Skill.DEFENCE)) {
+        if (str > att && str > def)
             return 0;
-        }
 
 
 
@@ -313,16 +315,20 @@ public class SlayerUtilities {
     }
 
     private static CombatStyle GetMeleeStyle() {
+        int str = Skills.getRealLevel(Skill.STRENGTH);
+        int att = Skills.getRealLevel(Skill.ATTACK);
+        int def = Skills.getRealLevel(Skill.DEFENCE);
+
         //Strength
-        if (Skills.getRealLevel(Skill.STRENGTH) == Skills.getRealLevel(Skill.ATTACK) && Skills.getRealLevel(Skill.STRENGTH) == Skills.getRealLevel(Skill.DEFENCE))
+        if (str == att && str == def)
             return CombatStyle.STRENGTH;
 
         //Defence
-        if (Skills.getRealLevel(Skill.STRENGTH) > Skills.getRealLevel(Skill.DEFENCE) && Skills.getRealLevel(Skill.ATTACK) > Skills.getRealLevel(Skill.DEFENCE))
+        if (str > def && att > def)
             return CombatStyle.DEFENCE;
 
         //Attack
-        if (Skills.getRealLevel(Skill.STRENGTH) > Skills.getRealLevel(Skill.ATTACK) && Skills.getRealLevel(Skill.STRENGTH) > Skills.getRealLevel(Skill.DEFENCE))
+        if (str > att && str > def)
             return CombatStyle.ATTACK;
 
         return CombatStyle.STRENGTH;
