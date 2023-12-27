@@ -9,6 +9,7 @@ import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.utilities.Sleep;
 import org.dreambot.api.wrappers.items.Item;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BankUtilities {
@@ -95,5 +96,13 @@ public class BankUtilities {
         } else {
             ItemUtilities.buyables.add(new GeItem(itemName + "(4)", SlayerUtilities.getGeAmount(itemName), LivePrices.getHigh(itemName + "(4)")));
         }
+    }
+
+    public static List<String> getListOfSellables() {
+        List<String> allItems = Bank.all().stream().map(Item::getName).toList();
+
+        allItems.removeIf(i -> i.equals(ItemUtilities.currentFood));
+
+        return allItems;
     }
 }

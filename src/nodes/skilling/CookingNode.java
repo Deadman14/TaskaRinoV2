@@ -26,6 +26,7 @@ import utils.TaskUtilities;
 import utils.Utilities;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class CookingNode extends TaskNode {
     private final Area rangeArea = new Area(3205, 3217, 3212, 3212);
@@ -59,7 +60,7 @@ public class CookingNode extends TaskNode {
                 Utilities.walkToArea(rangeArea);
             }
         } else if (Bank.isOpen()) {
-            if (!Inventory.isEmpty() && BankUtilities.areItemsNoted(Arrays.asList(getCurrentCookable()))) {
+            if (!Inventory.isEmpty() && (!Inventory.contains(getCurrentCookable()) || BankUtilities.areItemsNoted(List.of(getCurrentCookable())))) {
                 if (Bank.depositAllItems())
                     Sleep.sleepUntil(Inventory::isEmpty, Utilities.getRandomSleepTime());
             }

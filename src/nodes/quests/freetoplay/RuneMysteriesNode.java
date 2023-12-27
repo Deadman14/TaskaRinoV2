@@ -130,16 +130,20 @@ public class RuneMysteriesNode extends TaskNode {
                         }
                         break;
                     case 4:
-                        if (Dialogues.inDialogue()) {
-                            Dialogues.continueDialogue();
-                        } else {
-                            NPC aubury = NPCs.closest(i -> i != null && i.getName().equals("Aubury"));
-                            if (aubury.canReach()) {
-                                if (aubury.interact())
-                                    Sleep.sleepUntil(Dialogues::inDialogue, Utilities.getRandomSleepTime());
-                            } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
-                                Walking.walk(aubury.getTile());
+                        if (auburyArea.contains(Players.getLocal())) {
+                            if (Dialogues.inDialogue()) {
+                                Dialogues.continueDialogue();
+                            } else {
+                                NPC aubury = NPCs.closest(i -> i != null && i.getName().equals("Aubury"));
+                                if (aubury.canReach()) {
+                                    if (aubury.interact())
+                                        Sleep.sleepUntil(Dialogues::inDialogue, Utilities.getRandomSleepTime());
+                                } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+                                    Walking.walk(aubury.getTile());
+                                }
                             }
+                        } else {
+                            Utilities.walkToArea(auburyArea);
                         }
                         break;
                     case 5:
@@ -160,17 +164,20 @@ public class RuneMysteriesNode extends TaskNode {
                                 Utilities.walkToArea(archmageArea);
                             }
                         } else {
-                            if (Dialogues.inDialogue()) {
-                                Dialogues.continueDialogue();
-                            } else {
-                                NPC aubury = NPCs.closest(i -> i != null && i.getName().equals("Aubury"));
-                                if (aubury.canReach()) {
-                                    if (aubury.interact())
-                                        Sleep.sleepUntil(Dialogues::inDialogue, Utilities.getRandomSleepTime());
-                                } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
-                                    Walking.walk(aubury.getTile());
+                            if (auburyArea.contains(Players.getLocal())) {
+                                if (Dialogues.inDialogue()) {
+                                    Dialogues.continueDialogue();
+                                } else {
+                                    NPC aubury = NPCs.closest(i -> i != null && i.getName().equals("Aubury"));
+                                    if (aubury.canReach()) {
+                                        if (aubury.interact())
+                                            Sleep.sleepUntil(Dialogues::inDialogue, Utilities.getRandomSleepTime());
+                                    } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+                                        Walking.walk(aubury.getTile());
+                                    }
                                 }
-                            }
+                            } else
+                                Utilities.walkToArea(auburyArea);
                         }
                         break;
                 }

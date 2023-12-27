@@ -49,13 +49,7 @@ public class FishNode extends TaskNode {
                             if (Bank.withdraw(getCurrentBait(), 100))
                                 Sleep.sleepUntil(() -> Inventory.contains(getCurrentBait()), Utilities.getRandomSleepTime());
                         } else {
-                            if (BankUtilities.canBuyItem(getCurrentBait(), 2000))
-                                ItemUtilities.buyables.add(new GeItem(getCurrentBait(), 2000, LivePrices.getHigh(getCurrentBait())));
-                            else {
-                                TaskUtilities.currentTask = "";
-                                ItemUtilities.buyables = new ArrayList<>();
-                                return Utilities.getRandomExecuteTime();
-                            }
+                            ItemUtilities.buyables.add(new GeItem(getCurrentBait(), 2000, LivePrices.getHigh(getCurrentBait())));
                         }
                     } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
                         BankUtilities.openBank();
@@ -66,7 +60,7 @@ public class FishNode extends TaskNode {
             }
         } else {
             if (Bank.isOpen()) {
-                if (Inventory.isFull() || (!Inventory.onlyContains(getCurrentFishingRod()) && !Inventory.isEmpty())) {
+                if (Inventory.emptySlotCount() < 20) {
                     if (Bank.depositAllExcept(getCurrentFishingRod(), getCurrentBait()))
                         Sleep.sleepUntil(() -> !Inventory.isFull(), Utilities.getRandomSleepTime());
                 } else {

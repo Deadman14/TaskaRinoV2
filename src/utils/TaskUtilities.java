@@ -104,6 +104,8 @@ public class TaskUtilities {
             case "Knights Sword":
                 return FreeQuest.THE_KNIGHTS_SWORD.isFinished() || Players.getLocal().getLevel() < 20
                         || Skills.getRealLevel(Skill.MINING) < 10;
+            case "X Mark's The Spot":
+                return FreeQuest.X_MARKS_THE_SPOT.isFinished();
             case "Natural History Quiz":
                 return !Utilities.isP2P || Skills.getRealLevel(Skill.SLAYER) >= 9;
             case"Slayer":
@@ -116,7 +118,7 @@ public class TaskUtilities {
             case "Make Soft Clay":
             case "Kill Imps":
                 return Utilities.isP2P;
-            case "Cooking":
+            case "Cook":
                 return Utilities.isP2P || Skills.getRealLevel(Skill.COOKING) > 49;
             default:
                 return false;

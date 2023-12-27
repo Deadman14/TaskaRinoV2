@@ -8,7 +8,6 @@ import org.dreambot.api.methods.widget.Widgets;
 import org.dreambot.api.script.TaskNode;
 import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Sleep;
-import org.dreambot.api.wrappers.widgets.WidgetChild;
 import utils.Utilities;
 
 public class IsGeFullyOpenNode extends TaskNode {

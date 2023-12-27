@@ -42,7 +42,7 @@ public class ChopNode extends TaskNode {
             Dialogues.continueDialogue();
         }
 
-        if ((Inventory.contains(currentAxe) || Equipment.contains(currentAxe)) && !Inventory.isFull()) {
+        if (!Inventory.isFull() && (Inventory.contains(currentAxe) || Equipment.contains(currentAxe))) {
             Logger.log("- Invent has axe and inventory is not full -");
             if (getCurrentArea().contains(Players.getLocal())) {
                 Logger.log("- In Chopping Area -");
