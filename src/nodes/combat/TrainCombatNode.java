@@ -67,17 +67,20 @@ public class TrainCombatNode extends TaskNode {
                         }
 
                         for (String rune : getCurrentRunes()) {
+                            int amount = 400;
+                            if (getCurrentSpell().equals(Normal.FIRE_STRIKE) && rune.equals(ItemNameConstants.AIR_RUNE)) amount = 800;
+                            if (getCurrentSpell().equals(Normal.FIRE_BOLT) && rune.equals(ItemNameConstants.AIR_RUNE)) amount = 1200;
+                            if (getCurrentSpell().equals(Normal.FIRE_BLAST) && rune.equals(ItemNameConstants.AIR_RUNE)) amount = 1600;
+
                             if (Bank.contains(rune)) {
-                                int amount = 400;
-                                if (getCurrentSpell().equals(Normal.FIRE_STRIKE) && rune.equals(ItemNameConstants.AIR_RUNE)) amount = 800;
-                                if (getCurrentSpell().equals(Normal.FIRE_BOLT) && rune.equals(ItemNameConstants.AIR_RUNE)) amount = 1200;
-                                if (getCurrentSpell().equals(Normal.FIRE_BLAST) && rune.equals(ItemNameConstants.AIR_RUNE)) amount = 1600;
                                 if (Bank.count(rune) > amount) {
                                     if (Bank.withdraw(rune, amount))
                                         Sleep.sleepUntil(() -> Inventory.contains(rune), Utilities.getRandomSleepTime());
                                 } else {
                                     ItemUtilities.buyables.add(new GeItem(rune, amount * 3, LivePrices.getHigh(rune)));
                                 }
+                            } else {
+                                ItemUtilities.buyables.add(new GeItem(rune, amount * 3, LivePrices.getHigh(rune)));
                             }
                         }
                     } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
