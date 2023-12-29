@@ -3,6 +3,8 @@ package utils;
 import models.GeItem;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.map.Tile;
+import org.dreambot.api.methods.skills.Skill;
+import org.dreambot.api.methods.skills.Skills;
 import org.dreambot.api.utilities.Sleep;
 
 import java.util.ArrayList;
@@ -42,5 +44,13 @@ public class ItemUtilities {
             if (Inventory.dropAll(i -> dropables.contains(i.getName())))
                 Sleep.sleepUntil(() -> !Inventory.contains(i -> dropables.contains(i.getName())), Utilities.getRandomSleepTime());
         }
+    }
+
+    public static String getCurrentBait() {
+        int level = Skills.getRealLevel(Skill.FISHING);
+        if (level > 19)
+            return "Feather";
+        else
+            return "";
     }
 }

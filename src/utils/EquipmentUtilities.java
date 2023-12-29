@@ -335,4 +335,27 @@ public class EquipmentUtilities {
 
         return "Bronze pickaxe";
     }
+
+    public static String getCurrentAxe() {
+        int level = Skills.getRealLevel(Skill.WOODCUTTING);
+
+        if (level > 40 )
+            return "Rune axe";
+        if (level > 30)
+            return "Adamant axe";
+        if (level > 20)
+            return "Mithril axe";
+        if (level > 5)
+            return "Steel axe";
+
+        return "Bronze axe";
+    }
+
+    public static String getCurrentFishingRod() {
+        int level = Skills.getRealLevel(Skill.FISHING);
+        if (level > 19)
+            return "Fly fishing rod";
+        else
+            return "Small fishing net";
+    }
 }

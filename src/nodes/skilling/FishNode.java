@@ -125,20 +125,4 @@ public class FishNode extends TaskNode {
         else
             return "Fishing spot";
     }
-
-    private String getCurrentFishingRod() {
-        int level = Skills.getRealLevel(Skill.FISHING);
-        if (level > 19)
-            return "Fly fishing rod";
-        else
-            return "Small fishing net";
-    }
-
-    private String getCurrentBait() {
-        int level = Skills.getRealLevel(Skill.FISHING);
-        if (level > 19)
-            return "Feather";
-        else
-            return "";
-    }
 }

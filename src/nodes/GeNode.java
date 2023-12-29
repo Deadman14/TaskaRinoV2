@@ -156,16 +156,15 @@ public class GeNode extends TaskNode {
                         for (String i : ItemUtilities.sellables) {
                             if (GrandExchange.getOpenSlots() > 0) {
                                 Item item = Inventory.get(it -> it != null && it.getName().equals(i));
-                                Widget yesMenu = Widgets.getWidget(289);
 
                                 if (GrandExchange.sellItem(i, item.getAmount(), 1)) {
                                     remove.add(i);
-                                    Sleep.sleepUntil(() -> GrandExchange.contains(i) || yesMenu.isVisible(), Utilities.getRandomSleepTime());
+                                    Sleep.sleepUntil(() -> GrandExchange.contains(i) || Widgets.getWidget(289).isVisible(), Utilities.getRandomSleepTime());
 
-                                    if (yesMenu != null && yesMenu.isVisible()) {
-                                        WidgetChild yesButton = yesMenu.getChild(8);
+                                    if (Widgets.getWidget(289) != null && Widgets.getWidget(289).isVisible()) {
+                                        WidgetChild yesButton = Widgets.getWidget(289).getChild(8);
                                         if (yesButton.interact())
-                                            Sleep.sleepUntil(() -> !yesMenu.isVisible(), Utilities.getRandomSleepTime());
+                                            Sleep.sleepUntil(() -> !Widgets.getWidget(289).isVisible(), Utilities.getRandomSleepTime());
                                     }
                                 }
                             } else {

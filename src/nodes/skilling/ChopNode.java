@@ -18,10 +18,7 @@ import org.dreambot.api.script.TaskNode;
 import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Sleep;
 import org.dreambot.api.wrappers.interactive.GameObject;
-import utils.BankUtilities;
-import utils.ItemUtilities;
-import utils.TaskUtilities;
-import utils.Utilities;
+import utils.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,9 +75,9 @@ public class ChopNode extends TaskNode {
             Logger.log("- Bank -");
             if (Bank.isOpen()) {
                 Logger.log("- Bank Open -");
-                if (!currentAxe.equals(getCurrentAxe())) {
+                if (!currentAxe.equals(EquipmentUtilities.getCurrentAxe())) {
                     Logger.log("- Set current axe -");
-                    currentAxe = getCurrentAxe();
+                    currentAxe = EquipmentUtilities.getCurrentAxe();
                 }
 
                 if (Inventory.isFull() || !Inventory.isEmpty() && !Inventory.onlyContains(currentAxe)) {
@@ -138,21 +135,6 @@ public class ChopNode extends TaskNode {
             return oakTreeArea;
 
         return normalTreeArea;
-    }
-
-    private String getCurrentAxe() {
-        int level = Skills.getRealLevel(Skill.WOODCUTTING);
-
-        if (level > 40 )
-            return "Rune axe";
-        if (level > 30)
-            return "Adamant axe";
-        if (level > 20)
-            return "Mithril axe";
-        if (level > 5)
-            return "Steel axe";
-
-        return "Bronze axe";
     }
 
     private boolean canEquipCurrentAxe() {

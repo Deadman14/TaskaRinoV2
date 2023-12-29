@@ -99,9 +99,21 @@ public class BankUtilities {
     }
 
     public static List<String> getListOfSellables() {
-        List<String> allItems = Bank.all().stream().map(Item::getName).toList();
+        List<String> allItems = new ArrayList<>(Bank.all().stream().map(Item::getName).toList());
 
-        allItems.removeIf(i -> i.equals(ItemUtilities.currentFood));
+        allItems.removeIf(i -> i.equals(ItemUtilities.currentFood) || SlayerUtilities.slayerItems.contains(i)
+        || i.equals(EquipmentUtilities.getCurrentFullHelm()) || i.equals(EquipmentUtilities.getCurrentPlatebody())
+        || i.equals(EquipmentUtilities.getCurrentPlatelegs()) || i.equals(EquipmentUtilities.getCurrentKiteshield())
+        || i.equals(EquipmentUtilities.getCurrentMeleeHandslot()) || i.equals(EquipmentUtilities.getCurrentSword())
+        || i.equals(EquipmentUtilities.getCurrentMeleeBoots()) || i.equals(EquipmentUtilities.getCurrentRangedHelm())
+        || i.equals(EquipmentUtilities.getCurrentRangedBody()) || i.equals(EquipmentUtilities.getCurrentRangedPants())
+        || i.equals(EquipmentUtilities.getCurrentRangedGloves()) || i.equals(EquipmentUtilities.getCurrentBow())
+        || i.equals(EquipmentUtilities.getCurrentArrow()) || i.equals(EquipmentUtilities.getCurrentRangedOffhand())
+        || i.equals(EquipmentUtilities.getCurrentMagicHelm()) || i.equals(EquipmentUtilities.getCurrentMagicBody())
+        || i.equals(EquipmentUtilities.getCurrentMagicPants()) || i.equals(EquipmentUtilities.getCurrentMagicNecklace())
+        || i.equals(EquipmentUtilities.getCurrentMagicWeapon()) || i.equals(EquipmentUtilities.getCurrentPickaxe())
+        || i.equals(EquipmentUtilities.getCurrentAxe()) || i.equals(EquipmentUtilities.getCurrentFishingRod())
+        || (!ItemUtilities.getCurrentBait().isEmpty() && i.equals(ItemUtilities.getCurrentBait())));
 
         return allItems;
     }
