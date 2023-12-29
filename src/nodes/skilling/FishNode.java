@@ -18,10 +18,7 @@ import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Sleep;
 import org.dreambot.api.wrappers.interactive.NPC;
 import org.dreambot.api.wrappers.items.Item;
-import utils.BankUtilities;
-import utils.ItemUtilities;
-import utils.TaskUtilities;
-import utils.Utilities;
+import utils.*;
 
 import java.util.ArrayList;
 
@@ -37,19 +34,19 @@ public class FishNode extends TaskNode {
         if (Dialogues.inDialogue())
             Dialogues.continueDialogue();
 
-        if (!Inventory.isFull() && Inventory.contains(getCurrentFishingRod())) {
+        if (!Inventory.isFull() && Inventory.contains(EquipmentUtilities.getCurrentFishingRod())) {
             if (Skills.getRealLevel(Skill.FISHING) > 19) {
-                if (Inventory.contains(getCurrentBait()) && Inventory.count(getCurrentBait()) > 25) {
+                if (Inventory.contains(ItemUtilities.getCurrentBait()) && Inventory.count(ItemUtilities.getCurrentBait()) > 25) {
                     goFishing();
                 } else {
                     if (Bank.isOpen()) {
                         BankUtilities.setBankMode(BankMode.ITEM);
 
-                        if (Bank.contains(getCurrentBait())) {
-                            if (Bank.withdraw(getCurrentBait(), 100))
-                                Sleep.sleepUntil(() -> Inventory.contains(getCurrentBait()), Utilities.getRandomSleepTime());
+                        if (Bank.contains(ItemUtilities.getCurrentBait())) {
+                            if (Bank.withdraw(ItemUtilities.getCurrentBait(), 100))
+                                Sleep.sleepUntil(() -> Inventory.contains(ItemUtilities.getCurrentBait()), Utilities.getRandomSleepTime());
                         } else {
-                            ItemUtilities.buyables.add(new GeItem(getCurrentBait(), 2000, LivePrices.getHigh(getCurrentBait())));
+                            ItemUtilities.buyables.add(new GeItem(ItemUtilities.getCurrentBait(), 2000, LivePrices.getHigh(ItemUtilities.getCurrentBait())));
                         }
                     } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
                         BankUtilities.openBank();
@@ -61,17 +58,17 @@ public class FishNode extends TaskNode {
         } else {
             if (Bank.isOpen()) {
                 if (Inventory.emptySlotCount() < 20) {
-                    if (Bank.depositAllExcept(getCurrentFishingRod(), getCurrentBait()))
+                    if (Bank.depositAllExcept(EquipmentUtilities.getCurrentFishingRod(), ItemUtilities.getCurrentBait()))
                         Sleep.sleepUntil(() -> !Inventory.isFull(), Utilities.getRandomSleepTime());
                 } else {
                     BankUtilities.setBankMode(BankMode.ITEM);
 
-                    if (!Inventory.contains(getCurrentFishingRod())) {
-                        if (Bank.contains(getCurrentFishingRod())) {
-                            if (Bank.withdraw(getCurrentFishingRod(), 1))
-                                Sleep.sleepUntil(() -> Inventory.contains(getCurrentFishingRod()), Utilities.getRandomSleepTime());
+                    if (!Inventory.contains(EquipmentUtilities.getCurrentFishingRod())) {
+                        if (Bank.contains(EquipmentUtilities.getCurrentFishingRod())) {
+                            if (Bank.withdraw(EquipmentUtilities.getCurrentFishingRod(), 1))
+                                Sleep.sleepUntil(() -> Inventory.contains(EquipmentUtilities.getCurrentFishingRod()), Utilities.getRandomSleepTime());
                         } else {
-                            ItemUtilities.buyables.add(new GeItem(getCurrentFishingRod(), 1, LivePrices.getHigh(getCurrentFishingRod())));
+                            ItemUtilities.buyables.add(new GeItem(EquipmentUtilities.getCurrentFishingRod(), 1, LivePrices.getHigh(EquipmentUtilities.getCurrentFishingRod())));
                         }
                     }
                 }
@@ -90,7 +87,7 @@ public class FishNode extends TaskNode {
 
     private void goFishing() {
         if (getCurrentFishingArea().contains(Players.getLocal())) {
-            Item net = Inventory.get(getCurrentFishingRod());
+            Item net = Inventory.get(EquipmentUtilities.getCurrentFishingRod());
             NPC spot = NPCs.closest(s -> s.getName().equals(getCurrentFishingSpotName()) && s.hasAction(getCurrentFishingAction()));
 
             if (net != null && spot != null && Players.getLocal().isStandingStill()) {
