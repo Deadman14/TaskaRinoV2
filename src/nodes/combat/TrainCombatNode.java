@@ -56,7 +56,7 @@ public class TrainCombatNode extends TaskNode {
             Dialogues.continueDialogue();
 
         if (!Inventory.isFull() && Inventory.contains(ItemUtilities.currentFood) && Inventory.count(ItemUtilities.currentFood) > 1
-                && !BankUtilities.areItemsNoted(Arrays.asList(ItemUtilities.currentFood))) {
+                && !BankUtilities.areItemsNoted(Collections.singletonList(ItemUtilities.currentFood))) {
 
             if (TaskUtilities.currentTask.equals("Train Combat Magic")) {
                 if (!Inventory.containsAll(getCurrentRunes())) {

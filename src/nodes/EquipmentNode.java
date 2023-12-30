@@ -25,17 +25,7 @@ public class EquipmentNode extends TaskNode {
                     Sleep.sleepUntil(() -> Equipment.contains(item.getName()), Utilities.getRandomSleepTime());
             }
         } else {
-            if (Bank.isOpen()) {
-                if (Bank.close())
-                    Sleep.sleepUntil(() -> !Bank.isOpen(), Utilities.getRandomSleepTime());
-            }
-
-            if (Shop.isOpen()) {
-                if (Shop.close())
-                    Sleep.sleepUntil(() -> !Shop.isOpen(), Utilities.getRandomSleepTime());
-            }
-
-            Utilities.closeGeAndBank();
+            Utilities.closeInterfaces();
         }
 
         return Utilities.getRandomExecuteTime();

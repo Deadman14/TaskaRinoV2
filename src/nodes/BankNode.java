@@ -46,31 +46,6 @@ public class BankNode extends TaskNode {
             return Utilities.getRandomExecuteTime();
         }
 
-        if (EquipmentUtilities.requiredEquipment.contains("Mirror shield")
-                && !Inventory.contains("Mirror shield") && !Equipment.contains("Mirror shield")) {
-            if (SlayerUtilities.hasCheckedBankForSlayerEquipment) {
-                SlayerUtilities.buyItemFromSlayerMaster("Mirror shield", 5000);
-            } else {
-                if (Bank.isOpen()) {
-                    if (Bank.contains("Mirror shield")) {
-                        if (Bank.withdraw("Mirror shield"))
-                            Sleep.sleepUntil(() -> Inventory.contains("Mirror shield"), Utilities.getRandomSleepTime());
-                        SlayerUtilities.hasCheckedBankForSlayerEquipment = true;
-                    }
-                } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
-                    BankUtilities.openBank();
-                }
-            }
-
-            return Utilities.getRandomExecuteTime();
-        }
-
-        if (EquipmentUtilities.requiredEquipment.contains("Spiny helmet")
-                && !Inventory.contains("Spiny helmet") && !Equipment.contains("Spiny helmet")) {
-            SlayerUtilities.buyItemFromSlayerMaster("Spiny helmet", 1000);
-            return Utilities.getRandomExecuteTime();
-        }
-
         if (Bank.isOpen()) {
             BankUtilities.setBankMode(BankMode.ITEM);
 

@@ -18,7 +18,7 @@ public class EatNode extends TaskNode {
     public int execute() {
         Logger.log("- Eat -");
 
-        Utilities.closeGeAndBank();
+        Utilities.closeInterfaces();
 
         if (Tabs.isOpen(Tab.INVENTORY)) {
             if (Combat.getHealthPercent() < 60) {

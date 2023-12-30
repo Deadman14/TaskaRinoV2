@@ -55,6 +55,6 @@ public class NewTaskNode extends TaskNode {
     private boolean isReadyForP2P() {
         return Skills.getRealLevel(Skill.STRENGTH) >= 40 && Skills.getRealLevel(Skill.ATTACK) >= 40 && Skills.getRealLevel(Skill.DEFENCE) >= 40
                 && Skills.getRealLevel(Skill.RANGED) >= 40 && Skills.getRealLevel(Skill.MAGIC) >= 40 && Skills.getRealLevel(Skill.FISHING) >= 40
-                && Skills.getRealLevel(Skill.MINING) >= 40 && Utilities.isGeFullyOpen();
+                && Skills.getRealLevel(Skill.MINING) >= 40 && Utilities.isGeFullyOpen() && Skills.getRealLevel(Skill.SMITHING) >= 40;
     }
 }

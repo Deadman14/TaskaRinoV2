@@ -15,8 +15,8 @@ import java.util.Random;
 public class TaskUtilities {
 
     public static String[] totalTasks = {"Cooks Assistant", "Train Combat Melee", "Train Combat Range", "Mining", "Woodcutting", "Romeo And Juliet",
-            "Make Soft Clay", "Shear Sheep", "Fishing", "Goblin Diplomacy", "Restless Ghost", "Kill Imps", "Cook", "Train Combat Magic", "Doric's Quest",
-            "Imp Catcher", "Rune Mysteries", "Ernest The Chicken", "X Mark's The Spot", "Knights Sword", "Natural History Quiz", "Slayer"};
+            "Make Soft Clay", "Shear Sheep", "Fishing", "Goblin Diplomacy", "Restless Ghost", "Kill Imps", "Train Combat Magic", "Doric's Quest",
+            "Imp Catcher", "Rune Mysteries", "Ernest The Chicken", "X Mark's The Spot", "Knights Sword", "Natural History Quiz", "Slayer", "Smith"};
 
     public static String[] preGeTasks = { "Goblin Diplomacy", "Mining", "Woodcutting", "Romeo And Juliet", "Shear Sheep", "Fishing", "Restless Ghost",
             "Kill Imps", "Train Combat Melee", "Cooks Assistant", "Doric's Quest", "Imp Catcher", "Rune Mysteries", "Ernest The Chicken",
@@ -118,8 +118,8 @@ public class TaskUtilities {
             case "Make Soft Clay":
             case "Kill Imps":
                 return Utilities.isP2P;
-            case "Cook":
-                return Utilities.isP2P || Skills.getRealLevel(Skill.COOKING) > 49;
+            case "Smith":
+                return Skills.getRealLevel(Skill.SMITHING) < 29 || Skills.getRealLevel(Skill.SMITHING) >= 60;
             default:
                 return false;
         }

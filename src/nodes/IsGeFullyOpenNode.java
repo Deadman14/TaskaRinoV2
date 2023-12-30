@@ -16,7 +16,7 @@ public class IsGeFullyOpenNode extends TaskNode {
     public int execute() {
         Logger.log("- Is Ge Fully Open Node -");
 
-        Utilities.closeGeAndBank();
+        Utilities.closeInterfaces();
 
         if (Tabs.isOpen(Tab.QUEST)) {
             if (Dialogues.inDialogue())

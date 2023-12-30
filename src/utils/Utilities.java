@@ -1,21 +1,16 @@
 package utils;
 
 import org.dreambot.api.methods.Calculations;
+import org.dreambot.api.methods.container.impl.Shop;
 import org.dreambot.api.methods.container.impl.bank.Bank;
-import org.dreambot.api.methods.dialogues.Dialogues;
 import org.dreambot.api.methods.grandexchange.GrandExchange;
 import org.dreambot.api.methods.grandexchange.LivePrices;
 import org.dreambot.api.methods.map.Area;
 import org.dreambot.api.methods.quest.Quests;
 import org.dreambot.api.methods.skills.Skills;
-import org.dreambot.api.methods.tabs.Tab;
-import org.dreambot.api.methods.tabs.Tabs;
 import org.dreambot.api.methods.walking.impl.Walking;
-import org.dreambot.api.methods.widget.Widget;
-import org.dreambot.api.methods.widget.Widgets;
 import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Sleep;
-import org.dreambot.api.wrappers.widgets.WidgetChild;
 
 public class Utilities {
     public static String currentNode = "";
@@ -55,7 +50,7 @@ public class Utilities {
         }
     }
 
-    public static void closeGeAndBank() {
+    public static void closeInterfaces() {
         if (GrandExchange.isOpen()) {
             if (GrandExchange.close())
                 Sleep.sleepUntil(() -> !GrandExchange.isOpen(), Utilities.getRandomSleepTime());
@@ -64,6 +59,11 @@ public class Utilities {
         if (Bank.isOpen()) {
             if (Bank.close())
                 Sleep.sleepUntil(() -> !Bank.isOpen(), Utilities.getRandomSleepTime());
+        }
+
+        if (Shop.isOpen()) {
+            if (Shop.close())
+                Sleep.sleepUntil(() -> !Shop.isOpen(), Utilities.getRandomSleepTime());
         }
     }
 }
