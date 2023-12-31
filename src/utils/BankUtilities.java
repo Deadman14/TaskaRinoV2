@@ -113,7 +113,7 @@ public class BankUtilities {
         || i.equals(EquipmentUtilities.getCurrentMagicPants()) || i.equals(EquipmentUtilities.getCurrentMagicNecklace())
         || i.equals(EquipmentUtilities.getCurrentMagicWeapon()) || i.equals(EquipmentUtilities.getCurrentPickaxe())
         || i.equals(EquipmentUtilities.getCurrentAxe()) || i.equals(EquipmentUtilities.getCurrentFishingRod())
-        || (!ItemUtilities.getCurrentBait().isEmpty() && i.equals(ItemUtilities.getCurrentBait())));
+        || (!ItemUtilities.getCurrentBait().isEmpty() && i.equals(ItemUtilities.getCurrentBait())) || i.equals("Coins"));
 
         return allItems;
     }

@@ -139,7 +139,7 @@ public class TrainCombatNode extends TaskNode {
         } else {
             if (Bank.isOpen()) {
                 if (!Inventory.isEmpty() && (Inventory.isFull() || !Inventory.onlyContains(ItemUtilities.currentFood))) {
-                    if (Bank.depositAllExcept(ItemUtilities.currentFood))
+                    if (Bank.depositAllExcept(i -> i.getName().equals(ItemUtilities.currentFood) || (!getCurrentRunes().isEmpty() && getCurrentRunes().contains(i.getName()))))
                         Sleep.sleepUntil(() -> !Inventory.isFull(), Utilities.getRandomSleepTime());
                 }
 
