@@ -12,6 +12,7 @@ import org.dreambot.api.methods.grandexchange.LivePrices;
 import org.dreambot.api.methods.interactive.GameObjects;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.map.Area;
+import org.dreambot.api.methods.map.Tile;
 import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.methods.skills.Skills;
 import org.dreambot.api.methods.walking.impl.Walking;
@@ -26,7 +27,13 @@ import java.util.ArrayList;
 public class MineNode extends TaskNode {
     private String currentPickaxe = "Bronze pickaxe";
     public final static Area COPPER_AREA = new Area(3220, 3152, 3232, 3143);
-    public final static Area IRON_AREA = new Area(3276, 3371, 3295, 3355);
+    public final static Area IRON_AREA = new Area(
+        new Tile[] {
+            new Tile(3286, 3369, 0),
+                    new Tile(3286, 3368, 0),
+                    new Tile(3285, 3368, 0)
+        }
+    );
     private final static Area MINING_GUILD = new Area(3024, 9753, 3053, 9732);
 
     @Override
@@ -44,7 +51,7 @@ public class MineNode extends TaskNode {
                         Sleep.sleepUntil(() -> Equipment.contains(currentPickaxe), Utilities.getRandomSleepTime());
                 }
 
-                GameObject ore = GameObjects.closest(o -> o != null && o.getName().equals(getCurrentOre()) && o.exists());
+                GameObject ore = GameObjects.closest(o -> o != null && o.getName().equals(getCurrentOre()) && o.exists() && getCurrentArea().contains(o));
                 if (ore != null && ore.exists()) {
                     if (ore.canReach()) {
                         if (ore.interact())
