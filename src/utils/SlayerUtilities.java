@@ -104,7 +104,6 @@ public class SlayerUtilities {
             TaskUtilities.taskTimer.start();
         }
 
-        Utilities.shouldLoot = true;
         if (!useDeathItem) deathItemMonster = null;
 
         ItemUtilities.dropDropables();
@@ -126,6 +125,11 @@ public class SlayerUtilities {
                             Walking.walk(npc.getTile());
                         }
                     }
+                } else {
+                    NPC c = (NPC)Players.getLocal().getCharacterInteractingWithMe();
+
+                    if (c != null)
+                        ItemUtilities.lootTile = c.getTrueTile();
                 }
             } else {
                 Logger.log("-- Death Monster Not Null --");
@@ -157,7 +161,6 @@ public class SlayerUtilities {
 
     public static void bankForTask(List<String> reqItems, boolean needShantayPass, String multiUseItem) {
         Logger.log("-- Bank For Slayer Task --");
-        Utilities.shouldLoot = false;
 
         List<String> slayerItemsToBuy = reqItems.stream().filter(i -> slayerItems.contains(i) && !Inventory.contains(i)).toList();
         if (!slayerItemsToBuy.isEmpty()) {

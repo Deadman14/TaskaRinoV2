@@ -19,11 +19,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class LootNode extends TaskNode {
-    List<String> nodesTasks = new ArrayList<>(Arrays.asList("Train Combat Melee", "Train Combat Range", "Train Combat Magic",
-            "Slay kalphite", "Slay ogres", "Slay ice warriors", "Slay moss giants", "Slay ice giants", "Slay crocodiles",
-            "Slay hobgoblins", "Slay cockatrice", "Slay wall beasts", "Slay cave bugs", "Slay basilisks", "Slay killerwatts",
-            "Slay pyrefiends", "Slay rockslugs", "Slay cave slimes", "Slay ankou", "Slay cave crawlers", "Slay hill giants",
-            "Slay fire giants", "Slay lesser demons", "Slay lizards", "Slay jellies", "Kill Imps"));
 
     public List<String> lootables = new ArrayList<>(Arrays.asList("Coins", "Iron arrow", "Mithril arrow", "Cowhide", "Law rune", "Nature rune",
             "Death rune", "Chaos rune", "Cosmic rune", "Blood rune", "Limpwurt root", "Giant key", "Uncut sapphire", "Uncut emerald", "Uncut ruby", "Uncut diamond",
@@ -37,14 +32,17 @@ public class LootNode extends TaskNode {
             "Staff of air", "Fire battlestaff", "Air battlestaff", "Mystic fire staff", "Cannonball", "Fire orb", "Coal", "Iron bar",
             "Bronze bar", "Mystic gloves (light)", "Iron bar", "Black robe", "Mithril ore", "Rune scimitar", "Mithril sq shield", "Rune arrow"));
 
+    int lootOnTileTries = 0;
+
 
     @Override
     public int execute() {
         Logger.log("- Loot -");
 
         GroundItem onTileItem = GroundItems.closest(i -> ItemUtilities.lootTile.getArea(0).contains(i));
-        if (onTileItem == null)
-            return Utilities.getRandomExecuteTime();
+        if (onTileItem == null) {
+            Sleep.sleepUntil(() -> GroundItems.closest(i -> ItemUtilities.lootTile.getArea(0).contains(i)) != null, Utilities.getRandomSleepTime());
+        }
 
         GroundItem loot = GroundItems.closest(item -> (lootables.contains(item.getName()) && (!item.getName().contains("arrow")
                 || item.getName().contains("arrow") && item.getAmount() > 5)) && getLootArea().contains(item));
@@ -64,9 +62,8 @@ public class LootNode extends TaskNode {
 
     @Override
     public boolean accept() {
-        return (!Inventory.isFull() && Equipment.containsAll(EquipmentUtilities.requiredEquipment) &&
-                !GroundItems.all(item -> ((lootables.contains(item.getName()) && (!item.getName().contains("arrow") || item.getName().contains("arrow") && item.getAmount() > 5)) && item.distance(Players.getLocal()) < 7)).isEmpty()
-                && nodesTasks.contains(TaskUtilities.currentTask)) && Utilities.shouldLoot && ItemUtilities.lootTile != null && !Players.getLocal().isInCombat();
+        return ItemUtilities.lootTile != null && !Players.getLocal().isInCombat() && !Inventory.isFull()
+                && Equipment.containsAll(EquipmentUtilities.requiredEquipment);
     }
 
     @Override

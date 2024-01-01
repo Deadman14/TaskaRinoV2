@@ -102,15 +102,15 @@ public class TrainCombatNode extends TaskNode {
             }
 
             if (getCurrentCombatArea().contains(Players.getLocal())) {
-                Utilities.shouldLoot = true;
                 if (PlayerSettings.getConfig(43) == SlayerUtilities.GetAttackStyleConfig() || TaskUtilities.currentTask.equals("Train Combat Magic")) {
                     if (!Players.getLocal().isInCombat()) {
                         Character c = Players.getLocal().getCharacterInteractingWithMe();
                         NPC npc = c != null && c.getName().equals(SlayerUtilities.getCurrentCombatTrainingNpc()) && getCurrentCombatArea().contains(c) ? (NPC) Players.getLocal().getCharacterInteractingWithMe() : NPCs.closest(g -> g.getName().equals(SlayerUtilities.getCurrentCombatTrainingNpc()) && !g.isInCombat() && getCurrentCombatArea().contains(g));
                         if (npc != null) {
                             if (npc.canReach()) {
-                                if (npc.interact())
+                                if (npc.interact()) {
                                     Sleep.sleepUntil(() -> npc.isInCombat() || Players.getLocal().isInCombat() || Dialogues.canContinue(), Utilities.getRandomSleepTime());
+                                }
                             } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
                                 Walking.walk(npc.getTile());
                             }
@@ -126,14 +126,15 @@ public class TrainCombatNode extends TaskNode {
                     } else {
                         NPC c = (NPC)Players.getLocal().getCharacterInteractingWithMe();
 
-                        if (c != null)
+                        if (c != null) {
+                            Logger.log("- Set Loot Tile -");
                             ItemUtilities.lootTile = c.getTrueTile();
+                        }
                     }
                 } else {
                     SlayerUtilities.SetCombatStyle();
                 }
             } else {
-                Utilities.shouldLoot = false;
                 Utilities.walkToArea(getCurrentCombatArea());
             }
         } else {

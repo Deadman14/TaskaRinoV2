@@ -1,27 +1,31 @@
 # TaskaRinoV2
 
-               # PRIOS
-        6 - anything to keep me alive (eat, prayer, run away)
-        5 - Task
-        4 - GE
-        3 - Banking
-        2 - Equipping shit, looting
-        1 - nodes
+    PRIOS
+    7 - anything to keep me alive (eat, prayer, run away)
+    6 - isGeFullyOpebCheck
+    5 - Task
+    4 - GE
+    3 - Banking
+    2 - Equipping shit, looting
+    1 - nodes
 
 
                     BUGS
-    training combat, if you change gear then it doesn't deposit old gear - worth doing? Investigate/Brainstorm
-    TODO: move ge check of buyables to before it walks to the GE! (gunna have to predict for this one) - confirmed? Want some extra confirmation
-    ge yes menu
-    don't sell all blue wizard hats
-    Not looting during kill imps - probably shouldLoot boolean
+    account for getting waterskins from bank - I think this is done with my bank for multiuse items
+    don't sell all blue wizard hats - in process of adding new way of getting sellables
+    during slaying - if player is being attacked by something that is not what it is supposed to be killing, it still kills it
+    ADD CHECKING FOR NOTED ITEMS EVERYWHERE DUMBASS
 
 
                     IMPROVEMENTS
-    TODO: mot a fresh tut account to really test this
-    if cook assistant done use lumby range, else use close -  can postpone this until closer to P2P
     turn task name into const values
     Improve sleeps in ernie the chick lever puzzle
+    In eat node add banking for food and anything else - this is to cover the case of being poisoned or something after a combat
+        task and now doing a task with no food in inv but needs it
+    Create method to check if you need a varrock tele to get to GE/slayer master: use this in GE and get slayer task nodes instead
+        of bringing varrock teles with you on every task
+    Make bot get brass key for edge dungeon
+    FInd a way that if bot cannot afford current equipment, use next set down
 
 
                 MOVE TO P2P REQS
@@ -30,14 +34,19 @@
     rune mysteries
 
 
-                SKILL FOCUSED
+                SKILL FOCUSED IN P2P
     Slayer, FIshing, Hunting, Smithing, Mining
 
                 IDEAS
     Make gold items - mine gold, run to furnace, make bars, make item, bank, repeat
+    come up with a way to add every item i want to sell to a list and not have to avoid putting in items like my equipment or food I'm using.
+        I just wanna put all items in and call a method of like how many of that item should you leave in the bank if any
+    replace cooking with smithing?
 
 
                 Up NEXT
+    add in new equipment for higher levels (melee done)
+    set konar - 60 att/def 50 slayer
     keep doing new task if avilable
     fishing
     runecrafting miniquest
@@ -46,3 +55,8 @@
     prayer
     find a way to tell if your account has mems days on it
         will need for if below x days re-bond
+
+
+              LOGS
+    double dash logs for global "-- comment --"
+    single dash logs for node based logs "- comment -"

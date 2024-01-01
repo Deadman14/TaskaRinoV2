@@ -55,7 +55,6 @@ public class SlayWallBeastsNode extends TaskNode {
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems)) {
             if (wallBeastArea.contains(Players.getLocal())) {
-                Utilities.shouldLoot = true;
                 if (PlayerSettings.getConfig(43) == SlayerUtilities.GetAttackStyleConfig()) {
                     if (!Players.getLocal().isInCombat()) {
                         Character c = Players.getLocal().getCharacterInteractingWithMe();
@@ -66,9 +65,12 @@ public class SlayWallBeastsNode extends TaskNode {
                             }
                         }
                     } else {
-                        Character c = Players.getLocal().getCharacterInteractingWithMe();
-                        if (c != null)
-                            previousTile = c.getTile();
+                        NPC c = (NPC)Players.getLocal().getCharacterInteractingWithMe();
+
+                        if (c != null) {
+                            previousTile = c.getTrueTile();
+                            ItemUtilities.lootTile = c.getTrueTile();
+                        }
                     }
                 } else {
                     SlayerUtilities.SetCombatStyle();
