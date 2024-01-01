@@ -29,6 +29,7 @@
     Make bot get brass key for edge dungeon
     FInd a way that if bot cannot afford current equipment, use next set down
     new spot for iron mining!!
+    I think I can get rid of shoudlLoot boolean and list of checking which tasks to loot during with always using loot tile now
 
 
                 MOVE TO P2P REQS

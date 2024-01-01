@@ -344,4 +344,43 @@ public class SlayerUtilities {
 
         return amount;
     }
+
+    public static String getCurrentCombatTrainingNpc() {
+        if (TaskUtilities.currentTask.contains("Melee")) {
+            int att = Skills.getRealLevel(Skill.ATTACK);
+            int str = Skills.getRealLevel(Skill.STRENGTH);
+            int def = Skills.getRealLevel(Skill.DEFENCE);
+
+            if (att > 39 && str > 39 && def > 39)
+                return NpcNameConstants.HILL_GIANTS;
+            if (att > 19 && str > 19 && def > 19)
+                return NpcNameConstants.COW;
+            else
+                return "Goblin";
+        } else if (TaskUtilities.currentTask.contains("Range")) {
+            int rang = Skills.getRealLevel(Skill.RANGED);
+            int def = Skills.getRealLevel(Skill.DEFENCE);
+
+            if (rang > 39 && def > 39)
+                return NpcNameConstants.HILL_GIANTS;
+            if (rang > 19 && def > 19)
+                return NpcNameConstants.COW;
+            else
+                return "Goblin";
+        } else if (TaskUtilities.currentTask.contains("Magic")) {
+            int mage = Skills.getRealLevel(Skill.MAGIC);
+            int def = Skills.getRealLevel(Skill.DEFENCE);
+
+            if (mage > 39 && def > 39)
+                return NpcNameConstants.HILL_GIANTS;
+            if (mage > 19 && def > 19)
+                return NpcNameConstants.COW;
+            else
+                return NpcNameConstants.GOBLIN;
+        } else if (TaskUtilities.currentTask.equals("Kill Imps")) {
+            return NpcNameConstants.IMP;
+        }
+
+        return NpcNameConstants.GOBLIN;
+    }
 }

@@ -28,12 +28,9 @@ public class MineNode extends TaskNode {
     private String currentPickaxe = "Bronze pickaxe";
     public final static Area COPPER_AREA = new Area(3220, 3152, 3232, 3143);
     public final static Area IRON_AREA = new Area(
-        new Tile[] {
             new Tile(3286, 3369, 0),
-                    new Tile(3286, 3368, 0),
-                    new Tile(3285, 3368, 0)
-        }
-    );
+            new Tile(3286, 3368, 0),
+            new Tile(3285, 3368, 0));
     private final static Area MINING_GUILD = new Area(3024, 9753, 3053, 9732);
 
     @Override

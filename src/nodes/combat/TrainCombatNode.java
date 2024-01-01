@@ -106,7 +106,7 @@ public class TrainCombatNode extends TaskNode {
                 if (PlayerSettings.getConfig(43) == SlayerUtilities.GetAttackStyleConfig() || TaskUtilities.currentTask.equals("Train Combat Magic")) {
                     if (!Players.getLocal().isInCombat()) {
                         Character c = Players.getLocal().getCharacterInteractingWithMe();
-                        NPC npc = c != null && c.getName().equals(getCurrentCombatNpc()) && getCurrentCombatArea().contains(c) ? (NPC) Players.getLocal().getCharacterInteractingWithMe() : NPCs.closest(g -> g.getName().equals(getCurrentCombatNpc()) && !g.isInCombat() && getCurrentCombatArea().contains(g));
+                        NPC npc = c != null && c.getName().equals(SlayerUtilities.getCurrentCombatTrainingNpc()) && getCurrentCombatArea().contains(c) ? (NPC) Players.getLocal().getCharacterInteractingWithMe() : NPCs.closest(g -> g.getName().equals(SlayerUtilities.getCurrentCombatTrainingNpc()) && !g.isInCombat() && getCurrentCombatArea().contains(g));
                         if (npc != null) {
                             if (npc.canReach()) {
                                 if (npc.interact())
@@ -124,10 +124,10 @@ public class TrainCombatNode extends TaskNode {
                             }
                         }
                     } else {
-                        Character c = Players.getLocal().getCharacterInteractingWithMe();
+                        NPC c = (NPC)Players.getLocal().getCharacterInteractingWithMe();
 
                         if (c != null)
-                            ItemUtilities.lootTile = Players.getLocal().getCharacterInteractingWithMe().getTile();
+                            ItemUtilities.lootTile = c.getTrueTile();
                     }
                 } else {
                     SlayerUtilities.SetCombatStyle();
@@ -210,45 +210,6 @@ public class TrainCombatNode extends TaskNode {
         }
 
         return goblinArea;
-    }
-
-    private String getCurrentCombatNpc() {
-        if (TaskUtilities.currentTask.contains("Melee")) {
-            int att = Skills.getRealLevel(Skill.ATTACK);
-            int str = Skills.getRealLevel(Skill.STRENGTH);
-            int def = Skills.getRealLevel(Skill.DEFENCE);
-
-            if (att > 39 && str > 39 && def > 39)
-                return NpcNameConstants.HILL_GIANTS;
-            if (att > 19 && str > 19 && def > 19)
-                return NpcNameConstants.COW;
-            else
-                return "Goblin";
-        } else if (TaskUtilities.currentTask.contains("Range")) {
-            int rang = Skills.getRealLevel(Skill.RANGED);
-            int def = Skills.getRealLevel(Skill.DEFENCE);
-
-            if (rang > 39 && def > 39)
-                return NpcNameConstants.HILL_GIANTS;
-            if (rang > 19 && def > 19)
-                return NpcNameConstants.COW;
-            else
-                return "Goblin";
-        } else if (TaskUtilities.currentTask.contains("Magic")) {
-            int mage = Skills.getRealLevel(Skill.MAGIC);
-            int def = Skills.getRealLevel(Skill.DEFENCE);
-
-            if (mage > 39 && def > 39)
-                return NpcNameConstants.HILL_GIANTS;
-            if (mage > 19 && def > 19)
-                return NpcNameConstants.COW;
-            else
-                return NpcNameConstants.GOBLIN;
-        } else if (TaskUtilities.currentTask.equals("Kill Imps")) {
-            return NpcNameConstants.IMP;
-        }
-
-        return NpcNameConstants.GOBLIN;
     }
 
     private List<String> getCurrentRunes() {

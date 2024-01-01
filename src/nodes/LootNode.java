@@ -1,5 +1,6 @@
 package nodes;
 
+import constants.NpcNameConstants;
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.container.impl.equipment.Equipment;
@@ -11,10 +12,8 @@ import org.dreambot.api.script.TaskNode;
 import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Sleep;
 import org.dreambot.api.wrappers.items.GroundItem;
-import utils.EquipmentUtilities;
-import utils.ItemUtilities;
-import utils.TaskUtilities;
-import utils.Utilities;
+import utils.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -43,35 +42,21 @@ public class LootNode extends TaskNode {
     public int execute() {
         Logger.log("- Loot -");
 
-        if (ItemUtilities.lootTile == null || Utilities.isP2P) {
-            GroundItem loot = GroundItems.closest(item -> (lootables.contains(item.getName()) && (!item.getName().contains("arrow")
-                    || item.getName().contains("arrow") && item.getAmount() > 5)));
-            if (loot != null) {
-                if (loot.canReach()) {
-                    if (loot.interact("Take"))
-                        Sleep.sleepUntil(() -> !loot.exists(), Utilities.getRandomSleepTime());
-                } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
-                    Walking.walk(loot.getTile());
-                }
-            } else {
-                ItemUtilities.lootTile = null;
+        GroundItem onTileItem = GroundItems.closest(i -> ItemUtilities.lootTile.getArea(0).contains(i));
+        if (onTileItem == null)
+            return Utilities.getRandomExecuteTime();
+
+        GroundItem loot = GroundItems.closest(item -> (lootables.contains(item.getName()) && (!item.getName().contains("arrow")
+                || item.getName().contains("arrow") && item.getAmount() > 5)) && getLootArea().contains(item));
+        if (loot != null) {
+            if (loot.canReach()) {
+                if (loot.interact("Take"))
+                    Sleep.sleepUntil(() -> !loot.exists(), Utilities.getRandomSleepTime());
+            } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
+                Walking.walk(loot.getTile());
             }
         } else {
-            if (ItemUtilities.lootTile != null) {
-                Area lootArea = ItemUtilities.lootTile.getArea(2);
-                GroundItem loot = GroundItems.closest(item -> (lootables.contains(item.getName()) && (!item.getName().contains("arrow")
-                        || item.getName().contains("arrow") && item.getAmount() > 5)) && lootArea.contains(item));
-                if (loot != null) {
-                    if (loot.canReach()) {
-                        if (loot.interact("Take"))
-                            Sleep.sleepUntil(() -> !loot.exists(), Utilities.getRandomSleepTime());
-                    } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
-                        Walking.walk(loot.getTile());
-                    }
-                } else {
-                    ItemUtilities.lootTile = null;
-                }
-            }
+            ItemUtilities.lootTile = null;
         }
 
         return Utilities.getRandomExecuteTime();
@@ -81,11 +66,20 @@ public class LootNode extends TaskNode {
     public boolean accept() {
         return (!Inventory.isFull() && Equipment.containsAll(EquipmentUtilities.requiredEquipment) &&
                 !GroundItems.all(item -> ((lootables.contains(item.getName()) && (!item.getName().contains("arrow") || item.getName().contains("arrow") && item.getAmount() > 5)) && item.distance(Players.getLocal()) < 7)).isEmpty()
-                && nodesTasks.contains(TaskUtilities.currentTask)) && Utilities.shouldLoot;
+                && nodesTasks.contains(TaskUtilities.currentTask)) && Utilities.shouldLoot && ItemUtilities.lootTile != null && !Players.getLocal().isInCombat();
     }
 
     @Override
     public int priority() {
         return 2;
+    }
+
+    private Area getLootArea() {
+        String monster = SlayerUtilities.getCurrentCombatTrainingNpc();
+
+        if (monster.equals(NpcNameConstants.COW))
+            return ItemUtilities.lootTile.getArea(1);
+        else
+            return ItemUtilities.lootTile.getArea(7);
     }
 }
