@@ -126,7 +126,7 @@ public class TrainCombatNode extends TaskNode {
                     } else {
                         NPC c = (NPC)Players.getLocal().getInteractingCharacter();
 
-                        if (c != null) {
+                        if (c != null && (c.isInteracting(Players.getLocal()) || !c.isInteractedWith())) {
                             Logger.log("- Set Loot Tile -");
                             ItemUtilities.lootTile = c.getTrueTile();
                         }
