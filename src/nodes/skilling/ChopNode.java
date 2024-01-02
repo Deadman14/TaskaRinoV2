@@ -62,7 +62,7 @@ public class ChopNode extends TaskNode {
                     if (tree.canReach()) {
                         Logger.log("- Can Reach Tree -");
                         if (tree.interact())
-                            Sleep.sleepUntil(() -> !tree.exists() || Dialogues.inDialogue(), Utilities.getRandomSleepTime() + 60000);
+                            Sleep.sleepUntil(() -> !tree.exists() || Dialogues.inDialogue() || Inventory.isFull(), Utilities.getRandomSleepTime() + 60000);
                     } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
                         Walking.walk(tree.getTile());
                     }

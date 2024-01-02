@@ -15,6 +15,7 @@
     don't sell all blue wizard hats - in process of adding new way of getting sellables
     during slaying - if player is being attacked by something that is not what it is supposed to be killing, it still kills it
     ADD CHECKING FOR NOTED ITEMS EVERYWHERE DUMBASS
+    long pause after one shot killing mob range/mage (to do with looting/lootTile)
 
 
                     IMPROVEMENTS

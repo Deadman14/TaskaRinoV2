@@ -29,9 +29,9 @@ public class Start extends TaskScript implements ChatListener {
         timer.start();
 
         //ItemUtilities.currentFood = "Swordfish";
-        TaskUtilities.currentTask = "Train Combat Melee";
-        TaskUtilities.taskTimer = new Timer(10000000);
-        TaskUtilities.taskTimer.start();
+        //TaskUtilities.currentTask = "Train Combat Melee";
+        //TaskUtilities.taskTimer = new Timer(10000000);
+        //TaskUtilities.taskTimer.start();
 
         addNodes(new BankNode(), new ChopNode(), new MineNode(), new TrainCombatNode(), new EquipmentNode(), new NewTaskNode(), new CooksAssistantNode(),
                 new RandJNode(), new GoblinDiplomacyNode(), new LootNode(), new SheepShearNode(), new EatNode(), new FishNode(), new GeNode(),
