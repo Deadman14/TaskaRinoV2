@@ -53,9 +53,12 @@ public class GeNode extends TaskNode {
                     totalBuyPrice += (LivePrices.getHigh(i.getName()) * i.getAmount()) + 1;
                 }
 
-                if (!Utilities.isP2P && Bank.count("Coins") < 50000)
-                    checkedBank = true;
-                else if (totalCoins <= totalBuyPrice * 2.5) {
+                if (!Utilities.isP2P && Bank.count("Coins") < 50000) {
+                    TaskUtilities.currentTask = "";
+                    ItemUtilities.buyables = new ArrayList<>();
+                    canBuyItems = false;
+                    checkedBank = false;
+                } else if (totalCoins < totalBuyPrice * 2.5) {
                     TaskUtilities.currentTask = "";
                     ItemUtilities.buyables = new ArrayList<>();
                     canBuyItems = false;

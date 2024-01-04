@@ -90,9 +90,16 @@ public class TrainCombatNode extends TaskNode {
                     return Utilities.getRandomExecuteTime();
                 }
 
-                if (Magic.getAutocastSpell() == null || Magic.getAutocastSpell().equals(getCurrentSpell())) {
-                    if (Magic.setAutocastSpell(getCurrentSpell()))
-                        Sleep.sleepUntil(() -> Magic.getAutocastSpell().equals(getCurrentSpell()), Utilities.getRandomSleepTime());
+                if (Skills.getRealLevel(Skill.MAGIC) > 40 && Skills.getRealLevel(Skill.DEFENCE) < 40) {
+                    if (Magic.getAutocastSpell() == null || Magic.getAutocastSpell().equals(getCurrentSpell()) || !Magic.isAutocastDefensive()) {
+                        if (Magic.setDefensiveAutocastSpell(getCurrentSpell()))
+                            Sleep.sleepUntil(() -> Magic.getAutocastSpell().equals(getCurrentSpell()) && Magic.isAutocastDefensive(), Utilities.getRandomSleepTime());
+                    }
+                } else {
+                    if (Magic.getAutocastSpell() == null || Magic.getAutocastSpell().equals(getCurrentSpell())) {
+                        if (Magic.setAutocastSpell(getCurrentSpell()))
+                            Sleep.sleepUntil(() -> Magic.getAutocastSpell().equals(getCurrentSpell()), Utilities.getRandomSleepTime());
+                    }
                 }
 
                 if (!Equipment.isSlotEmpty(EquipmentSlot.SHIELD)) {
@@ -109,6 +116,7 @@ public class TrainCombatNode extends TaskNode {
                         if (npc != null) {
                             if (npc.canReach()) {
                                 if (npc.interact()) {
+                                    ItemUtilities.lootTile = npc.getTrueTile();
                                     Sleep.sleepUntil(() -> npc.isInCombat() || Players.getLocal().isInCombat() || Dialogues.canContinue(), Utilities.getRandomSleepTime());
                                 }
                             } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
@@ -126,10 +134,9 @@ public class TrainCombatNode extends TaskNode {
                     } else {
                         NPC c = (NPC)Players.getLocal().getInteractingCharacter();
 
-                        if (c != null && (c.isInteracting(Players.getLocal()) || !c.isInteractedWith())) {
-                            Logger.log("- Set Loot Tile -");
+                        if (c != null && (c.isInteracting(Players.getLocal()) || !c.isInteractedWith()))
                             ItemUtilities.lootTile = c.getTrueTile();
-                        }
+
                     }
                 } else {
                     SlayerUtilities.SetCombatStyle();

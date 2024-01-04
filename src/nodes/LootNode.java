@@ -32,9 +32,6 @@ public class LootNode extends TaskNode {
             "Staff of air", "Fire battlestaff", "Air battlestaff", "Mystic fire staff", "Cannonball", "Fire orb", "Coal", "Iron bar",
             "Bronze bar", "Mystic gloves (light)", "Iron bar", "Black robe", "Mithril ore", "Rune scimitar", "Mithril sq shield", "Rune arrow"));
 
-    int lootOnTileTries = 0;
-
-
     @Override
     public int execute() {
         Logger.log("- Loot -");
