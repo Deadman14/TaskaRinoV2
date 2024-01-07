@@ -45,7 +45,7 @@ public class GeNode extends TaskNode {
 
                 int totalCoins = Bank.count("Coins");
                 for (String i : ItemUtilities.sellables) {
-                    totalCoins += (int) (LivePrices.getLow(i) * 0.8) + 1;
+                    totalCoins += (LivePrices.getLow(i) * Bank.count(i)) + 1;
                 }
 
                 int totalBuyPrice = 0;
@@ -53,11 +53,8 @@ public class GeNode extends TaskNode {
                     totalBuyPrice += (LivePrices.getHigh(i.getName()) * i.getAmount()) + 1;
                 }
 
-                if (!Utilities.isP2P && Bank.count("Coins") < 50000) {
-                    TaskUtilities.currentTask = "";
-                    ItemUtilities.buyables = new ArrayList<>();
-                    canBuyItems = false;
-                    checkedBank = false;
+                if (!Utilities.isP2P && Bank.count("Coins") < 50000 && totalCoins > 50000) {
+                    checkedBank = true;
                 } else if (totalCoins < totalBuyPrice * 2.5) {
                     TaskUtilities.currentTask = "";
                     ItemUtilities.buyables = new ArrayList<>();
