@@ -124,7 +124,7 @@ public class RandJNode extends TaskNode {
                             }
                         } else {
                             if (cadavaArea.contains(Players.getLocal())) {
-                                GameObject cadavaBush = GameObjects.closest("Cadava bush");
+                                GameObject cadavaBush = GameObjects.closest(i -> i.getName().equals("Cadava bush") && i.exists());
                                 if (cadavaBush != null) {
                                     if (cadavaBush.interact())
                                         Sleep.sleepUntil(() -> Inventory.contains("Cadava berries"), Utilities.getRandomSleepTime());

@@ -71,7 +71,6 @@ public class XMarksTheSpotNode extends TaskNode {
 
         if (Inventory.contains("Spade")) {
             if (FreeQuest.X_MARKS_THE_SPOT.isStarted()) {
-                Logger.log("Quest Stage: " + PlayerSettings.getBitValue(8063));
                 switch (PlayerSettings.getBitValue(8063)) {
                     case 1:
                         if (Dialogues.inDialogue()) {
