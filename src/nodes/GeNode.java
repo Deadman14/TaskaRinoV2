@@ -157,7 +157,7 @@ public class GeNode extends TaskNode {
                             if (GrandExchange.getOpenSlots() > 0) {
                                 Item item = Inventory.get(it -> it != null && it.getName().equals(i));
 
-                                if (GrandExchange.sellItem(i, item.getAmount(), (int)(LivePrices.getLow(i) * 0.8) + 1)) {
+                                if (GrandExchange.sellItem(i, item.getAmount(), (int)(LivePrices.getLow(i) * 0.9) + 1)) {
                                     remove.add(i);
                                     Sleep.sleepUntil(() -> GrandExchange.contains(i) || Widgets.getWidget(289).isVisible(), Utilities.getRandomSleepTime());
                                 }

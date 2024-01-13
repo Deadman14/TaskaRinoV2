@@ -26,29 +26,50 @@ import java.util.ArrayList;
 
 public class MineNode extends TaskNode {
     private String currentPickaxe = "Bronze pickaxe";
-    public final static Area COPPER_AREA = new Area(3220, 3152, 3232, 3143);
-    public final static Area IRON_AREA = new Area(
+    private final static Area COPPER_AREA = new Area(3220, 3152, 3232, 3143);
+    private final static Area IRON_AREA_1 = new Area(
             new Tile(3286, 3369, 0),
             new Tile(3286, 3368, 0),
             new Tile(3285, 3368, 0));
+
+    private final static Area IRON_AREA_2 = new Area(
+            new Tile(3175, 3368, 0),
+            new Tile(3175, 3367, 0),
+            new Tile(3175, 3366, 0));
     private final static Area MINING_GUILD = new Area(3024, 9753, 3053, 9732);
+
+    private static String currentOre = "";
+
+    private Area currentMiningArea = null;
 
     @Override
     public int execute() {
         Utilities.currentNode = "MineNode";
         Logger.log("Mine");
 
+        if (currentMiningArea == null)
+            currentMiningArea = getCurrentArea();
+
+        if (currentOre.isEmpty())
+            currentOre = getCurrentOre();
+
+        if (TaskUtilities.taskTimer.remaining() <= 30000) {
+            currentMiningArea = null;
+            TaskUtilities.currentTask = "";
+            return Utilities.getRandomExecuteTime();
+        }
+
         if (Dialogues.inDialogue())
             Dialogues.continueDialogue();
 
         if ((Inventory.contains(currentPickaxe) || Equipment.contains(currentPickaxe)) && !Inventory.isFull()) {
-            if (getCurrentArea().contains(Players.getLocal())) {
+            if (currentMiningArea.contains(Players.getLocal())) {
                 if (!Equipment.contains(currentPickaxe) && canEquipCurrentPickaxe()) {
                     if (Inventory.interact(currentPickaxe))
                         Sleep.sleepUntil(() -> Equipment.contains(currentPickaxe), Utilities.getRandomSleepTime());
                 }
 
-                GameObject ore = GameObjects.closest(o -> o != null && o.getName().equals(getCurrentOre()) && o.exists() && getCurrentArea().contains(o));
+                GameObject ore = GameObjects.closest(o -> o != null && o.getName().equals(currentOre) && o.exists() && currentMiningArea.contains(o));
                 if (ore != null && ore.exists()) {
                     if (ore.canReach()) {
                         if (ore.interact())
@@ -58,13 +79,16 @@ public class MineNode extends TaskNode {
                     }
                 }
             } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
-                Walking.walk(getCurrentArea().getRandomTile());
+                Walking.walk(currentMiningArea.getRandomTile());
             }
         } else {
             if (Bank.isOpen()) {
                 if (!currentPickaxe.equals(EquipmentUtilities.getCurrentPickaxe())) {
                     currentPickaxe = EquipmentUtilities.getCurrentPickaxe();
                 }
+
+                if (Inventory.isFull())
+                    currentOre = getCurrentOre();
 
                 if (Inventory.isFull() || !Inventory.isEmpty() && !Inventory.contains(currentPickaxe)) {
                     if (Bank.depositAllExcept(currentPickaxe))
@@ -110,21 +134,25 @@ public class MineNode extends TaskNode {
 
     private Area getCurrentArea() {
         int level = Skills.getRealLevel(Skill.MINING);
+
         if (level > 59)
             return MINING_GUILD;
+
         if (level > 14)
-            return IRON_AREA;
-        else
-            return COPPER_AREA;
+            return Calculations.random(1, 100) > 50 ? IRON_AREA_1 : IRON_AREA_2;
+
+        return COPPER_AREA;
     }
 
     public static String getCurrentOre() {
         int level = Skills.getRealLevel(Skill.MINING);
+
         if (level > 59)
             return "Coal rocks";
+
         if (level > 14)
             return "Iron rocks";
-        else
-            return "Copper rocks";
+
+        return currentOre.equals("Tin rocks") ? "Copper rocks" : "Tin rocks";
     }
 }

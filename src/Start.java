@@ -31,7 +31,7 @@ public class Start extends TaskScript implements ChatListener {
         timer.start();
 
         //ItemUtilities.currentFood = "Swordfish";
-        //TaskUtilities.currentTask = "Train Combat Melee";
+        //TaskUtilities.currentTask = "Mining";
         //TaskUtilities.taskTimer = new Timer(10000000);
         //TaskUtilities.taskTimer.start();
 
