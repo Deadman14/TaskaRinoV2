@@ -6,6 +6,7 @@ import org.dreambot.api.methods.container.impl.bank.Bank;
 import org.dreambot.api.methods.grandexchange.GrandExchange;
 import org.dreambot.api.methods.grandexchange.LivePrices;
 import org.dreambot.api.methods.map.Area;
+import org.dreambot.api.methods.map.Tile;
 import org.dreambot.api.methods.quest.Quests;
 import org.dreambot.api.methods.skills.Skills;
 import org.dreambot.api.methods.walking.impl.Walking;
@@ -17,6 +18,8 @@ public class Utilities {
     public static boolean isP2P = false;
     public static boolean isGeFullyOpen = false;
     public static Integer timePlayed = null;
+    public static boolean hasDied = false;
+    public static Tile playerDeathTile = null;
 
     public static boolean isGeFullyOpen() {
         Logger.log("-- Time Played: " + timePlayed + "Hours --");

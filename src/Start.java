@@ -7,6 +7,7 @@ import nodes.moneymaking.SheepShearNode;
 import nodes.quests.freetoplay.*;
 import nodes.quests.paytoplay.NaturalHistoryQuizNode;
 import nodes.skilling.*;
+import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.settings.PlayerSettings;
 import org.dreambot.api.script.Category;
 import org.dreambot.api.script.ScriptManifest;
@@ -18,6 +19,7 @@ import org.dreambot.api.wrappers.widgets.message.Message;
 import utils.ItemUtilities;
 import utils.SlayerUtilities;
 import utils.TaskUtilities;
+import utils.Utilities;
 
 import java.awt.*;
 
@@ -31,7 +33,7 @@ public class Start extends TaskScript implements ChatListener {
         timer.start();
 
         //ItemUtilities.currentFood = "Swordfish";
-        //TaskUtilities.currentTask = "Mining";
+        //TaskUtilities.currentTask = "Fishing";
         //TaskUtilities.taskTimer = new Timer(10000000);
         //TaskUtilities.taskTimer.start();
 
@@ -44,7 +46,7 @@ public class Start extends TaskScript implements ChatListener {
                 new SlayWallBeastsNode(), new SlayCaveBugsNode(), new SlayBasilisksNode(), new SlayKillerwattsNode(),
                 new SlayPyrefiendsNode(), new SlayRockslugsNode(), new SlayCaveSlimesNode(), new SlayAnkousNode(), new SlayCaveCrawlersNode(),
                 new SlayHillGiantsNode(), new SlayFireGiantsNode(), new SlayLesserDemonsNode(), new SlayLizardsNode(),
-                new SlayJelliesNode(), new IsGeFullyOpenNode(), new SmithingNode());
+                new SlayJelliesNode(), new IsGeFullyOpenNode(), new SmithingNode(), new DeathNode());
     }
 
     @Override
@@ -74,6 +76,11 @@ public class Start extends TaskScript implements ChatListener {
                 SlayerUtilities.currentSlayerTask = "";
                 TaskUtilities.currentTask = "Slayer";
                 SlayerUtilities.getNewSlayerTaskAfterTask = true;
+            }
+
+            if (m.contains("you are dead")) {
+                Utilities.hasDied = true;
+                Utilities.playerDeathTile = Players.getLocal().getTile();
             }
         }
     }

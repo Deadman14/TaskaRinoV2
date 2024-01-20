@@ -47,6 +47,8 @@ public class TrainCombatNode extends TaskNode {
     public int execute() {
         Logger.log("- Train Combat -");
 
+        EquipmentUtilities.setRequiredEquipment();
+
         if (GrandExchange.isOpen()) {
             if (GrandExchange.close())
                 Sleep.sleepUntil(() -> !GrandExchange.isOpen(), Utilities.getRandomSleepTime());
@@ -55,8 +57,8 @@ public class TrainCombatNode extends TaskNode {
         if (Dialogues.inDialogue())
             Dialogues.continueDialogue();
 
-        if (!Inventory.isFull() && Inventory.contains(ItemUtilities.currentFood) && Inventory.count(ItemUtilities.currentFood) > 1
-                && !BankUtilities.areItemsNoted(Collections.singletonList(ItemUtilities.currentFood))) {
+        if (!Inventory.isFull() && (Inventory.contains(ItemUtilities.currentFood) && Inventory.count(ItemUtilities.currentFood) > 1
+                && !BankUtilities.areItemsNoted(Collections.singletonList(ItemUtilities.currentFood)) || !Utilities.isGeFullyOpen())) {
 
             if (TaskUtilities.currentTask.equals("Train Combat Magic")) {
                 if (!Inventory.containsAll(getCurrentRunes())) {

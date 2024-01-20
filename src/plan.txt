@@ -1,7 +1,7 @@
 /*
     PRIOS
         7 - anything to keep me alive (eat, prayer, run away)
-        6 - isGeFullyOpebCheck
+        6 - isGeFullyOpebCheck / death
         5 - Task
         4 - GE
         3 - Banking

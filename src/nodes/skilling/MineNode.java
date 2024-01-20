@@ -31,45 +31,29 @@ public class MineNode extends TaskNode {
             new Tile(3286, 3369, 0),
             new Tile(3286, 3368, 0),
             new Tile(3285, 3368, 0));
-
-    private final static Area IRON_AREA_2 = new Area(
-            new Tile(3175, 3368, 0),
-            new Tile(3175, 3367, 0),
-            new Tile(3175, 3366, 0));
     private final static Area MINING_GUILD = new Area(3024, 9753, 3053, 9732);
 
     private static String currentOre = "";
-
-    private Area currentMiningArea = null;
 
     @Override
     public int execute() {
         Utilities.currentNode = "MineNode";
         Logger.log("Mine");
 
-        if (currentMiningArea == null)
-            currentMiningArea = getCurrentArea();
-
         if (currentOre.isEmpty())
             currentOre = getCurrentOre();
-
-        if (TaskUtilities.taskTimer.remaining() <= 30000) {
-            currentMiningArea = null;
-            TaskUtilities.currentTask = "";
-            return Utilities.getRandomExecuteTime();
-        }
 
         if (Dialogues.inDialogue())
             Dialogues.continueDialogue();
 
         if ((Inventory.contains(currentPickaxe) || Equipment.contains(currentPickaxe)) && !Inventory.isFull()) {
-            if (currentMiningArea.contains(Players.getLocal())) {
+            if (getCurrentArea().contains(Players.getLocal())) {
                 if (!Equipment.contains(currentPickaxe) && canEquipCurrentPickaxe()) {
                     if (Inventory.interact(currentPickaxe))
                         Sleep.sleepUntil(() -> Equipment.contains(currentPickaxe), Utilities.getRandomSleepTime());
                 }
 
-                GameObject ore = GameObjects.closest(o -> o != null && o.getName().equals(currentOre) && o.exists() && currentMiningArea.contains(o));
+                GameObject ore = GameObjects.closest(o -> o != null && o.getName().equals(currentOre) && o.exists() && getCurrentArea().contains(o));
                 if (ore != null && ore.exists()) {
                     if (ore.canReach()) {
                         if (ore.interact())
@@ -79,7 +63,7 @@ public class MineNode extends TaskNode {
                     }
                 }
             } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
-                Walking.walk(currentMiningArea.getRandomTile());
+                Walking.walk(getCurrentArea().getRandomTile());
             }
         } else {
             if (Bank.isOpen()) {
@@ -139,7 +123,7 @@ public class MineNode extends TaskNode {
             return MINING_GUILD;
 
         if (level > 14)
-            return Calculations.random(1, 100) > 50 ? IRON_AREA_1 : IRON_AREA_2;
+            return IRON_AREA_1;
 
         return COPPER_AREA;
     }

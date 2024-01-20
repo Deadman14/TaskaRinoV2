@@ -14,13 +14,13 @@ import java.util.Random;
 
 public class TaskUtilities {
 
-    public static String[] totalTasks = {"Cooks Assistant", "Train Combat Melee", "Train Combat Range", "Mining", "Woodcutting", "Romeo And Juliet",
+    public static String[] totalTasks = { "Cooks Assistant", "Train Combat Melee", "Train Combat Range", "Mining", "Woodcutting", "Romeo And Juliet",
             "Make Soft Clay", "Shear Sheep", "Fishing", "Goblin Diplomacy", "Restless Ghost", "Kill Imps", "Train Combat Magic", "Doric's Quest",
-            "Imp Catcher", "Rune Mysteries", "Ernest The Chicken", "X Mark's The Spot", "Knights Sword", "Natural History Quiz", "Slayer", "Smith"};
+            "Imp Catcher", "Rune Mysteries", "Ernest The Chicken", "X Mark's The Spot", "Knights Sword", "Natural History Quiz", "Slayer", "Smith" };
 
     public static String[] preGeTasks = { "Goblin Diplomacy", "Mining", "Woodcutting", "Romeo And Juliet", "Shear Sheep", "Fishing", "Restless Ghost",
             "Kill Imps", "Train Combat Melee", "Cooks Assistant", "Doric's Quest", "Imp Catcher", "Rune Mysteries", "Ernest The Chicken",
-            "X Mark's The Spot", "Knights Sword"};
+            "X Mark's The Spot", "Knights Sword" };
 
     public static String currentTask = "";
 

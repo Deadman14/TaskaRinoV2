@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class FishNode extends TaskNode {
     private final Area shrimpArea = new Area(3234, 3160, 3248, 3142);
-    private final Area flyFishingArea = new Area(3100, 3422, 3111, 3435);
+    private final Area flyFishingArea = new Area(3237, 3259, 3241, 3238);
 
     @Override
     public int execute() {
@@ -87,11 +87,10 @@ public class FishNode extends TaskNode {
 
     private void goFishing() {
         if (getCurrentFishingArea().contains(Players.getLocal())) {
-            Item net = Inventory.get(EquipmentUtilities.getCurrentFishingRod());
             NPC spot = NPCs.closest(s -> s.getName().equals(getCurrentFishingSpotName()) && s.hasAction(getCurrentFishingAction()));
 
-            if (net != null && spot != null && Players.getLocal().isStandingStill()) {
-                if (net.useOn(spot))
+            if (spot != null && Players.getLocal().isStandingStill()) {
+                if (spot.interact(getCurrentFishingAction()))
                     Sleep.sleepUntil(() -> Players.getLocal().isInteracting(spot), Utilities.getRandomSleepTime());
             }
         } else {
@@ -110,7 +109,7 @@ public class FishNode extends TaskNode {
     private String getCurrentFishingAction() {
         int level = Skills.getRealLevel(Skill.FISHING);
         if (level > 19)
-            return "Bait";
+            return "Lure";
         else
             return "Net";
     }
