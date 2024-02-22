@@ -73,7 +73,7 @@ public class DoricsNode extends TaskNode {
                         ItemUtilities.buyables.add(new GeItem(item, amount, LivePrices.getHigh(item)));
                     }
                 }
-            } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+            } else {
                 BankUtilities.openBank();
             }
         }

@@ -75,7 +75,7 @@ public class CookingNode extends TaskNode {
                 if (getCurrentCookable().equals("Raw trout")) amount = 650;
                 ItemUtilities.buyables.add(new GeItem(getCurrentCookable(), amount, LivePrices.getHigh(getCurrentCookable())));
             }
-        } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())){
+        } else {
             BankUtilities.openBank();
         }
 

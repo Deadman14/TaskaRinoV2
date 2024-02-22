@@ -240,7 +240,7 @@ public class KnightsSwordNode extends TaskNode {
                         ItemUtilities.buyables.add(new GeItem(i, amount, LivePrices.getHigh(i)));
                     }
                 }
-            } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+            } else {
                 BankUtilities.openBank();
             }
         }

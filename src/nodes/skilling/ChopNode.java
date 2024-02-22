@@ -97,8 +97,7 @@ public class ChopNode extends TaskNode {
                         ItemUtilities.buyables.add(new GeItem(currentAxe, 1, LivePrices.getHigh(currentAxe)));
                     }
                 }
-            } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
-                Logger.log("- Open Bank -");
+            } else {
                 BankUtilities.openBank();
             }
         }

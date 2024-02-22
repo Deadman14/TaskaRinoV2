@@ -80,7 +80,7 @@ public class MineNode extends TaskNode {
                         ItemUtilities.buyables.add(new GeItem(EquipmentUtilities.getCurrentPickaxe(), 1, LivePrices.getHigh(currentPickaxe)));
                     }
                 }
-            } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+            } else {
                 BankUtilities.openBank();
             }
         }

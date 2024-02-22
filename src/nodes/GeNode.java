@@ -69,7 +69,7 @@ public class GeNode extends TaskNode {
                     } else
                         checkedBank = true;
                 }
-            }   else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+            }   else {
                 BankUtilities.openBank();
             }
 
@@ -122,7 +122,7 @@ public class GeNode extends TaskNode {
                         }
 
                         ItemUtilities.buyables.removeIf(i -> Bank.contains(i.getName()) && Bank.count(i.getName()) >= i.getAmount());
-                    } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+                    } else {
                         BankUtilities.openBank();
                     }
                 }
@@ -173,7 +173,7 @@ public class GeNode extends TaskNode {
                                 Sleep.sleepUntil(() -> !Bank.contains(item), Utilities.getRandomSleepTime());
                         } else
                             hasAllSellables = true;
-                    } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+                    } else {
                         BankUtilities.openBank();
                     }
                 }

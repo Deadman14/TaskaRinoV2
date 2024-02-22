@@ -77,7 +77,7 @@ public class MakeSoftclayNode extends TaskNode {
                     if (Bank.isOpen()) {
                         if (!Inventory.isEmpty())
                             Bank.depositAllExcept(item -> item.getName().contains("pickaxe") || item.getName().contains("Bucket"));
-                    } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
+                    } else {
                         BankUtilities.openBank();
                     }
                 }
@@ -111,8 +111,7 @@ public class MakeSoftclayNode extends TaskNode {
                     ItemUtilities.buyables.add(new GeItem("Bucket", 1, LivePrices.getHigh("Bucket")));
                 }
             } else {
-                if (Bank.open())
-                    Sleep.sleepUntil(Bank::isOpen, Utilities.getRandomSleepTime());
+                BankUtilities.openBank();
             }
         }
 

@@ -41,7 +41,7 @@ public class BankNode extends TaskNode {
                     }
 
                     SlayerUtilities.hasCheckedBankForSlayerEquipment = true;
-                } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+                } else {
                     BankUtilities.openBank();
                 }
             }
@@ -96,7 +96,7 @@ public class BankNode extends TaskNode {
                 }
             }
 
-        } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
+        } else {
             BankUtilities.openBank();
         }
 

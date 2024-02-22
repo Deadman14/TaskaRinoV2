@@ -85,7 +85,7 @@ public class GoblinDiplomacyNode extends TaskNode {
                     if (Bank.isOpen()) {
                         if (Bank.depositAll("Goblin mail"))
                             Sleep.sleepUntil(() -> !Inventory.contains("Goblin mail"), Utilities.getRandomSleepTime());
-                    } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())){
+                    } else {
                         BankUtilities.openBank();
                     }
                 }
@@ -145,7 +145,7 @@ public class GoblinDiplomacyNode extends TaskNode {
                             ItemUtilities.buyables.add(new GeItem("Orange dye", 1, LivePrices.getHigh("Orange dye")));
                         }
                     }
-                } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+                } else {
                     BankUtilities.openBank();
                 }
             }

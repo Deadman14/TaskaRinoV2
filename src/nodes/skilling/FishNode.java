@@ -48,7 +48,7 @@ public class FishNode extends TaskNode {
                         } else {
                             ItemUtilities.buyables.add(new GeItem(ItemUtilities.getCurrentBait(), 2000, LivePrices.getHigh(ItemUtilities.getCurrentBait())));
                         }
-                    } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+                    } else {
                         BankUtilities.openBank();
                     }
                 }
@@ -72,7 +72,7 @@ public class FishNode extends TaskNode {
                         }
                     }
                 }
-            } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+            } else {
                 BankUtilities.openBank();
             }
         }

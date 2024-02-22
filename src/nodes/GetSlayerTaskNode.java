@@ -89,7 +89,7 @@ public class GetSlayerTaskNode extends TaskNode {
                 }
 
                 checkedForGem = true;
-            } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+            } else {
                 BankUtilities.openBank();
             }
         }

@@ -61,7 +61,7 @@ public class SlayOgresNode extends TaskNode {
                             ItemUtilities.buyables.add(new GeItem(item, amount * 5, LivePrices.getHigh(item)));
                     }
                 }
-            } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+            } else {
                 BankUtilities.openBank();
             }
         }

@@ -105,9 +105,7 @@ public class ShearSheepNode extends TaskNode {
                 }
                 hasCheckedBankForShears = true;
             } else {
-                if (Walking.shouldWalk(Calculations.random(3, 6)))
-                    if (Bank.open())
-                        Sleep.sleepUntil(Bank::isOpen, Utilities.getRandomSleepTime());
+                BankUtilities.openBank();
             }
         }
 

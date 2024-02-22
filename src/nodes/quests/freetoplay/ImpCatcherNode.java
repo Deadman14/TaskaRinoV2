@@ -74,7 +74,7 @@ public class ImpCatcherNode extends TaskNode {
                         ItemUtilities.buyables.add(new GeItem(item, 1, LivePrices.getHigh(item)));
                     }
                 }
-            } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+            } else {
                 BankUtilities.openBank();
             }
         }

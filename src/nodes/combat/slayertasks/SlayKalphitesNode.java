@@ -73,7 +73,7 @@ public class SlayKalphitesNode extends TaskNode {
                         }
 
                         checkedBankForPass = true;
-                    } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+                    } else {
                         BankUtilities.openBank();
                     }
                 }
@@ -113,7 +113,7 @@ public class SlayKalphitesNode extends TaskNode {
                         }
                     }
                 }
-            } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+            } else {
                 BankUtilities.openBank();
             }
         }

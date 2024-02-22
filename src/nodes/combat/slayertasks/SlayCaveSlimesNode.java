@@ -85,7 +85,7 @@ public class SlayCaveSlimesNode extends TaskNode {
                         } else {
                             ItemUtilities.buyables.add(new GeItem("Rope", 1, LivePrices.getHigh(("Rope"))));
                         }
-                    } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+                    } else {
                         BankUtilities.openBank();
                     }
                 }

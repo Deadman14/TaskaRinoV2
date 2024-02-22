@@ -53,7 +53,7 @@ public class SlayCrocodilesNode extends TaskNode {
                                         Sleep.sleepUntil(() -> Inventory.contains("Shantay pass"), Utilities.getRandomSleepTime());
                                 }
                                 checkedBankForPass = true;
-                            } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+                            } else {
                                 BankUtilities.openBank();
                             }
                         }

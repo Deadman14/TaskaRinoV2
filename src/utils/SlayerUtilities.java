@@ -179,7 +179,7 @@ public class SlayerUtilities {
                     }
 
                     SlayerUtilities.hasCheckedBankForSlayerEquipment = true;
-                } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+                } else {
                     BankUtilities.openBank();
                 }
             }
@@ -207,7 +207,7 @@ public class SlayerUtilities {
 
                 if (!multiUseItem.isEmpty())
                     BankUtilities.withdrawMultiUseItems(multiUseItem, getInventoryAmount(multiUseItem));
-            } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+            } else {
                 BankUtilities.openBank();
             }
         }
@@ -252,7 +252,7 @@ public class SlayerUtilities {
                     if (Bank.withdraw(ItemNameConstants.COINS, coins))
                         Sleep.sleepUntil(() -> Inventory.count(ItemNameConstants.COINS) >= coins, Utilities.getRandomSleepTime());
                 }
-            } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+            } else {
                 BankUtilities.openBank();
             }
         }

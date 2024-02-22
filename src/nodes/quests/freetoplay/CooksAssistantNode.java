@@ -69,7 +69,7 @@ public class CooksAssistantNode extends TaskNode {
                     ItemUtilities.buyables.add(new GeItem("Egg", 1, LivePrices.getHigh("Egg")));
                     ItemUtilities.buyables.add(new GeItem("Bucket of milk", 1, LivePrices.getHigh("Bucket of milk")));
                     ItemUtilities.buyables.add(new GeItem("Pot of flour", 1, LivePrices.getHigh("Pot of flour")));
-                } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+                } else {
                     BankUtilities.openBank();
                 }
             }

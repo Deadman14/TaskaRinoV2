@@ -197,7 +197,7 @@ public class XMarksTheSpotNode extends TaskNode {
                 } else {
                     ItemUtilities.buyables.add(new GeItem("Spade",1, LivePrices.getHigh("Spade")));
                 }
-            } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+            } else {
                 BankUtilities.openBank();
             }
         }
