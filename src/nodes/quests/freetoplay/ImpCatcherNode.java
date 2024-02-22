@@ -3,6 +3,7 @@ package nodes.quests.freetoplay;
 import models.GeItem;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.container.impl.bank.Bank;
+import org.dreambot.api.methods.container.impl.bank.BankMode;
 import org.dreambot.api.methods.dialogues.Dialogues;
 import org.dreambot.api.methods.grandexchange.LivePrices;
 import org.dreambot.api.methods.interactive.NPCs;
@@ -64,6 +65,7 @@ public class ImpCatcherNode extends TaskNode {
                         Sleep.sleepUntil(Inventory::isEmpty, Utilities.getRandomSleepTime());
                 }
 
+                BankUtilities.setBankMode(BankMode.ITEM);
                 for (String item : reqItems) {
                     if (Bank.contains(item)) {
                         if (Bank.withdraw(item))

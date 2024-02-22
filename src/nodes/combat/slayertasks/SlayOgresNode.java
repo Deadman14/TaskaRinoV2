@@ -21,7 +21,7 @@ import java.util.List;
 public class SlayOgresNode extends TaskNode {
     private final Area ogreArea = new Area(2514, 2992, 2604, 2956);
     private final List<String> reqItems = new ArrayList<>(Arrays.asList("Enchanted gem", "Feldip hills teleport", "Varrock teleport",
-            ItemUtilities.currentFood));
+            ItemUtilities.getCurrentFood()));
 
     @Override
     public int execute() {
@@ -31,7 +31,7 @@ public class SlayOgresNode extends TaskNode {
         if (Dialogues.inDialogue())
             Dialogues.continueDialogue();
 
-        if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.count(ItemUtilities.currentFood) > 2) {
+        if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.count(ItemUtilities.getCurrentFood()) > 2) {
             if (ogreArea.contains(Players.getLocal())) {
                 SlayerUtilities.slayMonsterMelee(ogreArea, List.of("Ogre"), false, "");
             } else {
@@ -54,7 +54,7 @@ public class SlayOgresNode extends TaskNode {
                             Sleep.sleepUntil(() -> Inventory.count(item) >= (!item.equals("Enchanted gem") && !item.contains("teleport") ? 15 : 1),
                                     Utilities.getRandomSleepTime());
                     } else {
-                        if (item.equals(ItemUtilities.currentFood)) amount = 50;
+                        if (item.equals(ItemUtilities.getCurrentFood())) amount = 50;
                         if (item.contains("teleport")) amount = 10;
 
                         if (!item.equals("Enchanted gem"))

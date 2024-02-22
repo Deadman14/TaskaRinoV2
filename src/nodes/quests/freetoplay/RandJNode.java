@@ -1,9 +1,11 @@
 package nodes.quests.freetoplay;
 
+import models.GeItem;
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.container.impl.bank.Bank;
 import org.dreambot.api.methods.dialogues.Dialogues;
+import org.dreambot.api.methods.grandexchange.LivePrices;
 import org.dreambot.api.methods.interactive.GameObjects;
 import org.dreambot.api.methods.interactive.NPCs;
 import org.dreambot.api.methods.interactive.Players;
@@ -17,6 +19,7 @@ import org.dreambot.api.utilities.Sleep;
 import org.dreambot.api.wrappers.interactive.GameObject;
 import org.dreambot.api.wrappers.interactive.NPC;
 import utils.BankUtilities;
+import utils.ItemUtilities;
 import utils.TaskUtilities;
 import utils.Utilities;
 
@@ -123,16 +126,7 @@ public class RandJNode extends TaskNode {
                                     Walking.walk(apothecaryArea.getRandomTile());
                             }
                         } else {
-                            if (cadavaArea.contains(Players.getLocal())) {
-                                GameObject cadavaBush = GameObjects.closest(i -> i.getName().equals("Cadava bush") && i.exists());
-                                if (cadavaBush != null) {
-                                    if (cadavaBush.interact())
-                                        Sleep.sleepUntil(() -> Inventory.contains("Cadava berries"), Utilities.getRandomSleepTime());
-                                }
-                            } else {
-                                if (Walking.shouldWalk(Calculations.random(3, 6)))
-                                    Walking.walk(cadavaArea.getRandomTile());
-                            }
+                            ItemUtilities.buyables.add(new GeItem("Cadava berries", 1, LivePrices.getHigh("Cadava berries")));
                         }
                     }
                     case 50 -> {

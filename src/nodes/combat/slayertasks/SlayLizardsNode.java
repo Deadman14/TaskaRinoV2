@@ -19,7 +19,7 @@ import java.util.List;
 
 public class SlayLizardsNode extends TaskNode {
     private final List<String> reqItems = new ArrayList<>(Arrays.asList("Enchanted gem", "Varrock teleport", "Lumbridge teleport",
-            "Coins", ItemUtilities.currentFood, "Ice cooler"));
+            "Coins", ItemUtilities.getCurrentFood(), "Ice cooler"));
     private final Area lizardArea = new Area(3381, 3085, 3451, 3012);
     private boolean passedShantay = false;
     private boolean checkedBankForPass = false;

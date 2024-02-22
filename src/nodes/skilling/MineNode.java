@@ -1,8 +1,6 @@
 package nodes.skilling;
 
 import models.GeItem;
-import org.apache.tools.ant.Task;
-import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.container.impl.bank.Bank;
 import org.dreambot.api.methods.container.impl.bank.BankMode;
@@ -12,7 +10,6 @@ import org.dreambot.api.methods.grandexchange.LivePrices;
 import org.dreambot.api.methods.interactive.GameObjects;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.map.Area;
-import org.dreambot.api.methods.map.Tile;
 import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.methods.skills.Skills;
 import org.dreambot.api.methods.walking.impl.Walking;
@@ -22,15 +19,10 @@ import org.dreambot.api.utilities.Sleep;
 import org.dreambot.api.wrappers.interactive.GameObject;
 import utils.*;
 
-import java.util.ArrayList;
-
 public class MineNode extends TaskNode {
     private String currentPickaxe = "Bronze pickaxe";
     private final static Area COPPER_AREA = new Area(3220, 3152, 3232, 3143);
-    private final static Area IRON_AREA_1 = new Area(
-            new Tile(3286, 3369, 0),
-            new Tile(3286, 3368, 0),
-            new Tile(3285, 3368, 0));
+    private final static Area IRON_AREA_1 = new Area(3281, 3370, 3289, 3362);
     private final static Area MINING_GUILD = new Area(3024, 9753, 3053, 9732);
 
     private static String currentOre = "";

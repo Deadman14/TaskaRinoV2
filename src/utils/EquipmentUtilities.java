@@ -24,6 +24,15 @@ public class EquipmentUtilities {
         return names.containsAll(requiredEquipment);
     }
 
+    public static boolean hasAllRunes() {
+        List<Item> inv = Inventory.all(i -> i != null && CombatUtilities.getCurrentRunes().contains(i.getName()));
+        List<Item> equip = Equipment.all(i -> i != null && CombatUtilities.getCurrentRunes().contains(i.getName()));
+
+        inv.addAll(equip);
+        List<String> names = inv.stream().map(i -> i.getName()).toList();
+        return names.containsAll(CombatUtilities.getCurrentRunes());
+    }
+
     public static void setRequiredEquipment() {
         requiredEquipment = getCurrentEquipment();
         Logger.log(requiredEquipment.size());

@@ -1,6 +1,7 @@
 package nodes;
 
 import org.dreambot.api.methods.Calculations;
+import org.dreambot.api.methods.quest.Quests;
 import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.methods.skills.Skills;
 import org.dreambot.api.script.TaskNode;
@@ -21,8 +22,12 @@ public class NewTaskNode extends TaskNode {
         Utilities.currentNode = "NewTaskNode";
         Logger.log("- New Task -");
 
-        if (Utilities.timePlayed != null && Utilities.timePlayed < 20 && !checkedForGeFullyOpen && tasksComplete >= tasksUntilCheckGe) {
-            Utilities.timePlayed = null;
+        if (Utilities.timePlayed != -1
+                && Utilities.timePlayed < 20
+                && !checkedForGeFullyOpen
+                && tasksComplete >= tasksUntilCheckGe
+                && (Skills.getTotalLevel() > 99 && Quests.getQuestPoints() > 9)) {
+            Utilities.timePlayed = -1;
             checkedForGeFullyOpen = true;
             tasksUntilCheckGe = Calculations.random(5, 10);
             tasksComplete = -1;
@@ -30,8 +35,6 @@ public class NewTaskNode extends TaskNode {
         }
 
         Utilities.isP2P = isReadyForP2P();
-        if (Utilities.isP2P && !ItemUtilities.currentFood.equals("Swordfish"))
-            ItemUtilities.currentFood = "Swordfish";
         TaskUtilities.currentTask = TaskUtilities.nextTask();
         TaskUtilities.taskTimer = new Timer(Calculations.random(1800000, 3600000));
         TaskUtilities.taskTimer.start();

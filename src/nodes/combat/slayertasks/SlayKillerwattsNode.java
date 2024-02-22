@@ -25,12 +25,12 @@ public class SlayKillerwattsNode extends TaskNode {
     private final Area killerwattArea = new Area(2650, 5229, 2729, 5159, 2);
 
     private final List<String> reqItems = new ArrayList<>(Arrays.asList("Enchanted gem", "Varrock teleport", "Lumbridge teleport",
-            ItemUtilities.currentFood));
+            ItemUtilities.getCurrentFood()));
     @Override
     public int execute() {
         Logger.log("- Slay Killerwatts -");
 
-        if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
+        if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.getCurrentFood())) {
             if (killerwattArea.contains(Players.getLocal())) {
                 SlayerUtilities.slayMonsterMelee(killerwattArea, List.of("Killerwatt"), false, "");
             } else if (portalArea.contains(Players.getLocal())) {

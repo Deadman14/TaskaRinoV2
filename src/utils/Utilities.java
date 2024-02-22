@@ -16,8 +16,7 @@ import org.dreambot.api.utilities.Sleep;
 public class Utilities {
     public static String currentNode = "";
     public static boolean isP2P = false;
-    public static boolean isGeFullyOpen = false;
-    public static Integer timePlayed = null;
+    public static Integer timePlayed = -1;
     public static boolean hasDied = false;
     public static Tile playerDeathTile = null;
 
@@ -36,10 +35,6 @@ public class Utilities {
     }
 
     public static int getShouldWalkDistance() { return Calculations.random(3, 6); }
-
-    public static boolean canBuyItem(String item, int geAmount) {
-        return Bank.get("Coins").getAmount() > (LivePrices.getHigh(item) * 2.5) * geAmount;
-    }
 
     public static void walkToArea(Area area) {
         Logger.log("-- Walking To Area --");

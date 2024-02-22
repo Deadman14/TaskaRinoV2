@@ -20,7 +20,7 @@ import java.util.List;
 public class SlayCrocodilesNode extends TaskNode {
     private final Area crocodileArea = new Area(3251, 2877, 3306, 2929);
     private final List<String> reqItems = new ArrayList<>(Arrays.asList("Enchanted gem", "Varrock teleport", "Lumbridge teleport",
-            "Waterskin(4)", "Coins", ItemUtilities.currentFood));
+            "Waterskin(4)", "Coins", ItemUtilities.getCurrentFood()));
     private boolean passedShantay = false;
     private boolean checkedBankForPass = false;
 

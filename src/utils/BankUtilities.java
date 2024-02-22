@@ -6,6 +6,7 @@ import org.dreambot.api.methods.container.impl.bank.Bank;
 import org.dreambot.api.methods.container.impl.bank.BankMode;
 import org.dreambot.api.methods.grandexchange.LivePrices;
 import org.dreambot.api.methods.interactive.Players;
+import org.dreambot.api.methods.walking.impl.Walking;
 import org.dreambot.api.utilities.Sleep;
 import org.dreambot.api.wrappers.items.Item;
 
@@ -18,10 +19,12 @@ public class BankUtilities {
     }
 
     public static void openBank() {
-        if (Players.getLocal().distance(Bank.getClosestBankLocation().getTile()) > 6) {
-            Bank.open();
-        } else if (Bank.open()) {
-            Sleep.sleepUntil(Bank::isOpen, Utilities.getRandomSleepTime());
+        if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+            if (Players.getLocal().distance(Bank.getClosestBankLocation().getTile()) > 6) {
+                Bank.open();
+            } else if (Bank.open()) {
+                Sleep.sleepUntil(Bank::isOpen, Utilities.getRandomSleepTime());
+            }
         }
     }
 
@@ -101,7 +104,7 @@ public class BankUtilities {
     public static List<String> getListOfSellables() {
         List<String> allItems = new ArrayList<>(Bank.all().stream().map(Item::getName).toList());
 
-        allItems.removeIf(i -> i.equals(ItemUtilities.currentFood) || SlayerUtilities.slayerItems.contains(i)
+        allItems.removeIf(i -> i.equals(ItemUtilities.getCurrentFood()) || SlayerUtilities.slayerItems.contains(i)
         || i.equals(EquipmentUtilities.getCurrentFullHelm()) || i.equals(EquipmentUtilities.getCurrentPlatebody())
         || i.equals(EquipmentUtilities.getCurrentPlatelegs()) || i.equals(EquipmentUtilities.getCurrentKiteshield())
         || i.equals(EquipmentUtilities.getCurrentMeleeHandslot()) || i.equals(EquipmentUtilities.getCurrentSword())

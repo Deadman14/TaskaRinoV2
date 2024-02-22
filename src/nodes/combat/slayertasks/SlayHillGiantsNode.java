@@ -18,13 +18,13 @@ import java.util.List;
 public class SlayHillGiantsNode extends TaskNode {
     private final Area hillGiantArea = new Area(3099, 9850, 3125, 9823);
     private final List<String> reqItems = new ArrayList<>(Arrays.asList(ItemNameConstants.ENCHANTED_GEM, "Varrock teleport",
-            ItemUtilities.currentFood));
+            ItemUtilities.getCurrentFood()));
 
     @Override
     public int execute() {
         Logger.log("Slay Hill Giants");
 
-        if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
+        if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.getCurrentFood())) {
             if (hillGiantArea.contains(Players.getLocal())) {
                 SlayerUtilities.slayMonsterMelee(hillGiantArea, List.of("Hill Giant"), false, "");
             } else {

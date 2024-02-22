@@ -31,7 +31,6 @@ public class CooksAssistantNode extends TaskNode {
 
     @Override
     public int execute() {
-        Utilities.currentNode = "CooksAssistantNode";
         Logger.log("Cooks Assistant Quest");
 
         if (FreeQuest.COOKS_ASSISTANT.isFinished()) {

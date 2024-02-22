@@ -33,7 +33,7 @@ public class SlayWallBeastsNode extends TaskNode {
     private final Area wallBeastArea = new Area(3142, 9598, 3207, 9538);
     private final Area swampEntranceArea = new Area(3165, 3176, 3173, 3169);
     private final List<String> reqItems = new ArrayList<>(Arrays.asList(ItemNameConstants.ENCHANTED_GEM, "Lumbridge teleport",
-            ItemUtilities.currentFood, "Tinderbox", "Candle lantern"));
+            ItemUtilities.getCurrentFood(), "Tinderbox", "Candle lantern"));
     private Tile previousTile = null;
 
     @Override

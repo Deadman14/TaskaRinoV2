@@ -6,20 +6,13 @@ import org.dreambot.api.methods.map.Tile;
 import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.methods.skills.Skills;
 import org.dreambot.api.utilities.Sleep;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class ItemUtilities {
-    public static boolean sellablesAboveThreshold = false;
-
-    public static String currentFood = "Pike";
-
     public static ArrayList<GeItem> buyables = new ArrayList<>();
-
     public static ArrayList<String> sellables = new ArrayList<>();
-
     public static Tile lootTile = null;
 
     public static ArrayList<String> allSellables = new ArrayList<>(Arrays.asList("Logs", "Oak logs", "Willow logs", "Yew logs", "Ball of wool",
@@ -53,5 +46,9 @@ public class ItemUtilities {
             return "Feather";
         else
             return "";
+    }
+
+    public static String getCurrentFood() {
+        return Utilities.isP2P ? "Swordfish" : "Pike";
     }
 }

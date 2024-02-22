@@ -15,12 +15,10 @@
     don't sell all blue wizard hats - in process of adding new way of getting sellables
     during slaying - if player is being attacked by something that is not what it is supposed to be killing, it still kills it
     ADD CHECKING FOR NOTED ITEMS EVERYWHERE DUMBASS
-    long pause after one shot killing mob range/mage (to do with looting/lootTile)
-    rAndj picks berries from bush with no berry - should be fixed
 
 
                     IMPROVEMENTS
-    turn task name into const values
+    turn task name into const values - started adding constant classes
     Improve sleeps in ernie the chick lever puzzle
     In eat node add banking for food and anything else - this is to cover the case of being poisoned or something after a combat
         task and now doing a task with no food in inv but needs it
@@ -28,6 +26,7 @@
         of bringing varrock teles with you on every task
     Make bot get brass key for edge dungeon
     FInd a way that if bot cannot afford current equipment, use next set down
+    Get rid of all extra should walks around BankUtilties.openBank()
 
 
                 MOVE TO P2P REQS

@@ -8,6 +8,8 @@ import org.dreambot.api.methods.grandexchange.LivePrices;
 import org.dreambot.api.methods.interactive.GameObjects;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.map.Area;
+import org.dreambot.api.methods.skills.Skill;
+import org.dreambot.api.methods.skills.Skills;
 import org.dreambot.api.methods.widget.helpers.ItemProcessing;
 import org.dreambot.api.script.TaskNode;
 import org.dreambot.api.utilities.Logger;
@@ -29,6 +31,11 @@ public class SmithingNode extends TaskNode {
     @Override
     public int execute() {
         Logger.log("- Smithing -");
+
+        if (Skills.getRealLevel(Skill.SMITHING) < 19) {
+            TaskUtilities.currentTask = "";
+            return Utilities.getRandomExecuteTime();
+        }
 
         if (Dialogues.inDialogue())
             Dialogues.continueDialogue();

@@ -17,4 +17,6 @@ public class ItemNameConstants {
     public static final String CANDLE_LANTERN = "Candle lantern";
     public static final String ROPE = "Rope";
     public static final String RAW_SARDINE = "Raw sardine";
+
+    public static final String BALL_OF_WOOL = "Ball of wool";
 }

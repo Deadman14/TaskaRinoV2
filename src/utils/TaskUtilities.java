@@ -5,6 +5,7 @@ import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.quest.book.FreeQuest;
 import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.methods.skills.Skills;
+import org.dreambot.api.script.ScriptManager;
 import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Timer;
 
@@ -14,13 +15,14 @@ import java.util.Random;
 
 public class TaskUtilities {
 
-    public static String[] totalTasks = { "Cooks Assistant", "Train Combat Melee", "Train Combat Range", "Mining", "Woodcutting", "Romeo And Juliet",
-            "Make Soft Clay", "Shear Sheep", "Fishing", "Goblin Diplomacy", "Restless Ghost", "Kill Imps", "Train Combat Magic", "Doric's Quest",
-            "Imp Catcher", "Rune Mysteries", "Ernest The Chicken", "X Mark's The Spot", "Knights Sword", "Natural History Quiz", "Slayer", "Smith" };
+    public static String[] totalTasks = { "Cooks Assistant", "Train Combat Melee", "Train Combat Range", "Mining", "Woodcutting",
+            "Make Soft Clay", "Shear Sheep", "Fishing", "Restless Ghost", "Kill Imps", "Train Combat Magic", "Doric's Quest",
+            "Imp Catcher", "Rune Mysteries", "X Mark's The Spot", "Natural History Quiz", "Slayer", "Smith",
+            "Ernest The Chicken", "Sheep Shearer" };
 
-    public static String[] preGeTasks = { "Goblin Diplomacy", "Mining", "Woodcutting", "Romeo And Juliet", "Shear Sheep", "Fishing", "Restless Ghost",
-            "Kill Imps", "Train Combat Melee", "Cooks Assistant", "Doric's Quest", "Imp Catcher", "Rune Mysteries", "Ernest The Chicken",
-            "X Mark's The Spot", "Knights Sword" };
+    public static String[] preGeTasks = { "Mining", "Woodcutting", "Shear Sheep", "Fishing", "Restless Ghost",
+            "Kill Imps", "Train Combat Melee", "Cooks Assistant", "Doric's Quest", "Imp Catcher", "Rune Mysteries",
+            "X Mark's The Spot", "Ernest The Chicken", "Sheep Shearer" };
 
     public static String currentTask = "";
 

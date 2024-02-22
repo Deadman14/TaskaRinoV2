@@ -1,5 +1,6 @@
 package nodes.moneymaking;
 
+import constants.ItemNameConstants;
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.container.impl.bank.Bank;
@@ -25,9 +26,9 @@ import utils.BankUtilities;
 import utils.TaskUtilities;
 import utils.Utilities;
 
-public class SheepShearNode extends TaskNode {
+public class ShearSheepNode extends TaskNode {
     private Area sheepArea = new Area(3192, 3275, 3211, 3257);
-    private Area shearArea = new Area(3188, 3275, 3192, 3270);
+    private Area shearArea = new Area(3188, 3274, 3191, 3270);
     private Area loomArea = new Area(3208, 3217, 3212, 3212, 1);
 
     private boolean hasCheckedBankForShears = false;
@@ -54,7 +55,7 @@ public class SheepShearNode extends TaskNode {
                         GameObject loom = GameObjects.closest("Spinning wheel");
                         if (wool != null && loom != null) {
                             if (ItemProcessing.isOpen()) {
-                                if (ItemProcessing.makeAll("Ball of wool"))
+                                if (ItemProcessing.makeAll(ItemNameConstants.BALL_OF_WOOL))
                                     Sleep.sleepUntil(() -> !Inventory.contains("Wool") || Dialogues.canContinue(), 60000);
                             } else {
                                 if (wool.useOn(loom)) {
@@ -66,38 +67,13 @@ public class SheepShearNode extends TaskNode {
                         Walking.walk(loomArea.getRandomTile());
                     }
                 } else {
-                    if (FreeQuest.SHEEP_SHEARER.isFinished()) {
-                        if (Bank.isOpen()) {
-                            if (!Inventory.isEmpty()) {
-                                if (Bank.depositAllExcept("Shears"))
-                                    Sleep.sleepUntil(() -> !Inventory.contains("Ball of wool"), Utilities.getRandomSleepTime());
-                            }
-                        } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
-                            if (Bank.open())
-                                Sleep.sleepUntil(Bank::isOpen, Utilities.getRandomSleepTime());
+                    if (Bank.isOpen()) {
+                        if (!Inventory.isEmpty()) {
+                            if (Bank.depositAllExcept("Shears"))
+                                Sleep.sleepUntil(() -> !Inventory.contains(ItemNameConstants.BALL_OF_WOOL), Utilities.getRandomSleepTime());
                         }
                     } else {
-                        if (shearArea.contains(Players.getLocal())) {
-                            if (Dialogues.inDialogue()) {
-                                if (Dialogues.areOptionsAvailable()) {
-                                    Dialogues.chooseOption(1);
-                                } else {
-                                    Dialogues.continueDialogue();
-                                }
-                            } else {
-                                NPC fred = NPCs.closest("Fred the Farmer");
-                                if (fred != null) {
-                                    if (fred.canReach()) {
-                                        if (fred.interact())
-                                            Sleep.sleepUntil(Dialogues::inDialogue, Utilities.getRandomSleepTime());
-                                    } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
-                                        Walking.walk(fred.getTile());
-                                    }
-                                }
-                            }
-                        } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
-                            Walking.walk(shearArea.getRandomTile());
-                        }
+                        BankUtilities.openBank();
                     }
                 }
             }
@@ -117,7 +93,6 @@ public class SheepShearNode extends TaskNode {
                     Walking.walk(shearArea.getRandomTile());
                 }
             } else if (Bank.isOpen()) {
-                hasCheckedBankForShears = true;
                 if (!Inventory.isEmpty()) {
                     if (Bank.depositAllItems())
                         Sleep.sleepUntil(Inventory::isEmpty, Utilities.getRandomSleepTime());
@@ -128,6 +103,7 @@ public class SheepShearNode extends TaskNode {
                     if (Bank.withdraw("Shears"))
                         Sleep.sleepUntil(() -> Inventory.contains("Shears"), Utilities.getRandomSleepTime());
                 }
+                hasCheckedBankForShears = true;
             } else {
                 if (Walking.shouldWalk(Calculations.random(3, 6)))
                     if (Bank.open())

@@ -71,41 +71,54 @@ public class RestlessGhostNode extends TaskNode {
                         }
                         break;
                     case 2:
-                        if (graveyardArea.contains(Players.getLocal())) {
-                            if (Equipment.contains("Ghostspeak amulet")) {
-                                GameObject coffin = GameObjects.closest("Coffin");
-                                if (coffin != null) {
-                                    if (coffin.canReach()) {
-                                        if (coffin.hasAction("Open")) {
-                                            if (coffin.interact())
-                                                Sleep.sleepUntil(() -> !coffin.hasAction("Open"), Utilities.getRandomSleepTime());
-                                        } else {
-                                            if (Dialogues.inDialogue()) {
-                                                if (Dialogues.areOptionsAvailable())
-                                                    Dialogues.chooseOption(1);
-                                                else
-                                                    Dialogues.continueDialogue();
+                        if (Inventory.contains("Ghostspeak amulet") || Equipment.contains("Ghostspeak amulet")) {
+                            if (graveyardArea.contains(Players.getLocal())) {
+                                if (Equipment.contains("Ghostspeak amulet")) {
+                                    GameObject coffin = GameObjects.closest("Coffin");
+                                    if (coffin != null) {
+                                        if (coffin.canReach()) {
+                                            if (coffin.hasAction("Open")) {
+                                                if (coffin.interact())
+                                                    Sleep.sleepUntil(() -> !coffin.hasAction("Open"), Utilities.getRandomSleepTime());
                                             } else {
-                                                NPC ghost = NPCs.closest("Restless ghost");
-                                                if (ghost != null) {
-                                                    if (ghost.interact())
-                                                        Sleep.sleepUntil(Dialogues::inDialogue, Utilities.getRandomSleepTime());
+                                                if (Dialogues.inDialogue()) {
+                                                    if (Dialogues.areOptionsAvailable())
+                                                        Dialogues.chooseOption(1);
+                                                    else
+                                                        Dialogues.continueDialogue();
+                                                } else {
+                                                    NPC ghost = NPCs.closest("Restless ghost");
+                                                    if (ghost != null) {
+                                                        if (ghost.interact())
+                                                            Sleep.sleepUntil(Dialogues::inDialogue, Utilities.getRandomSleepTime());
+                                                    }
                                                 }
                                             }
+                                        } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
+                                            Walking.walk(coffin.getTile());
                                         }
-                                    } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
-                                        Walking.walk(coffin.getTile());
+                                    }
+                                } else {
+                                    Item amulet = Inventory.get("Ghostspeak amulet");
+                                    if (amulet != null) {
+                                        if (amulet.interact())
+                                            Sleep.sleepUntil(() -> Equipment.contains("Ghostspeak amulet"), Utilities.getRandomSleepTime());
                                     }
                                 }
-                            } else {
-                                Item amulet = Inventory.get("Ghostspeak amulet");
-                                if (amulet != null) {
-                                    if (amulet.interact())
-                                        Sleep.sleepUntil(() -> Equipment.contains("Ghostspeak amulet"), Utilities.getRandomSleepTime());
-                                }
+                            } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
+                                Walking.walk(graveyardArea.getRandomTile());
                             }
-                        } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
-                            Walking.walk(graveyardArea.getRandomTile());
+                        } else {
+                            if (Bank.isOpen()) {
+                                if (Bank.contains("Ghostspeak amulet")) {
+                                    if (Bank.withdraw("Ghostspeak amulet"))
+                                        Sleep.sleepUntil(() -> Inventory.contains("Ghostspeak amulet"), Utilities.getRandomSleepTime());
+                                } else {
+                                    Logger.log("Wtf where's my amulet?");
+                                }
+                            } else {
+                                BankUtilities.openBank();
+                            }
                         }
                         break;
                     case 3:

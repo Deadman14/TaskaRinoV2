@@ -17,12 +17,12 @@ import java.util.List;
 public class SlayPyrefiendsNode extends TaskNode {
     private final Area pyrefiendsArea = new Area(2752, 10015, 2769, 9990);
     private final List<String> reqItems = new ArrayList<>(Arrays.asList("Enchanted gem", "Camelot teleport", "Varrock teleport",
-            ItemUtilities.currentFood));
+            ItemUtilities.getCurrentFood()));
     @Override
     public int execute() {
         Logger.log("Slay Pyrefiends");
 
-        if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
+        if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.getCurrentFood())) {
             if (pyrefiendsArea.contains(Players.getLocal())) {
                 SlayerUtilities.slayMonsterMelee(pyrefiendsArea, List.of("Pyrefiend"), false, "");
             } else {

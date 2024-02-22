@@ -2,6 +2,8 @@ package nodes;
 
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.dialogues.Dialogues;
+import org.dreambot.api.methods.quest.Quests;
+import org.dreambot.api.methods.skills.Skills;
 import org.dreambot.api.methods.tabs.Tab;
 import org.dreambot.api.methods.tabs.Tabs;
 import org.dreambot.api.methods.widget.Widgets;
@@ -45,7 +47,7 @@ public class IsGeFullyOpenNode extends TaskNode {
 
     @Override
     public boolean accept() {
-        return Utilities.timePlayed == null;
+        return Utilities.timePlayed == -1 && Skills.getTotalLevel() > 99 && Quests.getQuestPoints() > 9;
     }
 
     @Override
