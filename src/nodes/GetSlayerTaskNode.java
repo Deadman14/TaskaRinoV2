@@ -1,5 +1,6 @@
 package nodes;
 
+import constants.TaskNameConstants;
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.container.impl.Shop;
@@ -98,6 +99,6 @@ public class GetSlayerTaskNode extends TaskNode {
 
     @Override
     public boolean accept() {
-        return TaskUtilities.currentTask.equals("Slayer");
+        return TaskUtilities.currentTask.equals(TaskNameConstants.SLAYER);
     }
 }

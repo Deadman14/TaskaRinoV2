@@ -1,5 +1,6 @@
 package nodes.combat;
 
+import constants.TaskNameConstants;
 import models.GeItem;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.container.impl.bank.Bank;
@@ -119,6 +120,6 @@ public class TrainMagic extends TaskNode {
 
     @Override
     public boolean accept() {
-        return TaskUtilities.currentTask.equals("Train Combat Magic") && !CombatUtilities.needRunes;
+        return TaskUtilities.currentTask.equals(TaskNameConstants.TRAIN_COMBAT_MAGIC) && !CombatUtilities.needRunes;
     }
 }

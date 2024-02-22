@@ -1,28 +1,29 @@
 package utils;
 
+import constants.TaskNameConstants;
 import org.dreambot.api.Client;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.quest.book.FreeQuest;
 import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.methods.skills.Skills;
-import org.dreambot.api.script.ScriptManager;
 import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Timer;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
 public class TaskUtilities {
 
-    public static String[] totalTasks = { "Cooks Assistant", "Train Combat Melee", "Train Combat Range", "Mining", "Woodcutting",
-            "Make Soft Clay", "Shear Sheep", "Fishing", "Restless Ghost", "Kill Imps", "Train Combat Magic", "Doric's Quest",
-            "Imp Catcher", "Rune Mysteries", "X Mark's The Spot", "Natural History Quiz", "Slayer", "Smith",
-            "Ernest The Chicken", "Sheep Shearer" };
+    public static String[] totalTasks = {TaskNameConstants.COOKS_ASSISTANT, TaskNameConstants.TRAIN_COMBAT_MELEE, TaskNameConstants.TRAIN_COMBAT_RANGE,
+            TaskNameConstants.MINING, TaskNameConstants.WOODCUTTING, TaskNameConstants.MAKE_SOFT_CLAY, TaskNameConstants.SHEAR_SHEEP, TaskNameConstants.FISHING,
+            TaskNameConstants.RESTLESS_GHOST, TaskNameConstants.KILL_IMPS, TaskNameConstants.TRAIN_COMBAT_MAGIC, TaskNameConstants.DORICS_QUEST, TaskNameConstants.IMP_CATCHER,
+            TaskNameConstants.RUNE_MYSTERIES, TaskNameConstants.X_MARKS_THE_SPOT, TaskNameConstants.NATURAL_HISTORY_QUIZ, TaskNameConstants.SLAYER, TaskNameConstants.SMITH,
+            TaskNameConstants.ERNEST_THE_CHICKEN, TaskNameConstants.SHEEP_SHEARER };
 
-    public static String[] preGeTasks = { "Mining", "Woodcutting", "Shear Sheep", "Fishing", "Restless Ghost",
-            "Kill Imps", "Train Combat Melee", "Cooks Assistant", "Doric's Quest", "Imp Catcher", "Rune Mysteries",
-            "X Mark's The Spot", "Ernest The Chicken", "Sheep Shearer" };
+    public static String[] preGeTasks = { TaskNameConstants.MINING, TaskNameConstants.WOODCUTTING, TaskNameConstants.SHEAR_SHEEP, TaskNameConstants.FISHING,
+            TaskNameConstants.RESTLESS_GHOST, TaskNameConstants.KILL_IMPS, TaskNameConstants.TRAIN_COMBAT_MELEE, TaskNameConstants.COOKS_ASSISTANT,
+            TaskNameConstants.DORICS_QUEST, TaskNameConstants.IMP_CATCHER, TaskNameConstants.RUNE_MYSTERIES, TaskNameConstants.X_MARKS_THE_SPOT,
+            TaskNameConstants.ERNEST_THE_CHICKEN, TaskNameConstants.SHEEP_SHEARER };
 
     public static String currentTask = "";
 
@@ -87,40 +88,33 @@ public class TaskUtilities {
     //TODO:  change to can do and check if you can do task based on ge being open - only mage and range after ge open
     private static boolean shouldRemoveTask(String task) {
         switch (task) {
-            case "Cooks Assistant":
+            case TaskNameConstants.COOKS_ASSISTANT:
                 return FreeQuest.COOKS_ASSISTANT.isFinished();
-            case "Romeo And Juliet":
-                return FreeQuest.ROMEO_AND_JULIET.isFinished();
-            case "Goblin Diplomacy":
-                return FreeQuest.GOBLIN_DIPLOMACY.isFinished();
-            case "Restless Ghost":
+            case TaskNameConstants.RESTLESS_GHOST:
                 return FreeQuest.THE_RESTLESS_GHOST.isFinished() || Players.getLocal().getLevel() < 10;
-            case "Doric's Quest":
+            case TaskNameConstants.DORICS_QUEST:
                 return FreeQuest.DORICS_QUEST.isFinished();
-            case "Imp Catcher":
+            case TaskNameConstants.IMP_CATCHER:
                 return FreeQuest.IMP_CATCHER.isFinished();
-            case "Rune Mysteries":
+            case TaskNameConstants.RUNE_MYSTERIES:
                 return FreeQuest.RUNE_MYSTERIES.isFinished();
-            case "Ernest The Chicken":
+            case TaskNameConstants.ERNEST_THE_CHICKEN:
                 return FreeQuest.ERNEST_THE_CHICKEN.isFinished();
-            case "Knights Sword":
-                return FreeQuest.THE_KNIGHTS_SWORD.isFinished() || Players.getLocal().getLevel() < 20
-                        || Skills.getRealLevel(Skill.MINING) < 10;
-            case "X Mark's The Spot":
+            case TaskNameConstants.X_MARKS_THE_SPOT:
                 return FreeQuest.X_MARKS_THE_SPOT.isFinished();
-            case "Natural History Quiz":
+            case TaskNameConstants.NATURAL_HISTORY_QUIZ:
                 return !Utilities.isP2P || Skills.getRealLevel(Skill.SLAYER) >= 9;
-            case"Slayer":
+            case TaskNameConstants.SLAYER:
                 return !Utilities.isP2P || Skills.getRealLevel(Skill.SLAYER) < 9;
-            case "Shear Sheep":
-            case "Train Combat Melee":
-            case "Train Combat Range":
-            case "Train Combat Magic":
-            case "Woodcutting":
-            case "Make Soft Clay":
-            case "Kill Imps":
+            case TaskNameConstants.SHEAR_SHEEP:
+            case TaskNameConstants.TRAIN_COMBAT_MELEE:
+            case TaskNameConstants.TRAIN_COMBAT_RANGE:
+            case TaskNameConstants.TRAIN_COMBAT_MAGIC:
+            case TaskNameConstants.WOODCUTTING:
+            case TaskNameConstants.MAKE_SOFT_CLAY:
+            case TaskNameConstants.KILL_IMPS:
                 return Utilities.isP2P;
-            case "Smith":
+            case TaskNameConstants.SMITH:
                 return Skills.getRealLevel(Skill.SMITHING) < 29 || Skills.getRealLevel(Skill.SMITHING) >= 60;
             default:
                 return false;

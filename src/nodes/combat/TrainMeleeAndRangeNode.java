@@ -1,5 +1,6 @@
 package nodes.combat;
 
+import constants.TaskNameConstants;
 import models.GeItem;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.container.impl.bank.Bank;
@@ -52,7 +53,7 @@ public class TrainMeleeAndRangeNode extends TaskNode {
                             } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
                                 Walking.walk(npc.getTile());
                             }
-                        } else if (TaskUtilities.currentTask.equals("Kill Imps")) {
+                        } else if (TaskUtilities.currentTask.equals(TaskNameConstants.KILL_IMPS)) {
                             if (!faladorSouthEntrance.contains(Players.getLocal()))
                                 Utilities.walkToArea(faladorSouthEntrance);
                         }
@@ -99,8 +100,8 @@ public class TrainMeleeAndRangeNode extends TaskNode {
 
     @Override
     public boolean accept() {
-        return TaskUtilities.currentTask.equals("Train Combat Melee")
-                || TaskUtilities.currentTask.equals("Kill Imps")
-                || TaskUtilities.currentTask.equals("Train Combat Range");
+        return TaskUtilities.currentTask.equals(TaskNameConstants.TRAIN_COMBAT_MELEE)
+                || TaskUtilities.currentTask.equals(TaskNameConstants.KILL_IMPS)
+                || TaskUtilities.currentTask.equals(TaskNameConstants.TRAIN_COMBAT_RANGE);
     }
 }
