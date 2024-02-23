@@ -47,7 +47,7 @@ public class GeNode extends TaskNode {
                     ItemUtilities.sellables = new ArrayList<>(Bank.all(i -> i != null && ItemUtilities.phaseOneSellables.contains(i.getName())).stream().map(Item::getName).toList());
                 }
 
-                int totalBuyPrice = ItemUtilities.buyables.stream().mapToInt(GeItem::getPrice).sum();
+                int totalBuyPrice = ItemUtilities.buyables.stream().mapToInt(i -> i.getPrice() * i.getAmount()).sum();
 
                 int totalCoins = Bank.count("Coins");
                 Logger.log("Coins: " + totalCoins);
@@ -110,6 +110,8 @@ public class GeNode extends TaskNode {
                         }
 
                         ItemUtilities.buyables.removeIf(i -> Inventory.contains(i.getName()) && Inventory.count(i.getName()) >= i.getAmount());
+                        if (ItemUtilities.buyables.isEmpty())
+                            checkedBank = false;
                     } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
                         if (GrandExchange.open())
                             Sleep.sleepUntil(GrandExchange::isOpen, Utilities.getRandomSleepTime());
@@ -180,10 +182,6 @@ public class GeNode extends TaskNode {
             }
         } else {
             Utilities.walkToArea(geArea);
-        }
-
-        if (ItemUtilities.buyables.isEmpty()) {
-            checkedBank = false;
         }
 
         return Utilities.getRandomExecuteTime();

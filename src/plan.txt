@@ -14,7 +14,6 @@
     account for getting waterskins from bank - I think this is done with my bank for multiuse items
     don't sell all blue wizard hats - in process of adding new way of getting sellables
     during slaying - if player is being attacked by something that is not what it is supposed to be killing, it still kills it
-    ADD CHECKING FOR NOTED ITEMS EVERYWHERE DUMBASS
 
 
                     IMPROVEMENTS

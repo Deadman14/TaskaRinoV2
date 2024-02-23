@@ -39,28 +39,24 @@ public class ChopNode extends TaskNode {
             Dialogues.continueDialogue();
         }
 
+        currentAxe = EquipmentUtilities.getCurrentAxe();
+
         if (!Inventory.isFull() && (Inventory.contains(currentAxe) || Equipment.contains(currentAxe))) {
-            Logger.log("- Invent has axe and inventory is not full -");
             if (getCurrentArea().contains(Players.getLocal())) {
-                Logger.log("- In Chopping Area -");
                 if (!Equipment.contains(currentAxe) && canEquipCurrentAxe()) {
-                    Logger.log("- Equip Current Axe -");
                     if (Inventory.interact(currentAxe))
                         Sleep.sleepUntil(() -> Equipment.contains(currentAxe), Utilities.getRandomSleepTime());
                 }
 
                 GameObject tree = GameObjects.closest(getCurrentTree());
                 if (!getCurrentArea().contains(tree)) {
-                    Logger.log("- If Tree Out Of Area Walk To Center -");
                     if (Walking.shouldWalk(Calculations.random(3, 6)))
                         Walking.walk(getCurrentArea().getCenter());
                     return Utilities.getRandomExecuteTime();
                 }
 
                 if (tree != null && tree.exists()) {
-                    Logger.log("- Chop Tree -");
                     if (tree.canReach()) {
-                        Logger.log("- Can Reach Tree -");
                         if (tree.interact())
                             Sleep.sleepUntil(() -> !tree.exists() || Dialogues.inDialogue() || Inventory.isFull(), Utilities.getRandomSleepTime() + 60000);
                     } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
@@ -68,26 +64,16 @@ public class ChopNode extends TaskNode {
                     }
                 }
             } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
-                Logger.log("- Walk To Tree Area -");
                 Walking.walk(getCurrentArea().getRandomTile());
             }
         } else {
-            Logger.log("- Bank -");
             if (Bank.isOpen()) {
-                Logger.log("- Bank Open -");
-                if (!currentAxe.equals(EquipmentUtilities.getCurrentAxe())) {
-                    Logger.log("- Set current axe -");
-                    currentAxe = EquipmentUtilities.getCurrentAxe();
-                }
-
                 if (Inventory.isFull() || !Inventory.isEmpty() && !Inventory.onlyContains(currentAxe)) {
-                    Logger.log("- Deposit All Except Axe -");
                     if (Bank.depositAllExcept(currentAxe))
                         Sleep.sleepUntil(() -> !Inventory.isFull(), Utilities.getRandomSleepTime());
                 }
 
                 if (!Inventory.contains(currentAxe) && !Equipment.contains(currentAxe)) {
-                    Logger.log("- Withdraw Current Axe -");
                     BankUtilities.setBankMode(BankMode.ITEM);
 
                     if (Bank.contains(currentAxe)) {
