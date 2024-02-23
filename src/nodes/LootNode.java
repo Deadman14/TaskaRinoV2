@@ -69,7 +69,7 @@ public class LootNode extends TaskNode {
     }
 
     private Area getLootArea() {
-        String monster = SlayerUtilities.getCurrentCombatTrainingNpc();
+        String monster = CombatUtilities.getCurrentCombatTrainingNpc();
 
         if (monster.equals(NpcNameConstants.COW))
             return ItemUtilities.lootTile.getArea(1);

@@ -24,6 +24,9 @@
         of bringing varrock teles with you on every task
     Make bot get brass key for edge dungeon
     FInd a way that if bot cannot afford current equipment, use next set down
+    Split Utility classes into utility and helper classes.
+        -utils stores data or variables used globally
+        -helpers contains common code extraced from nodes
 
 
                 MOVE TO P2P REQS
