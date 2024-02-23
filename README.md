@@ -1,27 +1,25 @@
 # TaskaRinoV2
 
+    /*
     PRIOS
-    7 - anything to keep me alive (eat, prayer, run away)
-    6 - isGeFullyOpebCheck
-    5 - Task
-    4 - GE
-    3 - Banking
-    2 - Equipping shit, looting
-    1 - nodes
+        7 - anything to keep me alive (eat, prayer, run away)
+        6 - isGeFullyOpebCheck / death
+        5 - Task
+        4 - GE
+        3 - Banking
+        2 - Equipping shit, looting
+        1 - nodes
+     */
 
 
                     BUGS
     account for getting waterskins from bank - I think this is done with my bank for multiuse items
     don't sell all blue wizard hats - in process of adding new way of getting sellables
     during slaying - if player is being attacked by something that is not what it is supposed to be killing, it still kills it
-    ADD CHECKING FOR NOTED ITEMS EVERYWHERE DUMBASS
 
 
                     IMPROVEMENTS
-    turn task name into const values
     Improve sleeps in ernie the chick lever puzzle
-    In eat node add banking for food and anything else - this is to cover the case of being poisoned or something after a combat
-        task and now doing a task with no food in inv but needs it
     Create method to check if you need a varrock tele to get to GE/slayer master: use this in GE and get slayer task nodes instead
         of bringing varrock teles with you on every task
     Make bot get brass key for edge dungeon
@@ -60,3 +58,7 @@
               LOGS
     double dash logs for global "-- comment --"
     single dash logs for node based logs "- comment -"
+
+              VARBITS/CONFIGS
+    BIT - 14700: Warning for GE buy offer - off: 1: on 0
+    BIT - 14701: Warning for GE sell offer - off: 1: on 0
