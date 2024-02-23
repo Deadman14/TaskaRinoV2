@@ -58,9 +58,7 @@ public class BankNode extends TaskNode {
             }
 
             if (Inventory.isFull() || Inventory.emptySlotCount() <= EquipmentUtilities.requiredEquipment.size()) {
-                if (Bank.depositAllExcept(j -> EquipmentUtilities.requiredEquipment.contains(j.getName())
-                        || j.getName().equals(ItemUtilities.getCurrentFood())
-                        || CombatUtilities.getCurrentRunes().contains(j)))
+                if (Bank.depositAllExcept(BankUtilities.depositAllExceptCombatGearFilter))
                     Sleep.sleepUntil(() -> !Inventory.isFull(), Utilities.getRandomSleepTime());
             }
 

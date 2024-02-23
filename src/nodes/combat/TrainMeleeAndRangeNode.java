@@ -73,7 +73,7 @@ public class TrainMeleeAndRangeNode extends TaskNode {
         } else {
             if (Bank.isOpen()) {
                 if (!Inventory.isEmpty() && (Inventory.isFull() || !Inventory.onlyContains(ItemUtilities.getCurrentFood()))) {
-                    if (Bank.depositAllExcept(i -> i.getName().equals(ItemUtilities.getCurrentFood())))
+                    if (Bank.depositAllExcept(BankUtilities.depositAllExceptCombatGearFilter))
                         Sleep.sleepUntil(() -> !Inventory.isFull(), Utilities.getRandomSleepTime());
                 }
 

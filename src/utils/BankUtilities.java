@@ -4,6 +4,7 @@ import models.GeItem;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.container.impl.bank.Bank;
 import org.dreambot.api.methods.container.impl.bank.BankMode;
+import org.dreambot.api.methods.filter.Filter;
 import org.dreambot.api.methods.grandexchange.LivePrices;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.walking.impl.Walking;
@@ -12,11 +13,12 @@ import org.dreambot.api.wrappers.items.Item;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class BankUtilities {
-    public static boolean canBuyItem(String item, int geAmount) {
-        return Bank.get("Coins").getAmount() > (LivePrices.getHigh(item) * 2.5) * geAmount;
-    }
+    public static final Filter<Item> depositAllExceptCombatGearFilter = i -> EquipmentUtilities.requiredEquipment.contains(i.getName())
+            || i.getName().equals(ItemUtilities.getCurrentFood())
+            || CombatUtilities.getCurrentRunes().contains(i.getName());
 
     public static void openBank() {
         if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
