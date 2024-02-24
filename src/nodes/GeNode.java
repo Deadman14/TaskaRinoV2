@@ -38,6 +38,7 @@ public class GeNode extends TaskNode {
     public int execute() {
         Logger.log("- Grand Exchange -");
 
+        int totalCoins = Bank.count("Coins");
         if (!checkedBank) {
             if (Bank.isOpen()) {
                 Logger.log("GE FULLY OPEN: " + Utilities.isGeFullyOpen());
@@ -49,7 +50,6 @@ public class GeNode extends TaskNode {
 
                 int totalBuyPrice = ItemUtilities.buyables.stream().mapToInt(i -> i.getPrice() * i.getAmount()).sum();
 
-                int totalCoins = Bank.count("Coins");
                 Logger.log("Coins: " + totalCoins);
                 Logger.log("Buy: " + totalBuyPrice * 2.5);
                 if(totalCoins > totalBuyPrice * 2.5) {
@@ -88,22 +88,36 @@ public class GeNode extends TaskNode {
                                 .toList();
                         if (GrandExchange.getOpenSlots() > 0 && !items.isEmpty()) {
                             GeItem item = items.get(0);
+                            if (totalCoins > item.getPrice() * item.getAmount()) {
                             if (GrandExchange.buyItem(item.getName(), item.getAmount(), item.getPrice()))
                                 Sleep.sleepUntil(() -> GrandExchange.contains(item.getName()), Utilities.getRandomSleepTime());
+                            } else {
+                                TaskUtilities.currentTask = "";
+                                ItemUtilities.buyables = new ArrayList<>();
+                                checkedBank = false;
+                            }
                         } else {
                             Sleep.sleepUntil(GrandExchange::isReadyToCollect, Utilities.getRandomSleepTime());
                             if (GrandExchange.isReadyToCollect()) {
                                 if (GrandExchange.collect())
                                     Sleep.sleepUntil(() -> !GrandExchange.isReadyToCollect(), Utilities.getRandomSleepTime());
                             } else {
-                                GeItem cancelItem = ItemUtilities.buyables.stream().filter(i -> GrandExchange.contains(i.getName())).toList().get(0);
-                                int slot = GrandExchange.getItem(cancelItem.getName()).getSlot();
-                                if (GrandExchange.cancelOffer(slot)) {
-                                    Sleep.sleepUntil(GrandExchange::isReadyToCollect, Utilities.getRandomSleepTime());
-                                    if (GrandExchange.collect()) {
-                                        Sleep.sleepUntil(() -> Inventory.contains(cancelItem.getName()) || !GrandExchange.isReadyToCollect(), Utilities.getRandomSleepTime());
-                                        cancelItem.setAmount(cancelItem.getAmount() - Inventory.count(cancelItem.getName()));
-                                        cancelItem.setPrice((int)(cancelItem.getPrice() * 1.10) + 1);
+                                if (!ItemUtilities.buyables.isEmpty()) {
+                                    GeItem cancelItem = ItemUtilities.buyables.stream().filter(i -> GrandExchange.contains(i.getName())).toList().get(0);
+                                    int slot = GrandExchange.getItem(cancelItem.getName()).getSlot();
+                                    if (GrandExchange.cancelOffer(slot)) {
+                                        Sleep.sleepUntil(GrandExchange::isReadyToCollect, Utilities.getRandomSleepTime());
+                                        if (GrandExchange.collect()) {
+                                            Sleep.sleepUntil(() -> Inventory.contains(cancelItem.getName()) || !GrandExchange.isReadyToCollect(), Utilities.getRandomSleepTime());
+                                            cancelItem.setAmount(cancelItem.getAmount() - Inventory.count(cancelItem.getName()));
+                                            cancelItem.setPrice((int) (cancelItem.getPrice() * 1.10) + 1);
+                                        }
+                                    }
+                                } else {
+                                    if (GrandExchange.cancelAll()) {
+                                        Sleep.sleepUntil(GrandExchange::isReadyToCollect, Utilities.getRandomSleepTime());
+                                        if (GrandExchange.collect())
+                                            Sleep.sleepUntil(() -> GrandExchange.getOpenSlots() > 0, Utilities.getRandomSleepTime());
                                     }
                                 }
                             }

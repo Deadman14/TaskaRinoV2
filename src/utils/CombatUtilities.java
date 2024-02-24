@@ -3,6 +3,7 @@ package utils;
 import constants.ItemNameConstants;
 import constants.NpcNameConstants;
 import models.GeItem;
+import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.container.impl.bank.Bank;
 import org.dreambot.api.methods.container.impl.bank.BankMode;
@@ -17,6 +18,7 @@ import org.dreambot.api.methods.skills.Skills;
 import org.dreambot.api.methods.walking.impl.Walking;
 import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Sleep;
+import org.dreambot.api.utilities.Timer;
 import org.dreambot.api.wrappers.interactive.Character;
 import org.dreambot.api.wrappers.interactive.NPC;
 
@@ -26,7 +28,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class CombatUtilities {
-    public static boolean needRunes = false;
     private static final Area goblinArea = new Area(3240, 3250, 3264, 3225);
     private static final Area cowArea = new Area(3242, 3296, 3264, 3256);
     private static final Area hillGiantArea = new Area(3096, 9850, 3126, 9823);

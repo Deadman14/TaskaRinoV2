@@ -38,13 +38,9 @@ public class TrainMagic extends TaskNode {
                 Sleep.sleepUntil(() -> Equipment.isSlotEmpty(EquipmentSlot.SHIELD), Utilities.getRandomSleepTime());
         }
 
-        if (!Inventory.containsAll(CombatUtilities.getCurrentRunes())) {
-            CombatUtilities.needRunes = true;
-            return Utilities.getRandomExecuteTime();
-        }
-
-        if (!Inventory.isFull() && !BankUtilities.areItemsNoted(Collections.singletonList(ItemUtilities.getCurrentFood()))
-                && (Inventory.contains(ItemUtilities.getCurrentFood()) && Inventory.count(ItemUtilities.getCurrentFood()) > 1)) {
+        String currentFood = ItemUtilities.getCurrentFood();
+        if (!Inventory.isFull() && !BankUtilities.areItemsNoted(Collections.singletonList(currentFood))
+                && (Inventory.contains(currentFood) && Inventory.count(currentFood) > 1)) {
             Utilities.closeInterfaces();
 
             if (CombatUtilities.getCurrentCombatArea().contains(Players.getLocal())) {
@@ -76,6 +72,6 @@ public class TrainMagic extends TaskNode {
 
     @Override
     public boolean accept() {
-        return TaskUtilities.currentTask.equals(TaskNameConstants.TRAIN_COMBAT_MAGIC) && !CombatUtilities.needRunes;
+        return TaskUtilities.currentTask.equals(TaskNameConstants.TRAIN_COMBAT_MAGIC) && Inventory.containsAll(CombatUtilities.getCurrentRunes());
     }
 }

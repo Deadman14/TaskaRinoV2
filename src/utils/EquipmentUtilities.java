@@ -35,7 +35,6 @@ public class EquipmentUtilities {
 
     public static void setRequiredEquipment() {
         requiredEquipment = getCurrentEquipment();
-        Logger.log(requiredEquipment.size());
     }
 
     private static ArrayList<String> getCurrentEquipment() {

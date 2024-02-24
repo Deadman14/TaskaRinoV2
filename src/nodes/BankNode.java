@@ -1,5 +1,6 @@
 package nodes;
 
+import constants.ItemNameConstants;
 import models.GeItem;
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.container.impl.Inventory;
@@ -26,6 +27,8 @@ public class BankNode extends TaskNode {
     @Override
     public int execute() {
         Logger.log("- Bank -");
+
+        EquipmentUtilities.setRequiredEquipment();
 
         List<String> slayerItemsToBuy = new ArrayList<>(EquipmentUtilities.requiredEquipment.stream()
                 .filter(i -> slayerEquipment.contains(i) && !Inventory.contains(i) && !Equipment.contains(i)).toList());
@@ -76,21 +79,19 @@ public class BankNode extends TaskNode {
                 }
             }
 
-            if (CombatUtilities.needRunes) {
+            if (!Inventory.containsAll(CombatUtilities.getCurrentRunes()) && TaskUtilities.currentTask.contains("Magic")) {
                 List<String> runes = CombatUtilities.getCurrentRunes();
                 if (runes.stream().anyMatch(runesPredicate)) {
                     String rune = runes.stream().filter(runesPredicate).findFirst().get();
-                    int runeAmount = getRuneAmount(rune.equals("Air rune"));
+                    int runeAmount = getRuneAmount(rune.equals(ItemNameConstants.AIR_RUNE));
                     if (Bank.contains(rune) && Bank.count(rune) > runeAmount) {
                         if (Bank.withdraw(rune, runeAmount))
                             Sleep.sleepUntil(() -> Inventory.contains(rune), Utilities.getRandomSleepTime());
                     } else {
                         CombatUtilities.getCurrentRunes().stream()
-                                .filter(i -> !Bank.contains(i) && !Inventory.contains(i))
-                                .forEach(i -> ItemUtilities.buyables.add(new GeItem(i, getAmount(i, true), LivePrices.getHigh(i))));
+                                .filter(i -> !Bank.contains(i) || Bank.count(i) <= getRuneAmount(i.equals(ItemNameConstants.AIR_RUNE)))
+                                .forEach(i -> ItemUtilities.buyables.add(new GeItem(i, getRuneAmount(i.equals(ItemNameConstants.AIR_RUNE)), LivePrices.getHigh(i))));
                     }
-                } else {
-                    CombatUtilities.needRunes = false;
                 }
             }
 
@@ -103,7 +104,8 @@ public class BankNode extends TaskNode {
 
     @Override
     public boolean accept() {
-        return !EquipmentUtilities.hasAllEquipment() || CombatUtilities.needRunes;
+        return !EquipmentUtilities.hasAllEquipment()
+                || (!Inventory.containsAll(CombatUtilities.getCurrentRunes()) && TaskUtilities.currentTask.contains("Magic"));
     }
 
     @Override

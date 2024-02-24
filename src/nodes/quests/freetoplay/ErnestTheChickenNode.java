@@ -283,14 +283,20 @@ public class ErnestTheChickenNode extends TaskNode {
                         break;
                 }
             } else {
-                if (ABArea.contains(Players.getLocal())) {
-                    GameObject ladder = GameObjects.closest(i -> i != null && i.getName().equals("Ladder"));
-                    if (ladder.interact()) {
-                        Sleep.sleepUntil(() -> bookcaseWestArea.contains(Players.getLocal()), Utilities.getRandomSleepTime());
-                        reset = false;
+                if (!EFArea.contains(Players.getLocal())) {
+                    if (ABArea.contains(Players.getLocal())) {
+                        GameObject ladder = GameObjects.closest(i -> i != null && i.getName().equals("Ladder"));
+                        if (ladder.interact()) {
+                            Sleep.sleepUntil(() -> bookcaseWestArea.contains(Players.getLocal()), Utilities.getRandomSleepTime());
+                            reset = false;
+                        }
+                    } else {
+                        Utilities.walkToArea(ABArea);
                     }
                 } else {
-                    Utilities.walkToArea(ABArea);
+                    Logger.log("Reset too E2");
+                    nextLever = "E2";
+                    reset = false;
                 }
             }
         } else {
