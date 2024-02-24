@@ -102,6 +102,8 @@ public class TaskUtilities {
                 return FreeQuest.ERNEST_THE_CHICKEN.isFinished();
             case TaskNameConstants.X_MARKS_THE_SPOT:
                 return FreeQuest.X_MARKS_THE_SPOT.isFinished();
+            case TaskNameConstants.SHEEP_SHEARER:
+                return FreeQuest.SHEEP_SHEARER.isFinished();
             case TaskNameConstants.NATURAL_HISTORY_QUIZ:
                 return !Utilities.isP2P || Skills.getRealLevel(Skill.SLAYER) >= 9;
             case TaskNameConstants.SLAYER:

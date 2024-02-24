@@ -20,10 +20,7 @@ import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Sleep;
 import org.dreambot.api.wrappers.items.Item;
 import org.dreambot.api.wrappers.widgets.WidgetChild;
-import utils.BankUtilities;
-import utils.ItemUtilities;
-import utils.TaskUtilities;
-import utils.Utilities;
+import utils.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +81,7 @@ public class GeNode extends TaskNode {
                 if (Inventory.getEmptySlots() >= ItemUtilities.buyables.size()) {
                     if (GrandExchange.isOpen()) {
                         List<GeItem> items = ItemUtilities.buyables.stream()
-                                .filter(i -> !Inventory.contains(i.getName()) && !GrandExchange.contains(i.getName()))
+                                .filter(i -> (!Inventory.contains(i.getName()) || Inventory.count(i.getName()) < i.getAmount()) && !GrandExchange.contains(i.getName()))
                                 .toList();
                         if (GrandExchange.getOpenSlots() > 0 && !items.isEmpty()) {
                             GeItem item = items.get(0);
