@@ -1,7 +1,6 @@
 package nodes.moneymaking;
 
 import models.GeItem;
-import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.container.impl.bank.Bank;
 import org.dreambot.api.methods.container.impl.bank.BankMode;
@@ -13,7 +12,6 @@ import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.map.Area;
 import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.methods.skills.Skills;
-import org.dreambot.api.methods.walking.impl.Walking;
 import org.dreambot.api.script.TaskNode;
 import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Sleep;
@@ -22,8 +20,6 @@ import utils.BankUtilities;
 import utils.ItemUtilities;
 import utils.TaskUtilities;
 import utils.Utilities;
-
-import java.util.ArrayList;
 
 public class MakeSoftclayNode extends TaskNode {
     Area clayRockArea = new Area(3178, 3379, 3184, 3374);
@@ -39,6 +35,7 @@ public class MakeSoftclayNode extends TaskNode {
         if ((Inventory.contains("Bucket") || Inventory.contains("Bucket of water"))
                 && (Inventory.contains(getCurrentPickaxe()) || Equipment.contains(getCurrentPickaxe()))) {
             if (!Equipment.contains(getCurrentPickaxe()) && canEquipCurrentPickaxe()) {
+                Utilities.closeInterfaces();
                 if (Inventory.interact(getCurrentPickaxe()))
                     Sleep.sleepUntil(() -> Equipment.contains(getCurrentPickaxe()), Utilities.getRandomSleepTime());
             }
