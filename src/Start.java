@@ -51,14 +51,14 @@ public class Start extends TaskScript implements ChatListener {
 
     @Override
     public void onPaint(Graphics2D graphics) {
-        graphics.drawString("Current Task: " + TaskUtilities.currentTask, 10, 30);
+        graphics.drawString("Current Task: " + TaskUtilities.currentTask, 10, 15);
 
-        graphics.drawString("Time Left on Task: " + TaskUtilities.taskTimer.remaining() / 60000, 10, 45);
+        graphics.drawString("Time Left on Task: " + TaskUtilities.taskTimer.remaining() / 60000, 10, 30);
 
-        graphics.drawString("Time running: " + timer.formatTime(), 10, 60);
+        graphics.drawString("Time running: " + timer.formatTime(), 10, 45);
 
         if (!SlayerUtilities.currentSlayerTask.isEmpty())
-            graphics.drawString("Current Slayer Task: " + SlayerUtilities.currentSlayerTask, 10, 75);
+            graphics.drawString("Current Slayer Task: " + SlayerUtilities.currentSlayerTask, 10, 60);
 
         super.onPaint(graphics);
     }

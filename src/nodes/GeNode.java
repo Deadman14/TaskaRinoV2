@@ -57,7 +57,7 @@ public class GeNode extends TaskNode {
                         totalCoins += (LivePrices.getLow(i) * Bank.count(i)) + 1;
                     }
 
-                    if (!Utilities.isP2P && Bank.count("Coins") < 10000 && totalCoins >= 10000) {
+                    if (!Utilities.isP2P && Bank.count("Coins") < 50000 && totalCoins >= 50000) {
                         checkedBank = true;
                     } else if (totalCoins < totalBuyPrice * 2.5) {
                         TaskUtilities.currentTask = "";
@@ -70,7 +70,6 @@ public class GeNode extends TaskNode {
                 BankUtilities.openBank();
             }
 
-            Logger.log("Return");
             return Utilities.getRandomExecuteTime();
         }
 
@@ -146,23 +145,35 @@ public class GeNode extends TaskNode {
                         String item = ItemUtilities.sellables.get(0);
 
                         if (GrandExchange.getOpenSlots() > 0 && Inventory.contains(item)) {
-                            if (GrandExchange.sellItem(item, Inventory.count(item), (int)(LivePrices.getLow(item) * 0.9) + 1)) {
+                            if (GrandExchange.sellItem(item, Inventory.count(item), (int)(LivePrices.getLow(item) * 0.9) + 1))
                                 Sleep.sleepUntil(() -> GrandExchange.contains(item) || Widgets.getWidget(289).isVisible(), Utilities.getRandomSleepTime());
-                                ItemUtilities.sellables.remove(item);
-                            }
                         } else {
                             Sleep.sleepUntil(GrandExchange::isReadyToCollect, Utilities.getRandomSleepTime());
                             if (GrandExchange.isReadyToCollect()) {
                                 if (GrandExchange.collect())
                                     Sleep.sleepUntil(() -> !GrandExchange.isReadyToCollect(), Utilities.getRandomSleepTime());
-                            } else {
+                            } else if (GrandExchange.contains(item)) {
+                                GrandExchangeItem geItem = GrandExchange.getItem(item);
+                                if (geItem != null) {
+                                    if (GrandExchange.cancelOffer(geItem.getSlot()))
+                                        Sleep.sleepUntil(GrandExchange::isReadyToCollect, Utilities.getRandomSleepTime());
+                                    if (GrandExchange.isReadyToCollect()) {
+                                        if (GrandExchange.collect())
+                                            Sleep.sleepUntil(() -> !GrandExchange.isReadyToCollect(), Utilities.getRandomSleepTime());
+                                    }
+                                }
+                            } else if (GrandExchange.getOpenSlots() < 1) {
                                 if (GrandExchange.cancelAll()) {
                                     Sleep.sleepUntil(GrandExchange::isReadyToCollect, Utilities.getRandomSleepTime());
-                                    if (GrandExchange.collect())
-                                        Sleep.sleepUntil(() -> GrandExchange.getOpenSlots() > 0, Utilities.getRandomSleepTime());
+                                    if (GrandExchange.isReadyToCollect()) {
+                                        if (GrandExchange.collect())
+                                            Sleep.sleepUntil(() -> !GrandExchange.isReadyToCollect(), Utilities.getRandomSleepTime());
+                                    }
                                 }
                             }
                         }
+
+                        ItemUtilities.sellables.removeIf(i -> !Inventory.contains(i));
                     } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
                         if (GrandExchange.open())
                             Sleep.sleepUntil(GrandExchange::isOpen, Utilities.getRandomSleepTime());

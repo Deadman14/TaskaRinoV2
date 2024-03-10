@@ -24,6 +24,7 @@ import utils.Utilities;
 
 import java.util.ArrayList;
 
+/** CURRENTLY NOT IN USE **/
 public class GoblinDiplomacyNode extends TaskNode {
     private Area goblinArea = new Area(2951, 3512, 2959, 3506);
 

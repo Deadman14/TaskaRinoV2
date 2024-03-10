@@ -63,7 +63,7 @@ public class CooksAssistantNode extends TaskNode {
                 if (Bank.isOpen()) {
                     if (Inventory.isFull() || !Inventory.isEmpty() && !Inventory.onlyContains("Egg", "Bucket of milk", "Pot of flour")) {
                         if (Bank.depositAllExcept("Egg", "Bucket of milk", "Pot of flour"))
-                            Sleep.sleepUntil(() -> Inventory.onlyContains("Egg", "Bucket of milk", "Pot of flour"), Utilities.getRandomSleepTime());
+                            Sleep.sleepUntil(() -> Inventory.emptySlotCount() >= 3, Utilities.getRandomSleepTime());
                     }
 
                     ItemUtilities.buyables.add(new GeItem("Egg", 1, LivePrices.getHigh("Egg")));

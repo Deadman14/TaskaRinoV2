@@ -147,17 +147,21 @@ public class ErnestTheChickenNode extends TaskNode {
                     }
                     break;
                 case 2:
-                    if (Dialogues.inDialogue()) {
-                        Dialogues.continueDialogue();
+                    if (professorArea.contains(Players.getLocal())) {
+                        if (Dialogues.inDialogue()) {
+                            Dialogues.continueDialogue();
+                        } else {
+                            NPC professor = NPCs.closest(i -> i != null && i.getName().equals("Professor Oddenstein"));
+                            if (professor.interact())
+                                Sleep.sleepUntil(Dialogues::inDialogue, Utilities.getRandomSleepTime());
+                        }
                     } else {
-                        NPC professor = NPCs.closest(i -> i != null && i.getName().equals("Professor Oddenstein"));
-                        if (professor.interact())
-                            Sleep.sleepUntil(Dialogues::inDialogue, Utilities.getRandomSleepTime());
+                        Utilities.walkToArea(professorArea);
                     }
                     break;
             }
         } else {
-            if (Inventory.containsAll(reqItems) && !Inventory.isFull()) {
+            if (Inventory.containsAll(reqItems) && Inventory.emptySlotCount() >= 10) {
                 if (veronicaArea.contains(Players.getLocal())) {
                     if (Dialogues.inDialogue()) {
                         if (Dialogues.areOptionsAvailable())
@@ -178,13 +182,14 @@ public class ErnestTheChickenNode extends TaskNode {
                 }
             } else {
                 if (Bank.isOpen()) {
-                    if (Inventory.emptySlotCount() < 7) {
+                    if (Inventory.emptySlotCount() < 10) {
                         if(Bank.depositAllExcept(i -> reqItems.contains(i.getName())))
-                            Sleep.sleepUntil(() -> Inventory.emptySlotCount() > 7, Utilities.getRandomSleepTime());
+                            Sleep.sleepUntil(() -> Inventory.emptySlotCount() >= 10, Utilities.getRandomSleepTime());
                     }
 
-                    for (String item : reqItems) {
-                        if (Bank.contains(item) && !Inventory.contains(item)) {
+                    String item = reqItems.stream().filter(i -> !Inventory.contains(i)).toList().get(0);
+                    if (!item.isEmpty()) {
+                        if (Bank.contains(item)) {
                             if (Bank.withdraw(item, 1))
                                 Sleep.sleepUntil(() -> Inventory.contains(item), Utilities.getRandomSleepTime());
                         } else {

@@ -42,7 +42,6 @@ public class XMarksTheSpotNode extends TaskNode {
 
     @Override
     public int execute() {
-        Utilities.currentNode = "XMarksTheSpotNode";
         Logger.log("X Mark's The Spot");
 
         if (FreeQuest.X_MARKS_THE_SPOT.isFinished()) {
@@ -99,7 +98,7 @@ public class XMarksTheSpotNode extends TaskNode {
                         if (Players.getLocal().getTile().equals(bobsTile)) {
                             Item spade = Inventory.get(i -> i != null && i.getName().equals("Spade"));
                             if (spade.interact())
-                                Sleep.sleepUntil(() -> Dialogues.inDialogue(), Utilities.getRandomSleepTime());
+                                Sleep.sleepUntil(Dialogues::inDialogue, Utilities.getRandomSleepTime());
                         } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
                             if (Walking.getRunEnergy() > Calculations.random(20, 40) && !Walking.isRunEnabled())
                                 Walking.toggleRun();
@@ -114,7 +113,7 @@ public class XMarksTheSpotNode extends TaskNode {
                         if (Players.getLocal().getTile().equals(kitchenTile)) {
                             Item spade = Inventory.get(i -> i != null && i.getName().equals("Spade"));
                             if (spade.interact())
-                                Sleep.sleepUntil(() -> Dialogues.inDialogue(), Utilities.getRandomSleepTime());
+                                Sleep.sleepUntil(Dialogues::inDialogue, Utilities.getRandomSleepTime());
                         } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
                             if (Walking.getRunEnergy() > Calculations.random(20, 40) && !Walking.isRunEnabled())
                                 Walking.toggleRun();
@@ -129,7 +128,7 @@ public class XMarksTheSpotNode extends TaskNode {
                         if (Players.getLocal().getTile().equals(draynorTile)) {
                             Item spade = Inventory.get(i -> i != null && i.getName().equals("Spade"));
                             if (spade.interact())
-                                Sleep.sleepUntil(() -> Dialogues.inDialogue(), Utilities.getRandomSleepTime());
+                                Sleep.sleepUntil(Dialogues::inDialogue, Utilities.getRandomSleepTime());
                         } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
                             if (Walking.getRunEnergy() > Calculations.random(20, 40) && !Walking.isRunEnabled())
                                 Walking.toggleRun();
@@ -144,7 +143,7 @@ public class XMarksTheSpotNode extends TaskNode {
                         if (Players.getLocal().getTile().equals(pigPenTile)) {
                             Item spade = Inventory.get(i -> i != null && i.getName().equals("Spade"));
                             if (spade.interact())
-                                Sleep.sleepUntil(() -> Dialogues.inDialogue(), Utilities.getRandomSleepTime());
+                                Sleep.sleepUntil(Dialogues::inDialogue, Utilities.getRandomSleepTime());
                         } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
                             if (Walking.getRunEnergy() > Calculations.random(20, 40) && !Walking.isRunEnabled())
                                 Walking.toggleRun();
@@ -166,7 +165,6 @@ public class XMarksTheSpotNode extends TaskNode {
                         if (Dialogues.inDialogue())
                             Dialogues.continueDialogue();
                         break;
-
                 }
             } else {
                 if (Dialogues.inDialogue()) {

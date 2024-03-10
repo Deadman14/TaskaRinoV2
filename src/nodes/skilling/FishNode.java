@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class FishNode extends TaskNode {
     private final Area shrimpArea = new Area(3234, 3160, 3248, 3142);
-    private final Area flyFishingArea = new Area(3237, 3259, 3241, 3238);
+    private final Area flyFishingArea = new Area(3237, 3259, 3246, 3240);
 
     @Override
     public int execute() {

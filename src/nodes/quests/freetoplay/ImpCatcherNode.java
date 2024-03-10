@@ -19,7 +19,6 @@ import utils.BankUtilities;
 import utils.ItemUtilities;
 import utils.TaskUtilities;
 import utils.Utilities;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +38,7 @@ public class ImpCatcherNode extends TaskNode {
             return Utilities.getRandomExecuteTime();
         }
 
-        if (Inventory.containsAll(reqItems) && !BankUtilities.areItemsNoted(reqItems)) {
+        if (Inventory.containsAll(reqItems)) {
             if (wizardArea.contains(Players.getLocal())) {
                 if (Dialogues.inDialogue()) {
                     if (Dialogues.areOptionsAvailable())
@@ -60,13 +59,15 @@ public class ImpCatcherNode extends TaskNode {
             }
         } else {
             if (Bank.isOpen()) {
-                if (!Inventory.isEmpty()) {
-                    if (Bank.depositAllItems())
-                        Sleep.sleepUntil(Inventory::isEmpty, Utilities.getRandomSleepTime());
+                if (Inventory.emptySlotCount() < 5) {
+                    if (Bank.depositAllExcept(i -> reqItems.contains(i.getName())))
+                        Sleep.sleepUntil(() -> Inventory.emptySlotCount() >= 5, Utilities.getRandomSleepTime());
                 }
 
                 BankUtilities.setBankMode(BankMode.ITEM);
-                for (String item : reqItems) {
+
+                String item = reqItems.stream().filter(i -> !Inventory.contains(i)).toList().get(0);
+                if (!item.isEmpty()) {
                     if (Bank.contains(item)) {
                         if (Bank.withdraw(item))
                             Sleep.sleepUntil(() -> Inventory.contains(item), Utilities.getRandomSleepTime());

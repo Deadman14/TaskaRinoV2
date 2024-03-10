@@ -21,7 +21,6 @@ import org.dreambot.api.wrappers.items.Item;
 import utils.BankUtilities;
 import utils.TaskUtilities;
 import utils.Utilities;
-
 import java.util.Arrays;
 
 public class RestlessGhostNode extends TaskNode {
@@ -32,17 +31,15 @@ public class RestlessGhostNode extends TaskNode {
 
     @Override
     public int execute() {
-        Utilities.currentNode = "RestlessGhostNode";
         Logger.log("Restless Ghost");
 
-        if (Inventory.emptySlotCount() > 4) {
-            if (FreeQuest.THE_RESTLESS_GHOST.isFinished()) {
-                TaskUtilities.currentTask = "";
-                return Utilities.getRandomExecuteTime();
-            }
+        if (FreeQuest.THE_RESTLESS_GHOST.isFinished()) {
+            TaskUtilities.currentTask = "";
+            return Utilities.getRandomExecuteTime();
+        }
 
+        if (Inventory.emptySlotCount() > 4) {
             if (FreeQuest.THE_RESTLESS_GHOST.isStarted()) {
-                Logger.log(PlayerSettings.getConfig(107));
                 switch (PlayerSettings.getConfig(107)) {
                     case 1:
                         if (urhneyArea.contains(Players.getLocal())) {
@@ -66,8 +63,8 @@ public class RestlessGhostNode extends TaskNode {
                                     }
                                 }
                             }
-                        } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
-                            Walking.walk(urhneyArea.getRandomTile());
+                        } else {
+                            Utilities.walkToArea(urhneyArea);
                         }
                         break;
                     case 2:
@@ -105,8 +102,8 @@ public class RestlessGhostNode extends TaskNode {
                                             Sleep.sleepUntil(() -> Equipment.contains("Ghostspeak amulet"), Utilities.getRandomSleepTime());
                                     }
                                 }
-                            } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
-                                Walking.walk(graveyardArea.getRandomTile());
+                            } else {
+                                Utilities.walkToArea(graveyardArea);
                             }
                         } else {
                             if (Bank.isOpen()) {
@@ -114,7 +111,8 @@ public class RestlessGhostNode extends TaskNode {
                                     if (Bank.withdraw("Ghostspeak amulet"))
                                         Sleep.sleepUntil(() -> Inventory.contains("Ghostspeak amulet"), Utilities.getRandomSleepTime());
                                 } else {
-                                    Logger.log("Wtf where's my amulet?");
+                                    TaskUtilities.currentTask = "";
+                                    return Utilities.getRandomExecuteTime();
                                 }
                             } else {
                                 BankUtilities.openBank();
@@ -132,8 +130,8 @@ public class RestlessGhostNode extends TaskNode {
                                     Walking.walk(altar.getTile());
                                 }
                             }
-                        } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
-                            Walking.walk(altarArea.getRandomTile());
+                        } else {
+                            Utilities.walkToArea(altarArea);
                         }
                         break;
                     case 4:
@@ -155,8 +153,8 @@ public class RestlessGhostNode extends TaskNode {
                                     Walking.walk(coffin.getTile());
                                 }
                             }
-                        } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
-                            Walking.walk(graveyardArea.getRandomTile());
+                        } else {
+                            Utilities.walkToArea(graveyardArea);
                         }
                 }
             } else {
@@ -181,8 +179,8 @@ public class RestlessGhostNode extends TaskNode {
                             }
                         }
                     }
-                } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
-                    Walking.walk(aereckArea.getRandomTile());
+                } else {
+                    Utilities.walkToArea(aereckArea);
                 }
             }
         } else {

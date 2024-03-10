@@ -60,36 +60,44 @@ public class RuneMysteriesNode extends TaskNode {
                                 Utilities.walkToArea(archmageArea);
                             }
                         } else {
+                            if (dukeArea.contains(Players.getLocal())) {
+                                if (Dialogues.inDialogue()) {
+                                    if (Dialogues.areOptionsAvailable())
+                                        Dialogues.chooseOption(1);
+                                    else
+                                        Dialogues.continueDialogue();
+                                } else {
+                                    NPC duke = NPCs.closest(i -> i != null && i.getName().equals("Duke Horacio"));
+                                    if (duke.canReach()) {
+                                        if (duke.interact())
+                                            Sleep.sleepUntil(Dialogues::inDialogue, Utilities.getRandomSleepTime());
+                                    } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+                                        Walking.walk(duke.getTile());
+                                    }
+                                }
+                            } else {
+                                Utilities.walkToArea(dukeArea);
+                            }
+                        }
+                        break;
+                    case 2:
+                        if (archmageArea.contains(Players.getLocal())) {
                             if (Dialogues.inDialogue()) {
                                 if (Dialogues.areOptionsAvailable())
                                     Dialogues.chooseOption(1);
                                 else
                                     Dialogues.continueDialogue();
                             } else {
-                                NPC duke = NPCs.closest(i -> i != null && i.getName().equals("Duke Horacio"));
-                                if (duke.canReach()) {
-                                    if (duke.interact())
+                                NPC mage = NPCs.closest(i -> i != null && i.getName().equals("Archmage Sedridor"));
+                                if (mage.canReach()) {
+                                    if (mage.interact())
                                         Sleep.sleepUntil(Dialogues::inDialogue, Utilities.getRandomSleepTime());
                                 } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
-                                    Walking.walk(duke.getTile());
+                                    Walking.walk(mage.getTile());
                                 }
                             }
-                        }
-                        break;
-                    case 2:
-                        if (Dialogues.inDialogue()) {
-                            if (Dialogues.areOptionsAvailable())
-                                Dialogues.chooseOption(1);
-                            else
-                                Dialogues.continueDialogue();
                         } else {
-                            NPC mage = NPCs.closest(i -> i != null && i.getName().equals("Archmage Sedridor"));
-                            if (mage.canReach()) {
-                                if (mage.interact())
-                                    Sleep.sleepUntil(Dialogues::inDialogue, Utilities.getRandomSleepTime());
-                            } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
-                                Walking.walk(mage.getTile());
-                            }
+                            Utilities.walkToArea(archmageArea);
                         }
                         break;
                     case 3:
@@ -113,19 +121,23 @@ public class RuneMysteriesNode extends TaskNode {
                                 Utilities.walkToArea(auburyArea);
                             }
                         } else {
-                            if (Dialogues.inDialogue()) {
-                                if (Dialogues.areOptionsAvailable())
-                                    Dialogues.chooseOption(1);
-                                else
-                                    Dialogues.continueDialogue();
-                            } else {
-                                NPC mage = NPCs.closest(i -> i != null && i.getName().equals("Archmage Sedridor"));
-                                if (mage.canReach()) {
-                                    if (mage.interact())
-                                        Sleep.sleepUntil(Dialogues::inDialogue, Utilities.getRandomSleepTime());
-                                } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
-                                    Walking.walk(mage.getTile());
+                            if (archmageArea.contains(Players.getLocal())) {
+                                if (Dialogues.inDialogue()) {
+                                    if (Dialogues.areOptionsAvailable())
+                                        Dialogues.chooseOption(1);
+                                    else
+                                        Dialogues.continueDialogue();
+                                } else {
+                                    NPC mage = NPCs.closest(i -> i != null && i.getName().equals("Archmage Sedridor"));
+                                    if (mage.canReach()) {
+                                        if (mage.interact())
+                                            Sleep.sleepUntil(Dialogues::inDialogue, Utilities.getRandomSleepTime());
+                                    } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+                                        Walking.walk(mage.getTile());
+                                    }
                                 }
+                            } else {
+                                Utilities.walkToArea(archmageArea);
                             }
                         }
                         break;

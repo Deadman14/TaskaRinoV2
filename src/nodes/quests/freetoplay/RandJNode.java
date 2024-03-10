@@ -25,6 +25,7 @@ import utils.Utilities;
 
 import java.util.Arrays;
 
+/** CURRENTLY NOT IN USE **/
 public class RandJNode extends TaskNode {
     private Area romeoArea = new Area(3200, 3437, 3220, 3410);
     private Area julietArea = new Area(3154, 3426, 3161, 3425, 1);

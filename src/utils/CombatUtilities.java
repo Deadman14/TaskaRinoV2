@@ -31,7 +31,7 @@ public class CombatUtilities {
     private static final Area goblinArea = new Area(3240, 3250, 3264, 3225);
     private static final Area cowArea = new Area(3242, 3296, 3264, 3256);
     private static final Area hillGiantArea = new Area(3096, 9850, 3126, 9823);
-    private static final Area impArea = new Area(2953, 3330, 3059, 3293);
+    private static final Area impArea = new Area(2958, 3324, 3032, 3294);
 
     public static Area getCurrentCombatArea() {
         if (TaskUtilities.currentTask.contains("Melee")) {
@@ -103,9 +103,9 @@ public class CombatUtilities {
             Character c = Players.getLocal().getCharacterInteractingWithMe();
             NPC npc = c != null && c.getName().equals(getCurrentCombatTrainingNpc()) && getCurrentCombatArea().contains(c)
                     ? (NPC) Players.getLocal().getCharacterInteractingWithMe()
-                    : NPCs.closest(g -> g.getName().equals(getCurrentCombatTrainingNpc()) && !g.isInCombat() && getCurrentCombatArea().contains(g));
+                    : NPCs.closest(g -> g.getName().equals(getCurrentCombatTrainingNpc()) && !g.isInCombat() && getCurrentCombatArea().contains(g) && !g.isInteractedWith());
             if (npc != null) {
-                if (npc.canReach()) {
+                if (npc.canReach() && !npc.isInCombat() && !npc.isInteractedWith()) {
                     if (npc.interact()) {
                         ItemUtilities.lootTile = npc.getTrueTile();
                         Sleep.sleepUntil(() -> npc.isInCombat() || Players.getLocal().isInCombat() || Dialogues.canContinue(), Utilities.getRandomSleepTime());

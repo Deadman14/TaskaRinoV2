@@ -59,12 +59,18 @@ public class DoricsNode extends TaskNode {
             }
         } else {
             if (Bank.isOpen()) {
-                if (!Inventory.isEmpty()) {
+                if (BankUtilities.areItemsNoted(reqItems)) {
                     if (Bank.depositAllItems())
                         Sleep.sleepUntil(Inventory::isEmpty, Utilities.getRandomSleepTime());
                 }
 
-                for (String item : reqItems) {
+                if (Inventory.emptySlotCount() <= 10) {
+                    if (Bank.depositAllExcept(i -> reqItems.contains(i.getName())))
+                        Sleep.sleepUntil(() -> Inventory.emptySlotCount() >= 10, Utilities.getRandomSleepTime());
+                }
+
+                String item = reqItems.stream().filter(i -> !Inventory.contains(i)).toList().get(0);
+                if (!item.isEmpty()) {
                     int amount = setAmount(item);
                     if (Bank.contains(item) && Bank.count(item) >= amount) {
                         if (Bank.withdraw(item, amount))

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/** CURRENTLY NOT IN USE **/
 public class KnightsSwordNode extends TaskNode {
     private final List<String> reqItems = new ArrayList<>(Arrays.asList("Redberry pie", "Iron bar", EquipmentUtilities.getCurrentPickaxe(),
             ItemUtilities.getCurrentFood()));

@@ -36,22 +36,23 @@ public class LootNode extends TaskNode {
     public int execute() {
         Logger.log("- Loot -");
 
-        GroundItem onTileItem = GroundItems.closest(i -> ItemUtilities.lootTile.getArea(0).contains(i));
-        if (onTileItem == null) {
-            Sleep.sleepUntil(() -> GroundItems.closest(i -> ItemUtilities.lootTile.getArea(0).contains(i)) != null, Utilities.getRandomSleepTime());
-        }
+        Area lootArea = getLootArea();
 
-        GroundItem loot = GroundItems.closest(item -> (lootables.contains(item.getName()) && (!item.getName().contains("arrow")
-                || item.getName().contains("arrow") && item.getAmount() > 5)) && getLootArea().contains(item));
-        if (loot != null) {
-            if (loot.canReach()) {
-                if (loot.interact("Take"))
-                    Sleep.sleepUntil(() -> !loot.exists(), Utilities.getRandomSleepTime());
-            } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
-                Walking.walk(loot.getTile());
+        if (lootArea.distance(Players.getLocal().getTile()) <= 7) {
+            GroundItem loot = GroundItems.closest(item -> (lootables.contains(item.getName()) && (!item.getName().contains("arrow")
+                    || item.getName().contains("arrow") && item.getAmount() > 5)) && lootArea.contains(item));
+            if (loot != null) {
+                if (loot.canReach()) {
+                    if (loot.interact("Take"))
+                        Sleep.sleepUntil(() -> !loot.exists(), Utilities.getRandomSleepTime());
+                } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
+                    Walking.walk(loot.getTile());
+                }
+            } else {
+                ItemUtilities.lootTile = null;
             }
         } else {
-            ItemUtilities.lootTile = null;
+            Utilities.walkToArea(lootArea);
         }
 
         return Utilities.getRandomExecuteTime();
@@ -74,6 +75,6 @@ public class LootNode extends TaskNode {
         if (monster.equals(NpcNameConstants.COW))
             return ItemUtilities.lootTile.getArea(1);
         else
-            return ItemUtilities.lootTile.getArea(7);
+            return ItemUtilities.lootTile.getArea(4);
     }
 }

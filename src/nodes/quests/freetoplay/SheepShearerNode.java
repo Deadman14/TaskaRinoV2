@@ -49,8 +49,8 @@ public class SheepShearerNode extends TaskNode {
                         }
                     }
                 }
-            } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
-                Walking.walk(farmerArea.getRandomTile());
+            } else {
+                Utilities.walkToArea(farmerArea);
             }
         } else {
             if (Bank.isOpen()) {
@@ -64,6 +64,7 @@ public class SheepShearerNode extends TaskNode {
                         Sleep.sleepUntil(() -> Inventory.count(ItemNameConstants.BALL_OF_WOOL) >= 20, Utilities.getRandomSleepTime());
                 } else {
                     TaskUtilities.currentTask = "";
+                    return Utilities.getRandomExecuteTime();
                 }
             } else {
                 BankUtilities.openBank();

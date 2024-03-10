@@ -13,7 +13,6 @@ import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Sleep;
 import org.dreambot.api.wrappers.items.Item;
 import utils.BankUtilities;
-import utils.CombatUtilities;
 import utils.ItemUtilities;
 import utils.Utilities;
 

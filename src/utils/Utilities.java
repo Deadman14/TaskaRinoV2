@@ -27,14 +27,14 @@ public class Utilities {
 
     public static int getRandomSleepTime() {
         Logger.log("Sleeping");
-        return Calculations.random(7000, 10000);
+        return Calculations.random(5000, 11000);
     }
 
     public static int getRandomExecuteTime() {
-        return Calculations.random(120, 300);
+        return Calculations.random(100, 400);
     }
 
-    public static int getShouldWalkDistance() { return Calculations.random(3, 6); }
+    public static int getShouldWalkDistance() { return Calculations.random(5, 11); }
 
     public static void walkToArea(Area area) {
         Logger.log("-- Walking To Area --");
