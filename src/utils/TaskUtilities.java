@@ -18,12 +18,12 @@ public class TaskUtilities {
             TaskNameConstants.MINING, TaskNameConstants.WOODCUTTING, TaskNameConstants.MAKE_SOFT_CLAY, TaskNameConstants.SHEAR_SHEEP, TaskNameConstants.FISHING,
             TaskNameConstants.RESTLESS_GHOST, TaskNameConstants.KILL_IMPS, TaskNameConstants.TRAIN_COMBAT_MAGIC, TaskNameConstants.DORICS_QUEST, TaskNameConstants.IMP_CATCHER,
             TaskNameConstants.RUNE_MYSTERIES, TaskNameConstants.X_MARKS_THE_SPOT, TaskNameConstants.NATURAL_HISTORY_QUIZ, TaskNameConstants.SLAYER, TaskNameConstants.SMITH,
-            TaskNameConstants.ERNEST_THE_CHICKEN, TaskNameConstants.SHEEP_SHEARER };
+            TaskNameConstants.ERNEST_THE_CHICKEN, TaskNameConstants.SHEEP_SHEARER, TaskNameConstants.COOK };
 
     public static String[] preGeTasks = { TaskNameConstants.MINING, TaskNameConstants.WOODCUTTING, TaskNameConstants.SHEAR_SHEEP, TaskNameConstants.FISHING,
             TaskNameConstants.RESTLESS_GHOST, TaskNameConstants.KILL_IMPS, TaskNameConstants.TRAIN_COMBAT_MELEE, TaskNameConstants.COOKS_ASSISTANT,
             TaskNameConstants.DORICS_QUEST, TaskNameConstants.IMP_CATCHER, TaskNameConstants.RUNE_MYSTERIES, TaskNameConstants.X_MARKS_THE_SPOT,
-            TaskNameConstants.ERNEST_THE_CHICKEN, TaskNameConstants.SHEEP_SHEARER };
+            TaskNameConstants.ERNEST_THE_CHICKEN, TaskNameConstants.SHEEP_SHEARER, TaskNameConstants.COOK };
 
     public static String currentTask = "";
 
@@ -121,5 +121,10 @@ public class TaskUtilities {
             default:
                 return false;
         }
+    }
+
+    public static void endCurrentTask() {
+        TaskUtilities.currentTask = "";
+        ItemUtilities.buyables = new ArrayList<>();
     }
 }

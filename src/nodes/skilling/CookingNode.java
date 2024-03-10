@@ -1,5 +1,7 @@
 package nodes.skilling;
 
+import constants.ItemNameConstants;
+import constants.TaskNameConstants;
 import models.GeItem;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.container.impl.bank.Bank;
@@ -31,22 +33,23 @@ import java.util.List;
 public class CookingNode extends TaskNode {
     private final Area rangeArea = new Area(3205, 3217, 3212, 3212);
 
+    private String currentCookable = ItemNameConstants.RAW_SHRIMP;
+
     @Override
     public int execute() {
-        Utilities.currentNode = "CookingNode";
         Logger.log("Cook");
 
         if (Dialogues.canContinue())
             Dialogues.continueDialogue();
 
-        if (Inventory.contains(getCurrentCookable()) && !BankUtilities.areItemsNoted(Arrays.asList(getCurrentCookable()))) {
+        if (Inventory.contains(currentCookable) && !BankUtilities.areItemsNoted(Arrays.asList(currentCookable))) {
             if (rangeArea.contains(Players.getLocal()) && Tabs.isOpen(Tab.INVENTORY)) {
-                Item cookable = Inventory.get(getCurrentCookable());
+                Item cookable = Inventory.get(currentCookable);
                 GameObject range = GameObjects.closest("Cooking range");
                 if (cookable != null && range != null) {
                     if (ItemProcessing.isOpen()) {
-                        if (ItemProcessing.makeAll(getCurrentCookable()))
-                            Sleep.sleepUntil(() -> !Inventory.contains(getCurrentCookable()) || Dialogues.canContinue(), 60000);
+                        if (ItemProcessing.makeAll(currentCookable))
+                            Sleep.sleepUntil(() -> !Inventory.contains(currentCookable) || Dialogues.canContinue(), 60000);
                     } else {
                         if (cookable.useOn(range))
                             Sleep.sleepUntil(ItemProcessing::isOpen, Utilities.getRandomSleepTime());
@@ -60,20 +63,19 @@ public class CookingNode extends TaskNode {
                 Utilities.walkToArea(rangeArea);
             }
         } else if (Bank.isOpen()) {
-            if (!Inventory.isEmpty() && (!Inventory.contains(getCurrentCookable()) || BankUtilities.areItemsNoted(List.of(getCurrentCookable())))) {
+            currentCookable = getCurrentCookable();
+
+            if (!Inventory.isEmpty() && (!Inventory.contains(currentCookable) || BankUtilities.areItemsNoted(List.of(currentCookable)))) {
                 if (Bank.depositAllItems())
                     Sleep.sleepUntil(Inventory::isEmpty, Utilities.getRandomSleepTime());
             }
 
-            if (Bank.contains(getCurrentCookable()) && Bank.count(getCurrentCookable()) > 27) {
+            if (Bank.contains(currentCookable)) {
                 BankUtilities.setBankMode(BankMode.ITEM);
-                if (Bank.withdrawAll(getCurrentCookable()))
+                if (Bank.withdrawAll(currentCookable))
                     Sleep.sleepUntil(Inventory::isFull, Utilities.getRandomSleepTime());
             } else {
-                int amount = 1000;
-                if (getCurrentCookable().equals("Raw shrims")) amount = 300;
-                if (getCurrentCookable().equals("Raw trout")) amount = 650;
-                ItemUtilities.buyables.add(new GeItem(getCurrentCookable(), amount, LivePrices.getHigh(getCurrentCookable())));
+                TaskUtilities.endCurrentTask();
             }
         } else {
             BankUtilities.openBank();
@@ -84,17 +86,22 @@ public class CookingNode extends TaskNode {
 
     @Override
     public boolean accept() {
-        return TaskUtilities.currentTask.equals("Cook");
+        return TaskUtilities.currentTask.equals(TaskNameConstants.COOK);
     }
 
     private String getCurrentCookable() {
-        int level = Skills.getRealLevel(Skill.COOKING);
+        int cookingLevel = Skills.getRealLevel(Skill.COOKING);
+        int fishingLevel = Skills.getRealLevel(Skill.FISHING);
 
-        if (level > 39)
-            return "Raw tuna";
-        if (level > 14)
-            return "Raw trout";
+        if (fishingLevel > 29 && cookingLevel > 24 && Bank.contains(ItemNameConstants.RAW_SALMON))
+            return ItemNameConstants.RAW_SALMON;
 
-        return "Raw sardine";
+        if (fishingLevel > 19 && cookingLevel > 14 && Bank.contains(ItemNameConstants.RAW_TROUT))
+            return ItemNameConstants.RAW_TROUT;
+
+        if (Bank.contains(ItemNameConstants.RAW_ANCHOVIE))
+            return ItemNameConstants.RAW_ANCHOVIE;
+
+        return ItemNameConstants.RAW_SHRIMP;
     }
 }

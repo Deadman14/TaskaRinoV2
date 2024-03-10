@@ -21,4 +21,5 @@ public class TaskNameConstants {
     public static final String SMITH = "Smith";
     public static final String ERNEST_THE_CHICKEN = "Ernest The Chicken";
     public static final String SHEEP_SHEARER = "Sheep Shearer";
+    public static final String COOK = "Cook";
 }
