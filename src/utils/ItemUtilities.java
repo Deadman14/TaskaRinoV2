@@ -1,7 +1,9 @@
 package utils;
 
+import constants.ItemNameConstants;
 import models.GeItem;
 import org.dreambot.api.methods.container.impl.Inventory;
+import org.dreambot.api.methods.container.impl.bank.Bank;
 import org.dreambot.api.methods.map.Tile;
 import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.methods.skills.Skills;
@@ -14,22 +16,20 @@ public class ItemUtilities {
     public static ArrayList<GeItem> buyables = new ArrayList<>();
     public static ArrayList<String> sellables = new ArrayList<>();
     public static Tile lootTile = null;
+    public static String currentFood = ItemNameConstants.SALMON;
 
     public static ArrayList<String> allSellables = new ArrayList<>(Arrays.asList("Logs", "Oak logs", "Willow logs", "Yew logs", "Ball of wool",
-            "Wool", "Copper ore", "Iron ore", "Coal ore", "Raw shrimps", "Raw anchovies", "Raw salmon", "Soft clay", "Clay",
-            "Cowhide", "Nature rune", "Limpwurt root", "Uncut sapphire", "Uncut emerald", "Uncut ruby", "Uncut diamond", "Big bones",
-            "Goblin mail", "Chef's hat", "Brass necklace", "Black bead", "Red bead", "White bead", "Yellow bead", "Mind talisman",
-            "Fiendish ashes", "Tuna", "Grimy harralander", "Grimy ranarr weed", "Grimy irit leaf", "Grimy avantoe",
-            "Grimy kwuarm", "Grimy cadantine", "Grimy lantadyme", "Grimy dwarf weed", "Steel longsword", "Snape grass seed", "Ranarr seed",
-            "Toadflax seed", "Avantoe seed", "Kwuarm seed", "Snapdragon seed", "Cadantine seed", "Dwarf weed seed", "Torstol seed",
-            "Rune spear", "Dragon spear", "Black sq shield", "Mithril sword", "Steel kiteshield", "Steel bar", "Coal", "Uncut diamond",
-            "Bronze spear", "Iron boots", "Mystic boots (light)", "Red spiders' eggs", "Rune dagger", "Mystic hat (light)",
-            "Adamantite ore", "Fire battlestaff", "Air battlestaff", "Mystic fire staff", "Cannonball", "Fire orb", "Iron bar",
-            "Bronze bar", "Mystic gloves (light)", "Iron bar", "Black robe", "Mithril ore", "Mithril sq shield", "Trout",
-            "Silver bar", "Raw trout"));
+            "Wool", "Copper ore", "Iron ore", "Coal ore", "Soft clay", "Clay", "Cowhide", "Nature rune", "Limpwurt root", "Uncut sapphire", "Uncut emerald",
+            "Uncut ruby", "Uncut diamond", "Big bones", "Goblin mail", "Chef's hat", "Brass necklace", "Black bead", "Red bead", "White bead", "Yellow bead",
+            "Mind talisman", "Fiendish ashes", "Tuna", "Grimy harralander", "Grimy ranarr weed", "Grimy irit leaf", "Grimy avantoe", "Grimy kwuarm", "Grimy cadantine",
+            "Grimy lantadyme", "Grimy dwarf weed", "Steel longsword", "Snape grass seed", "Ranarr seed", "Toadflax seed", "Avantoe seed", "Kwuarm seed",
+            "Snapdragon seed", "Cadantine seed", "Dwarf weed seed", "Torstol seed", "Rune spear", "Dragon spear", "Black sq shield", "Mithril sword", "Steel kiteshield",
+            "Steel bar", "Coal", "Uncut diamond", "Bronze spear", "Iron boots", "Mystic boots (light)", "Red spiders' eggs", "Rune dagger", "Mystic hat (light)",
+            "Adamantite ore", "Fire battlestaff", "Air battlestaff", "Mystic fire staff", "Cannonball", "Fire orb", "Iron bar", "Bronze bar", "Mystic gloves (light)",
+            "Iron bar", "Black robe", "Mithril ore", "Mithril sq shield", "Trout", "Silver bar"));
 
-    public static ArrayList<String> phaseOneSellables = new ArrayList<>(Arrays.asList("Logs", "Ball of wool", "Wool", "Goblin mail", "Chef's hat",
-            "Brass necklace", "Black bead", "Red bead", "White bead", "Yellow bead", "Blue wizard hat", "Mind talisman", "Fiendish ashes"));
+    public static ArrayList<String> phaseOneSellables = new ArrayList<>(Arrays.asList("Logs", "Ball of wool", "Wool", "Goblin mail", "Chef's hat", "Brass necklace",
+            "Black bead", "Red bead", "White bead", "Yellow bead", "Blue wizard hat", "Mind talisman", "Fiendish ashes"));
 
     private static final List<String> dropables = new ArrayList<>(List.of("Vial"));
 
@@ -48,7 +48,32 @@ public class ItemUtilities {
             return "";
     }
 
-    public static String getCurrentFood() {
-        return Utilities.isP2P ? "Swordfish" : "Pike";
+    public static void setCurrentFood() {
+        if (!Utilities.isGeFullyOpen()) {
+            if (Bank.contains(ItemNameConstants.SALMON)) {
+                currentFood = ItemNameConstants.SALMON;
+                return;
+            }
+
+            if (Bank.contains(ItemNameConstants.TROUT)) {
+                currentFood = ItemNameConstants.TROUT;
+                return;
+            }
+
+            if (Bank.contains(ItemNameConstants.ANCHOVIE)) {
+                currentFood = ItemNameConstants.ANCHOVIE;
+                return;
+            }
+
+            if (Bank.contains(ItemNameConstants.SHRIMP)) {
+                currentFood = ItemNameConstants.SHRIMP;
+                return;
+            }
+
+            TaskUtilities.endCurrentTask();
+            return;
+        }
+
+        currentFood = Utilities.isP2P ? ItemNameConstants.SWORDFISH : ItemNameConstants.SALMON;
     }
 }

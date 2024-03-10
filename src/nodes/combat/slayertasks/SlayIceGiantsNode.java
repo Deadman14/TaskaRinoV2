@@ -16,13 +16,13 @@ import java.util.List;
 
 public class SlayIceGiantsNode extends TaskNode {
     private final Area giantArea = new Area(3053, 9563, 3068, 9577);
-    private List<String> reqItems = new ArrayList<>(Arrays.asList("Enchanted gem", "Falador teleport", ItemUtilities.getCurrentFood()));
+    private List<String> reqItems = new ArrayList<>(Arrays.asList("Enchanted gem", "Falador teleport", ItemUtilities.currentFood));
 
     @Override
     public int execute() {
         Logger.log("- Slay Ice Giants -");
 
-        if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.getCurrentFood())) {
+        if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (giantArea.contains(Players.getLocal())) {
                 SlayerUtilities.slayMonsterMelee(giantArea, List.of("Ice giant"), false, "");
             } else {

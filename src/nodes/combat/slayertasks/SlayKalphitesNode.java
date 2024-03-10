@@ -25,7 +25,7 @@ public class SlayKalphitesNode extends TaskNode {
     private final Area kalphiteEntranceArea = new Area(3219, 3113, 3236, 3099);
     private final Area preShantyPassArea = new Area(3300, 3128, 3307, 3118);
     private final Area kalphiteWorkerArea = new Area(3483, 9507, 3514, 9530, 2);
-    private final List<String> reqItems = new ArrayList<>(Arrays.asList("Coins", "Enchanted gem", "Varrock teleport", ItemUtilities.getCurrentFood()));
+    private final List<String> reqItems = new ArrayList<>(Arrays.asList("Coins", "Enchanted gem", "Varrock teleport", ItemUtilities.currentFood));
     private boolean checkedBankForPass = false;
 
     @Override
@@ -36,7 +36,7 @@ public class SlayKalphitesNode extends TaskNode {
             Dialogues.continueDialogue();
 
         if (!Inventory.isFull() && Inventory.containsAll(reqItems)
-                && Inventory.count("Coins") >= 1000 && Inventory.count(ItemUtilities.getCurrentFood()) >= 1) {
+                && Inventory.count("Coins") >= 1000 && Inventory.count(ItemUtilities.currentFood) >= 1) {
             if (kalphiteWorkerArea.contains(Players.getLocal())) {
                 SlayerUtilities.slayMonsterMelee(kalphiteWorkerArea, List.of("Kalphite Worker"), false, "");
             } else {
@@ -87,7 +87,7 @@ public class SlayKalphitesNode extends TaskNode {
                 }
 
                 if (!Inventory.containsAll(reqItems) || Inventory.count("Coins") < 1000
-                        || Inventory.count(ItemUtilities.getCurrentFood()) < 10) {
+                        || Inventory.count(ItemUtilities.currentFood) < 10) {
                     for (String item : reqItems) {
                         int amount = 1;
                         if (!item.equals("Enchanted gem")) {

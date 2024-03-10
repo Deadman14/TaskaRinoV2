@@ -18,13 +18,13 @@ import java.util.List;
 public class SlayLesserDemonsNode extends TaskNode {
     private final Area lesserDemonArea = new Area(2828, 9568, 2848, 9550);
     private final List<String> reqItems = new ArrayList<>(Arrays.asList(ItemNameConstants.ENCHANTED_GEM, "Varrock teleport",
-            "Lumbridge teleport", "Coins", ItemUtilities.getCurrentFood()));
+            "Lumbridge teleport", "Coins", ItemUtilities.currentFood));
 
     @Override
     public int execute() {
         Logger.log("- Slay Lesser Demons -");
 
-        if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.getCurrentFood())) {
+        if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (lesserDemonArea.contains(Players.getLocal())) {
                 SlayerUtilities.slayMonsterMelee(lesserDemonArea, List.of("Lesser demon"), false, "");
             } else {

@@ -20,13 +20,13 @@ import java.util.List;
 public class SlayRockslugsNode extends TaskNode {
     private final Area rockslugArea = new Area(2787, 10024, 2811, 10010);
     private final List<String> reqItems = new ArrayList<>(Arrays.asList(ItemNameConstants.ENCHANTED_GEM, "Camelot teleport",
-            "Varrock teleport", "Bag of salt", ItemUtilities.getCurrentFood()));
+            "Varrock teleport", "Bag of salt", ItemUtilities.currentFood));
 
     @Override
     public int execute() {
         Logger.log("- Slay Rockslugs -");
 
-        if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.getCurrentFood())) {
+        if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (rockslugArea.contains(Players.getLocal())) {
                 SlayerUtilities.slayMonsterMelee(rockslugArea, List.of("Rockslug"), true, "Bag of salt");
             } else {

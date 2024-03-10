@@ -29,7 +29,7 @@ public class SlayCaveBugsNode extends TaskNode {
     private final Area caveBugArea = new Area(3142, 9598, 3207, 9538);
     private final Area swampEntranceArea = new Area(3165, 3176, 3173, 3169);
     private final List<String> reqItems = new ArrayList<>(Arrays.asList(ItemNameConstants.ENCHANTED_GEM, ItemNameConstants.LUMBRIDGE_TELE,
-            ItemUtilities.getCurrentFood(), ItemNameConstants.TINDERBOX, ItemNameConstants.CANDLE_LANTERN));
+            ItemUtilities.currentFood, ItemNameConstants.TINDERBOX, ItemNameConstants.CANDLE_LANTERN));
 
     //TODO: set to false and check game message when clicking the hole without rope to set it
     private boolean hasPlacedRopeBefore = true;

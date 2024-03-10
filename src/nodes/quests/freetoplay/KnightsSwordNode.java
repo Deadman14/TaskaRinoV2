@@ -27,7 +27,7 @@ import java.util.List;
 /** CURRENTLY NOT IN USE **/
 public class KnightsSwordNode extends TaskNode {
     private final List<String> reqItems = new ArrayList<>(Arrays.asList("Redberry pie", "Iron bar", EquipmentUtilities.getCurrentPickaxe(),
-            ItemUtilities.getCurrentFood()));
+            ItemUtilities.currentFood));
     private final Area squireArea = new Area(2966, 3348, 2979, 3337);
     private final Area reldoArea = new Area(3207, 3497, 3216, 3490);
     private final Area thurgoArea = new Area(2995, 3148, 3002, 3141);
@@ -257,7 +257,7 @@ public class KnightsSwordNode extends TaskNode {
     private int setAmount(String itemName) {
         if (itemName.equals("Iron bar")) return 2;
 
-        if (itemName.equals(ItemUtilities.getCurrentFood())) return Calculations.random(5, 7);
+        if (itemName.equals(ItemUtilities.currentFood)) return Calculations.random(5, 7);
 
         return 1;
     }

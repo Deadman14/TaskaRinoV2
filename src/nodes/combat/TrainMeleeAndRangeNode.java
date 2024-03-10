@@ -1,24 +1,16 @@
 package nodes.combat;
 
 import constants.TaskNameConstants;
-import models.GeItem;
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.container.impl.Inventory;
-import org.dreambot.api.methods.container.impl.bank.Bank;
-import org.dreambot.api.methods.container.impl.bank.BankMode;
 import org.dreambot.api.methods.dialogues.Dialogues;
-import org.dreambot.api.methods.grandexchange.LivePrices;
-import org.dreambot.api.methods.interactive.NPCs;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.map.Area;
 import org.dreambot.api.methods.settings.PlayerSettings;
 import org.dreambot.api.methods.walking.impl.Walking;
 import org.dreambot.api.script.TaskNode;
 import org.dreambot.api.utilities.Logger;
-import org.dreambot.api.utilities.Sleep;
 import org.dreambot.api.utilities.Timer;
-import org.dreambot.api.wrappers.interactive.Character;
-import org.dreambot.api.wrappers.interactive.NPC;
 import utils.*;
 
 import java.util.Collections;
@@ -36,9 +28,8 @@ public class TrainMeleeAndRangeNode extends TaskNode {
         if (Dialogues.inDialogue())
             Dialogues.continueDialogue();
 
-        String currentFood = ItemUtilities.getCurrentFood();
-        if (!Inventory.isFull() && !BankUtilities.areItemsNoted(Collections.singletonList(currentFood))
-                && (Inventory.contains(currentFood) && Inventory.count(currentFood) > 1)) {
+        if (!Inventory.isFull() && !BankUtilities.areItemsNoted(Collections.singletonList(ItemUtilities.currentFood))
+                && (Inventory.contains(ItemUtilities.currentFood) && Inventory.count(ItemUtilities.currentFood) > 1)) {
             Utilities.closeInterfaces();
 
             if (CombatUtilities.getCurrentCombatArea().contains(Players.getLocal())) {

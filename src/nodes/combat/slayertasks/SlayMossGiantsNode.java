@@ -16,14 +16,14 @@ import java.util.List;
 
 public class SlayMossGiantsNode extends TaskNode {
     private final List<String> reqItems = new ArrayList<>(Arrays.asList("Enchanted gem", "Varrock teleport", "Camelot teleport",
-            ItemUtilities.getCurrentFood()));
+            ItemUtilities.currentFood));
     private final Area giantArea = new Area(2547, 3412, 2560, 3401);
 
     @Override
     public int execute() {
         Logger.log("- Slay Moss Giants -");
 
-        if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.getCurrentFood())) {
+        if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (giantArea.contains(Players.getLocal())) {
                 SlayerUtilities.slayMonsterMelee(giantArea, List.of("Moss giant"), false, "");
             } else {

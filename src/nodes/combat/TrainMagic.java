@@ -38,9 +38,8 @@ public class TrainMagic extends TaskNode {
                 Sleep.sleepUntil(() -> Equipment.isSlotEmpty(EquipmentSlot.SHIELD), Utilities.getRandomSleepTime());
         }
 
-        String currentFood = ItemUtilities.getCurrentFood();
-        if (!Inventory.isFull() && !BankUtilities.areItemsNoted(Collections.singletonList(currentFood))
-                && (Inventory.contains(currentFood) && Inventory.count(currentFood) > 1)) {
+        if (!Inventory.isFull() && !BankUtilities.areItemsNoted(Collections.singletonList(ItemUtilities.currentFood))
+                && (Inventory.contains(ItemUtilities.currentFood) && Inventory.count(ItemUtilities.currentFood) > 1)) {
             Utilities.closeInterfaces();
 
             if (CombatUtilities.getCurrentCombatArea().contains(Players.getLocal())) {

@@ -17,13 +17,13 @@ import java.util.List;
 public class SlayHobgoblinsNode extends TaskNode {
     private final Area hobgoblinArea = new Area(2911, 3287, 2901, 3299);
     private final List<String> reqItems = new ArrayList<>(Arrays.asList("Enchanted gem", "Varrock teleport", "Falador teleport",
-            ItemUtilities.getCurrentFood()));
+            ItemUtilities.currentFood));
 
     @Override
     public int execute() {
         Logger.log("- Slay Hobgoblins -");
 
-        if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.getCurrentFood())) {
+        if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (hobgoblinArea.contains(Players.getLocal())) {
                 SlayerUtilities.slayMonsterMelee(hobgoblinArea, List.of("Hobgoblin"), false, "");
             } else {

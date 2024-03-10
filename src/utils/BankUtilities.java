@@ -17,7 +17,7 @@ import java.util.function.Predicate;
 
 public class BankUtilities {
     public static final Filter<Item> depositAllExceptCombatGearFilter = i -> EquipmentUtilities.requiredEquipment.contains(i.getName())
-            || i.getName().equals(ItemUtilities.getCurrentFood())
+            || i.getName().equals(ItemUtilities.currentFood)
             || CombatUtilities.getCurrentRunes().contains(i.getName());
 
     public static void openBank() {
@@ -106,7 +106,7 @@ public class BankUtilities {
     public static List<String> getListOfSellables() {
         List<String> allItems = new ArrayList<>(Bank.all().stream().map(Item::getName).toList());
 
-        allItems.removeIf(i -> i.equals(ItemUtilities.getCurrentFood()) || SlayerUtilities.slayerItems.contains(i)
+        allItems.removeIf(i -> i.equals(ItemUtilities.currentFood) || SlayerUtilities.slayerItems.contains(i)
         || i.equals(EquipmentUtilities.getCurrentFullHelm()) || i.equals(EquipmentUtilities.getCurrentPlatebody())
         || i.equals(EquipmentUtilities.getCurrentPlatelegs()) || i.equals(EquipmentUtilities.getCurrentKiteshield())
         || i.equals(EquipmentUtilities.getCurrentMeleeHandslot()) || i.equals(EquipmentUtilities.getCurrentSword())

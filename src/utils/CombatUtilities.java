@@ -163,23 +163,24 @@ public class CombatUtilities {
 
     public static void trainCombatBanking() {
         if (Bank.isOpen()) {
-            if (!Inventory.isEmpty() && (Inventory.isFull() || !Inventory.onlyContains(ItemUtilities.getCurrentFood()))) {
+            ItemUtilities.setCurrentFood();
+
+            if (!Inventory.isEmpty() && (Inventory.isFull() || !Inventory.onlyContains(ItemUtilities.currentFood))) {
                 if (Bank.depositAllExcept(BankUtilities.depositAllExceptCombatGearFilter))
                     Sleep.sleepUntil(() -> !Inventory.isFull(), Utilities.getRandomSleepTime());
             }
 
-            if (BankUtilities.areItemsNoted(Collections.singletonList(ItemUtilities.getCurrentFood()))) {
-                if (Bank.depositAll(ItemUtilities.getCurrentFood()))
-                    Sleep.sleepUntil(() -> !Inventory.contains(ItemUtilities.getCurrentFood()), Utilities.getRandomSleepTime());
+            if (BankUtilities.areItemsNoted(Collections.singletonList(ItemUtilities.currentFood))) {
+                if (Bank.depositAll(ItemUtilities.currentFood))
+                    Sleep.sleepUntil(() -> !Inventory.contains(ItemUtilities.currentFood), Utilities.getRandomSleepTime());
             }
 
-            if (Bank.contains(ItemUtilities.getCurrentFood()) && Bank.count(ItemUtilities.getCurrentFood()) > 10) {
+            if (Bank.contains(ItemUtilities.currentFood) && Bank.count(ItemUtilities.currentFood) > 10) {
                 BankUtilities.setBankMode(BankMode.ITEM);
-                if (Bank.withdraw(ItemUtilities.getCurrentFood(), 10 - Inventory.count(ItemUtilities.getCurrentFood())))
-                    Sleep.sleepUntil(() -> Inventory.contains(ItemUtilities.getCurrentFood()) && Inventory.count(ItemUtilities.getCurrentFood()) == 10, Utilities.getRandomSleepTime());
+                if (Bank.withdraw(ItemUtilities.currentFood, 10 - Inventory.count(ItemUtilities.currentFood)))
+                    Sleep.sleepUntil(() -> Inventory.contains(ItemUtilities.currentFood) && Inventory.count(ItemUtilities.currentFood) == 10, Utilities.getRandomSleepTime());
             } else {
-                Logger.log("Buy me food");
-                ItemUtilities.buyables.add(new GeItem(ItemUtilities.getCurrentFood(), 100, LivePrices.getHigh(ItemUtilities.getCurrentFood())));
+                ItemUtilities.buyables.add(new GeItem(ItemUtilities.currentFood, 100, LivePrices.getHigh(ItemUtilities.currentFood)));
             }
         } else {
             BankUtilities.openBank();

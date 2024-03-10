@@ -185,6 +185,8 @@ public class SlayerUtilities {
             }
         } else {
             if (Bank.isOpen()) {
+                ItemUtilities.setCurrentFood();
+
                 if (!Inventory.isEmpty() && (Inventory.isFull() || !Inventory.onlyContains(i -> reqItems.contains(i.getName())) || BankUtilities.areItemsNoted(reqItems))) {
                     if (Bank.depositAllExcept(i -> reqItems.contains(i.getName()) && !i.isNoted()))
                         Sleep.sleepUntil(() -> Inventory.onlyContains(i -> reqItems.contains(i.getName())), Utilities.getRandomSleepTime());
@@ -281,7 +283,7 @@ public class SlayerUtilities {
 
     public static int getInventoryAmount(String itemName) {
         int amount = 1;
-        if (itemName.equals(ItemUtilities.getCurrentFood())) {
+        if (itemName.equals(ItemUtilities.currentFood)) {
             amount = 15;
             if (Players.getLocal().getLevel() >= 60 && !TaskUtilities.currentTask.contains("killerwatts"))
                 amount = 10;
@@ -339,7 +341,7 @@ public class SlayerUtilities {
 
     public static int getGeAmount(String itemName) {
         int amount = 1;
-        if (itemName.equals(ItemUtilities.getCurrentFood())) amount = 350;
+        if (itemName.equals(ItemUtilities.currentFood)) amount = 350;
         if (itemName.contains("teleport")) amount = 50;
         if (itemName.contains("Waterskin")) amount = 8;
         if (itemName.contains("Antipoison")) amount = 30;

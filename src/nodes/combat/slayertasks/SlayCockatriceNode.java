@@ -17,13 +17,13 @@ import java.util.List;
 public class SlayCockatriceNode extends TaskNode {
     private final Area cockatriceArea = new Area(2781, 10044, 2805, 10028);
     private final List<String> reqItems = new ArrayList<>(Arrays.asList("Enchanted gem", "Varrock teleport", "Camelot teleport",
-            ItemUtilities.getCurrentFood()));
+            ItemUtilities.currentFood));
 
     @Override
     public int execute() {
         Logger.log("- Slay Cockatrice -");
 
-        if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.getCurrentFood())) {
+        if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (cockatriceArea.contains(Players.getLocal())) {
                 SlayerUtilities.slayMonsterMelee(cockatriceArea, List.of("Cockatrice"), false, "");
             } else {

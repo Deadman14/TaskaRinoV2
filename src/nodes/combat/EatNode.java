@@ -24,15 +24,15 @@ public class EatNode extends TaskNode {
 
         Utilities.closeInterfaces();
 
-        if (Inventory.contains(ItemUtilities.getCurrentFood())) {
+        if (Inventory.contains(ItemUtilities.currentFood)) {
             if (Tabs.isOpen(Tab.INVENTORY)) {
                 if (Combat.getHealthPercent() < 60) {
-                    int amount = Inventory.count(ItemUtilities.getCurrentFood());
-                    Item food = Inventory.get(ItemUtilities.getCurrentFood());
+                    int amount = Inventory.count(ItemUtilities.currentFood);
+                    Item food = Inventory.get(ItemUtilities.currentFood);
 
                     if (food != null) {
                         if (food.interact())
-                            Sleep.sleepUntil(() -> Inventory.count(ItemUtilities.getCurrentFood()) == (amount - 1), Utilities.getRandomSleepTime());
+                            Sleep.sleepUntil(() -> Inventory.count(ItemUtilities.currentFood) == (amount - 1), Utilities.getRandomSleepTime());
                     }
                 }
 
@@ -49,12 +49,12 @@ public class EatNode extends TaskNode {
             }
         } else {
             if (Bank.isOpen()) {
-                String currentFood = ItemUtilities.getCurrentFood();
-                if (Bank.contains(currentFood) && Bank.count(currentFood) >= 10) {
-                    if (Bank.withdraw(currentFood, 10))
-                        Sleep.sleepUntil(() -> Inventory.contains(currentFood), Utilities.getRandomSleepTime());
+                ItemUtilities.setCurrentFood();
+                if (Bank.contains(ItemUtilities.currentFood) && Bank.count(ItemUtilities.currentFood) >= 10) {
+                    if (Bank.withdraw(ItemUtilities.currentFood, 10))
+                        Sleep.sleepUntil(() -> Inventory.contains(ItemUtilities.currentFood), Utilities.getRandomSleepTime());
                 } else {
-                    ItemUtilities.buyables.add(new GeItem(currentFood, 100, LivePrices.getHigh(currentFood)));
+                    ItemUtilities.buyables.add(new GeItem(ItemUtilities.currentFood, 100, LivePrices.getHigh(ItemUtilities.currentFood)));
                 }
             } else {
                 BankUtilities.openBank();
@@ -66,7 +66,7 @@ public class EatNode extends TaskNode {
 
     @Override
     public boolean accept() {
-        return Combat.getHealthPercent() < 60 && Inventory.contains(ItemUtilities.getCurrentFood()) || Combat.isPoisoned();
+        return Combat.getHealthPercent() < 60 && Inventory.contains(ItemUtilities.currentFood) || Combat.isPoisoned();
     }
 
     @Override

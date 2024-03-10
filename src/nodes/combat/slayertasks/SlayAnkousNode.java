@@ -21,7 +21,7 @@ import java.util.List;
 public class SlayAnkousNode extends TaskNode {
     private final Area ankouArea = new Area(2466, 9811, 2485, 9794);
     private final List<String> reqItems = new ArrayList<>(Arrays.asList(ItemNameConstants.ENCHANTED_GEM, "Varrock teleport",
-            "Camelot teleport", ItemUtilities.getCurrentFood()));
+            "Camelot teleport", ItemUtilities.currentFood));
 
     @Override
     public int execute() {
@@ -35,7 +35,7 @@ public class SlayAnkousNode extends TaskNode {
             else
                 Dialogues.continueDialogue();
         } else {
-            if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.getCurrentFood())) {
+            if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
                 if (ankouArea.contains(Players.getLocal())) {
                     SlayerUtilities.slayMonsterMelee(ankouArea, List.of(NpcNameConstants.ANKOU), false, "");
                 } else {

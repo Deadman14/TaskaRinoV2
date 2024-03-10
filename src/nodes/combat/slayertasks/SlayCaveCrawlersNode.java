@@ -17,14 +17,14 @@ import java.util.List;
 
 public class SlayCaveCrawlersNode extends TaskNode {
     private final List<String> reqItems = new ArrayList<>(Arrays.asList(ItemNameConstants.ENCHANTED_GEM, "Camelot teleport",
-            "Varrock teleport", ItemUtilities.getCurrentFood()));
+            "Varrock teleport", ItemUtilities.currentFood));
     private final Area caveCrawlerArea = new Area(2795, 10005, 2780, 9989);
 
     @Override
     public int execute() {
         Logger.log("- Slay Cave Crawlers -");
 
-        if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.getCurrentFood())) {
+        if (!Inventory.isFull() && Inventory.containsAll(reqItems) && Inventory.contains(ItemUtilities.currentFood)) {
             if (caveCrawlerArea.contains(Players.getLocal())) {
                 SlayerUtilities.slayMonsterMelee(caveCrawlerArea, List.of("Cave crawler"), false, "");
             } else {

@@ -20,5 +20,10 @@ public class ItemNameConstants {
     public static final String RAW_SHRIMP = "Raw shrimps";
     public static final String RAW_SALMON = "Raw salmon";
     public static final String RAW_TROUT = "Raw trout";
+    public static final String ANCHOVIE = "Anchovies";
+    public static final String SHRIMP = "Shrimps";
+    public static final String TROUT = "Trout";
+    public static final String SALMON = "Salmon";
+    public static final String SWORDFISH = "Swordfish";
     public static final String BALL_OF_WOOL = "Ball of wool";
 }
