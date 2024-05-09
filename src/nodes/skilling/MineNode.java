@@ -42,10 +42,8 @@ public class MineNode extends TaskNode {
         if (currentOre.isEmpty())
             currentOre = getCurrentOre();
 
-        if (Dialogues.inDialogue()) {
+        if (Dialogues.inDialogue())
             Dialogues.continueDialogue();
-            currentOre = getCurrentOre();
-        }
 
         if ((Inventory.contains(currentPickaxe) || Equipment.contains(currentPickaxe)) && !Inventory.isFull()) {
             if (getCurrentArea().contains(Players.getLocal())) {
@@ -68,12 +66,11 @@ public class MineNode extends TaskNode {
             }
         } else {
             if (Bank.isOpen()) {
+                currentOre = getCurrentOre();
+
                 if (!currentPickaxe.equals(EquipmentUtilities.getCurrentPickaxe())) {
                     currentPickaxe = EquipmentUtilities.getCurrentPickaxe();
                 }
-
-                if (Inventory.isFull())
-                    currentOre = getCurrentOre();
 
                 if (Inventory.isFull() || !Inventory.isEmpty() && !Inventory.contains(currentPickaxe)) {
                     if (Bank.depositAllExcept(currentPickaxe))

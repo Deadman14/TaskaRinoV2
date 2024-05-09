@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class RuneMysteriesNode extends TaskNode {
     private final Area dukeArea = new Area(3205, 3225, 3213, 3217, 1);
     private final Area archmageArea = new Area(3096, 9574, 3110, 9566);
-    private final Area auburyArea = new Area(3249, 3404, 3255, 3398);
+    private final Area auburyArea = new Area(3249, 3404, 3255, 3400);
 
     @Override
     public int execute() {

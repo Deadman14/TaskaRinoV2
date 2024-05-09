@@ -1,7 +1,6 @@
 package nodes.moneymaking;
 
 import constants.ItemNameConstants;
-import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.container.impl.bank.Bank;
 import org.dreambot.api.methods.container.impl.bank.BankMode;
@@ -12,7 +11,6 @@ import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.item.GroundItems;
 import org.dreambot.api.methods.map.Area;
 import org.dreambot.api.methods.map.Map;
-import org.dreambot.api.methods.quest.book.FreeQuest;
 import org.dreambot.api.methods.walking.impl.Walking;
 import org.dreambot.api.methods.widget.helpers.ItemProcessing;
 import org.dreambot.api.script.TaskNode;
@@ -45,8 +43,8 @@ public class ShearSheepNode extends TaskNode {
                     NPC sheep = NPCs.closest(s -> s != null && s.getName().equals("Sheep") && s.hasAction("Shear") && !s.hasAction("Talk-to"));
                     if (sheep.interact())
                         Sleep.sleepUntil(() -> !sheep.hasAction("Shear") || Players.getLocal().isStandingStill(), Utilities.getRandomSleepTime());
-                } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
-                    Walking.walk(sheepArea.getRandomTile());
+                } else {
+                    Utilities.walkToArea(sheepArea);
                 }
             } else {
                 if (Inventory.contains("Wool")) {
@@ -63,8 +61,8 @@ public class ShearSheepNode extends TaskNode {
                                 }
                             }
                         }
-                    } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
-                        Walking.walk(loomArea.getRandomTile());
+                    } else {
+                        Utilities.walkToArea(loomArea);
                     }
                 } else {
                     if (Bank.isOpen()) {
@@ -85,12 +83,12 @@ public class ShearSheepNode extends TaskNode {
                         if (Map.canReach(shears.getTile(), true)) {
                             if (shears.interact())
                                 Sleep.sleepUntil(() -> Inventory.contains("Shears"), Utilities.getRandomSleepTime());
-                        } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
+                        } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
                             Walking.walk(shears.getTile());
                         }
                     }
-                } else if (Walking.shouldWalk(Calculations.random(3, 6))) {
-                    Walking.walk(shearArea.getRandomTile());
+                } else {
+                    Utilities.walkToArea(shearArea);
                 }
             } else if (Bank.isOpen()) {
                 if (!Inventory.isEmpty()) {
@@ -103,6 +101,7 @@ public class ShearSheepNode extends TaskNode {
                     if (Bank.withdraw("Shears"))
                         Sleep.sleepUntil(() -> Inventory.contains("Shears"), Utilities.getRandomSleepTime());
                 }
+
                 hasCheckedBankForShears = true;
             } else {
                 BankUtilities.openBank();

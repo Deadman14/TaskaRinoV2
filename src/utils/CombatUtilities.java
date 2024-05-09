@@ -117,8 +117,13 @@ public class CombatUtilities {
         } else {
             NPC c = (NPC)Players.getLocal().getInteractingCharacter();
 
-            if (c != null && (c.isInteracting(Players.getLocal()) || !c.isInteractedWith()))
-                ItemUtilities.lootTile = c.getTrueTile();
+            if (c != null) {
+                if ((c.isInteracting(Players.getLocal()) || !c.isInteractedWith()))
+                    ItemUtilities.lootTile = c.getTrueTile();
+
+                if (c.getHealthPercent() < 2)
+                    Sleep.sleepUntil(() -> !Players.getLocal().isInCombat(), Utilities.getRandomSleepTime());
+            }
         }
     }
 

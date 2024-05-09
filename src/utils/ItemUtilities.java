@@ -50,22 +50,22 @@ public class ItemUtilities {
 
     public static void setCurrentFood() {
         if (!Utilities.isGeFullyOpen()) {
-            if (Bank.contains(ItemNameConstants.SALMON)) {
+            if (Bank.contains(ItemNameConstants.SALMON) && Bank.count(ItemNameConstants.SALMON) > 10) {
                 currentFood = ItemNameConstants.SALMON;
                 return;
             }
 
-            if (Bank.contains(ItemNameConstants.TROUT)) {
+            if (Bank.contains(ItemNameConstants.TROUT) && Bank.count(ItemNameConstants.TROUT) > 10) {
                 currentFood = ItemNameConstants.TROUT;
                 return;
             }
 
-            if (Bank.contains(ItemNameConstants.ANCHOVIE)) {
+            if (Bank.contains(ItemNameConstants.ANCHOVIE) && Bank.count(ItemNameConstants.ANCHOVIE) > 10) {
                 currentFood = ItemNameConstants.ANCHOVIE;
                 return;
             }
 
-            if (Bank.contains(ItemNameConstants.SHRIMP)) {
+            if (Bank.contains(ItemNameConstants.SHRIMP) && Bank.count(ItemNameConstants.SHRIMP) > 10) {
                 currentFood = ItemNameConstants.SHRIMP;
                 return;
             }

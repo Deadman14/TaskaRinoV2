@@ -108,7 +108,6 @@ public class TaskUtilities {
                 return !Utilities.isP2P || Skills.getRealLevel(Skill.SLAYER) >= 9;
             case TaskNameConstants.SLAYER:
                 return !Utilities.isP2P || Skills.getRealLevel(Skill.SLAYER) < 9;
-            case TaskNameConstants.SHEAR_SHEEP:
             case TaskNameConstants.TRAIN_COMBAT_MELEE:
             case TaskNameConstants.TRAIN_COMBAT_RANGE:
             case TaskNameConstants.TRAIN_COMBAT_MAGIC:
@@ -116,6 +115,8 @@ public class TaskUtilities {
             case TaskNameConstants.MAKE_SOFT_CLAY:
             case TaskNameConstants.KILL_IMPS:
                 return Utilities.isP2P;
+            case TaskNameConstants.SHEAR_SHEEP:
+                return Utilities.isP2P || Players.getLocal().getLevel() < 5;
             case TaskNameConstants.SMITH:
                 return Skills.getRealLevel(Skill.SMITHING) < 29 || Skills.getRealLevel(Skill.SMITHING) >= 60;
             default:

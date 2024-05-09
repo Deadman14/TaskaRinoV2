@@ -31,7 +31,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CookingNode extends TaskNode {
-    private final Area rangeArea = new Area(3205, 3217, 3212, 3212);
+    private final Area rangeArea = new Area(3230, 3195, 3236, 3198);
 
     private String currentCookable = ItemNameConstants.RAW_SHRIMP;
 
@@ -45,14 +45,20 @@ public class CookingNode extends TaskNode {
         if (Inventory.contains(currentCookable) && !BankUtilities.areItemsNoted(Arrays.asList(currentCookable))) {
             if (rangeArea.contains(Players.getLocal()) && Tabs.isOpen(Tab.INVENTORY)) {
                 Item cookable = Inventory.get(currentCookable);
-                GameObject range = GameObjects.closest("Cooking range");
-                if (cookable != null && range != null) {
-                    if (ItemProcessing.isOpen()) {
-                        if (ItemProcessing.makeAll(currentCookable))
-                            Sleep.sleepUntil(() -> !Inventory.contains(currentCookable) || Dialogues.canContinue(), 60000);
-                    } else {
-                        if (cookable.useOn(range))
-                            Sleep.sleepUntil(ItemProcessing::isOpen, Utilities.getRandomSleepTime());
+                GameObject range = GameObjects.closest("Range");
+                if (range != null) {
+                    if (range.canReach()) {
+                        if (cookable != null) {
+                            if (ItemProcessing.isOpen()) {
+                                if (ItemProcessing.makeAll(currentCookable))
+                                    Sleep.sleepUntil(() -> !Inventory.contains(currentCookable) || Dialogues.canContinue(), 60000);
+                            } else {
+                                if (cookable.useOn(range))
+                                    Sleep.sleepUntil(ItemProcessing::isOpen, Utilities.getRandomSleepTime());
+                            }
+                        }
+                    } else if (Walking.shouldWalk(Utilities.getShouldWalkDistance())) {
+                        Walking.walk(range.getTile());
                     }
                 }
             } else {

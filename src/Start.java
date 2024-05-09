@@ -1,4 +1,3 @@
-import constants.TaskNameConstants;
 import nodes.*;
 import nodes.combat.EatNode;
 import nodes.combat.TrainMagic;
@@ -32,7 +31,7 @@ public class Start extends TaskScript implements ChatListener {
 
         timer.start();
 
-        //TaskUtilities.currentTask = TaskNameConstants.TRAIN_COMBAT_MAGIC;
+        //TaskUtilities.currentTask = TaskNameConstants.SHEAR_SHEEP;
         //TaskUtilities.taskTimer = new Timer(2600654);
         //TaskUtilities.taskTimer.start();
 
