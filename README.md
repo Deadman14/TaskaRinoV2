@@ -1,4 +1,4 @@
-# TaskaRinoV2 - A node based statemachine created to play the mmorpg RuneScape.
+# TaskaRinoV2 - A node based statemachine created to play the mmorpg RuneScape using Dreambot.
     This project covers f2p and the start of a p2p slayer bot.
     The bot is meant to appear as a real player playing the game.
     This project is no longer being worked on and may not work out of the box.
